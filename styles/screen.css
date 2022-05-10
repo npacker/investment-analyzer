@@ -150,6 +150,23 @@ a:hover, a:focus, a:active {
   color: #333;
 }
 
+form {
+  background: #eee;
+  padding: 2em;
+}
+
+label {
+  display: block;
+  margin: 0 0 .5em 0;
+  font-weight: normal;
+}
+
+input {
+  padding: .5em;
+  font-family: inherit;
+  font-size: inherit;
+}
+
 [type=button] {
   padding: 1em;
   background: #ddd;
