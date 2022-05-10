@@ -1,5 +1,5 @@
 # Block access to sensitive files.
-<FilesMatch "\.(tpl\.php|json|sql|yml)$">
+<FilesMatch "\.(html\.twig|ini|json|sql|yml)$">
   Require all denied
 </FilesMatch>
 
