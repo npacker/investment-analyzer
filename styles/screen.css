@@ -1,0 +1,169 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 300;
+}
+
+h1 {
+  padding: 1rem 2rem;
+  margin: 0;
+  font-size: 140%;
+  background: #eee;
+  color: #333;
+  border-right: 35px solid #777;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+h1 .material-icons {
+  font-size: 150%;
+  display: block;
+  margin-right: 0.5ex;
+}
+
+h2 {
+  font-size: 200%;
+  margin-top: 0;
+}
+
+main {
+  display: flex;
+  flex-wrap: nowrap;
+  min-height: 100vh;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 4em;
+  margin: 0 auto;
+}
+
+table {
+  border-collapse: collapse;
+  min-width: 100%;
+  margin: 0 0 2em 0;
+}
+
+th, td {
+  border: 2px solid #333;
+  padding: .75em;
+}
+
+th {
+  background: #333;
+  color: #fff;
+  font-weight: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover, a:focus, a:active {
+  text-decoration: underline;
+}
+
+.before-content {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.before-content .icon-wrapper {
+  justify-content: center;
+}
+
+.material-icons {
+  font-size: 32px;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.icon-wrapper i {
+  margin-right: .5ex;
+}
+
+.icon-wrapper.sold-out {
+  color: #d70000;
+}
+
+.icon-wrapper.in-stock {
+  color: #00bd53;
+}
+
+.icon-wrapper.notify {
+  color: #006fd2;
+}
+
+.menu {
+  width: 15%;
+  min-width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background: #333;
+}
+
+.menu ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  flex-grow: 1;
+  background: #333;
+  margin: 0;
+  padding: 1em;
+}
+
+.menu li {
+  color: #fff;
+}
+
+.menu a {
+  display: block;
+  padding: 1em;
+}
+
+.menu a:hover {
+  text-decoration: none;
+  background: #ddd;
+  color: #333;
+}
+
+[type=button] {
+  padding: 1em;
+  background: #ddd;
+  color: #333;
+  border: 0;
+  font-size: inherit;
+}
+
+[type=button]:hover {
+  background: #333;
+  color: #ddd;
+}
+
+[type=button]:active {
+  background: #555;
+  color: #eee;
+}

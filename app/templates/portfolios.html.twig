@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+  <table>
+    <thead>
+      <th>Name</th>
+      <th>Positions</th>
+      <th>Operations</th>
+    </thead>
+    <tbody>
+      {% for portfolio in portfolios %}
+        <td>{{ portfolio.name }}</td>
+        <td>{{ portfolio.positions }}</td>
+        <td></td>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div>
+    <input type="button" value="Create Portfolio" onclick="window.location.href='portfolios/create'">
+  </div>
+{% endblock %}

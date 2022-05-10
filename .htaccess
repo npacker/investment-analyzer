@@ -1,0 +1,36 @@
+# Block access to sensitive files.
+<FilesMatch "\.(tpl\.php|json|sql|yml)$">
+  Require all denied
+</FilesMatch>
+
+# Don't show directory listings for URLs which resolve to a directory.
+Options -Indexes
+
+# Set the default handler.
+DirectoryIndex index.php
+ErrorDocument 404 index.php
+
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+
+  # Block access to hidden files and directories.
+  RewriteRule "/\.|^\." - [F]
+
+  # For security reasons, block access to .php files.
+  RewriteCond %{REQUEST_URI} !=/index.php
+  RewriteCond %{REQUEST_URI} ".php$"
+  RewriteRule ^ "/" [R,L]
+
+  # Route all requests that do not resolve to a reasource on the filesystem to
+  # index.php.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !=/favicon.ico
+  RewriteRule ^ index.php [L]
+</IfModule>
+
+# Disable headers which present attack vectors.
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options nosniff
+  RequestHeader unset Proxy
+</IfModule>
