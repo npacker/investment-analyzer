@@ -155,6 +155,14 @@ form {
   padding: 2em;
 }
 
+.form-actions {
+  margin: 1em 0 0 0;
+}
+
+.form-actions input {
+  margin: 0;
+}
+
 label {
   display: block;
   margin: 0 0 .5em 0;
@@ -163,11 +171,14 @@ label {
 
 input {
   padding: .5em;
+  margin: 0 0 .5em 0;
   font-family: inherit;
   font-size: inherit;
 }
 
-[type=button] {
+[type=button],
+[type=submit] {
+  display: block;
   padding: 1em;
   background: #ddd;
   color: #333;
@@ -175,12 +186,14 @@ input {
   font-size: inherit;
 }
 
-[type=button]:hover {
+[type=button]:hover,
+[type=submit]:hover {
   background: #333;
   color: #ddd;
 }
 
-[type=button]:active {
+[type=button]:active,
+[type=submit]:active {
   background: #555;
   color: #eee;
 }
