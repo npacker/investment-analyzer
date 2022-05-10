@@ -176,6 +176,10 @@ input {
   font-size: inherit;
 }
 
+[type=text] {
+  margin-bottom: 1.5em;
+}
+
 [type=button],
 [type=submit] {
   display: block;

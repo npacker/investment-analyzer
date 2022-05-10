@@ -50,6 +50,10 @@ switch ($app->request()->path()) {
     require 'routes' . DS . 'funds.php';
     break;
 
+  case '/funds/create':
+    require 'routes' . DS . 'funds' . DS . 'create.php';
+    break;
+
   case '/securities':
     require 'routes' . DS . 'securities.php';
     break;

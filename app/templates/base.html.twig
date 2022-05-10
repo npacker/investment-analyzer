@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="{{ app.baseUrl }}/styles/screen.css" rel="stylesheet" type="text/css">
     <script type="text/javascript">
-      window.settings = Object.freeze({{ app.settings|json_encode() }});
+      window.settings = Object.freeze({{ app.settings.window ?? []|json_encode() }});
     </script>
     <!--<script type="text/javascript" src="{{ app.baseUrl }}/scripts/app.js"></script>-->
   </head>
