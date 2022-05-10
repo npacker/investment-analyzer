@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+  <table>
+    <thead>
+      <th>Name</th>
+      <th>Symbol</th>
+      <th>Operations</th>
+    </thead>
+    <tbody>
+      {% for fund in funds %}
+        <td>{{ fund.symbol }}</td>
+        <td>{{ fund.name }}</td>
+        <td></td>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div>
+    <input type="button" value="Create Fund" onclick="window.location.href='funds/create'">
+  </div>
+{% endblock %}

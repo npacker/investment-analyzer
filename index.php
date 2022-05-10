@@ -59,6 +59,7 @@ switch ($app->request()->path()) {
     break;
 
   default:
+    require 'routes' . DS . '404.php';
     break;
 
 }
