@@ -6,13 +6,16 @@ use App\Http\Request;
 
 final class App {
 
+  private $autoloader;
+
   private $settings;
 
   private $request;
 
   private $twig;
 
-  public function __construct(array $settings, Request $request, \Twig\Environment $twig) {
+  public function __construct($autoloader, array $settings, Request $request, \Twig\Environment $twig) {
+    $this->autoloader = $autoloader;
     $this->settings = $settings;
     $this->request = $request;
     $this->twig = $twig;

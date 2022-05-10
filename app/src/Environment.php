@@ -7,6 +7,12 @@ use App\Http\HttpRequest;
 
 final class Environment {
 
+  private $autoloader;
+
+  public function __construct($autoloader) {
+    $this->autoloader = $autoloader;
+  }
+
   public function bootstrap() {
     ini_set('display_errors', 0);
     ini_set('error_reporting', E_ALL);
@@ -18,12 +24,11 @@ final class Environment {
 
     set_include_path(ROOT . DS . 'app');
 
-    spl_autoload_register([$this, 'autoloader']);
-
-    require ROOT . DS . 'vendor' . DS . 'autoload.php';
     require ROOT . DS . 'app' . DS . 'config' . DS . 'settings.php';
 
-    $app = new App($settings, new HttpRequest(), new \Twig\Environment(new \Twig\Loader\FilesystemLoader(ROOT . DS . 'app' . DS . 'templates')));
+    $request = new HttpRequest();
+    $twig = new \Twig\Environment(new \Twig\Loader\FilesystemLoader(ROOT . DS . 'app' . DS . 'templates'));
+    $app = new App($this->autoloader, $settings, $request, $twig);
 
     return $app;
   }
@@ -55,28 +60,6 @@ final class Environment {
     exit();
   }
 
-  public function autoloader(string $class) {
-    static $classes = array();
-
-    if (isset($classes[$class])) {
-      return;
-    }
-
-    $namespace = __NAMESPACE__;
-    $class_path = str_replace('\\', DS, $class);
-
-    if (substr($class_path, 0, strlen($namespace)) === $namespace) {
-      $class_path = substr($class_path, strlen($namespace . DS));
-    }
-
-    $file_path = ROOT . DS . 'app' . DS . 'src' . DS . $class_path . '.php';
-
-    if (file_exists($file_path)) {
-      $classes[$class] = $file_path;
-      require $file_path;
-    }
-  }
-
   private function cleanAllBuffers() {
     while (ob_get_level() != 0) {
       ob_end_clean();
@@ -84,4 +67,3 @@ final class Environment {
   }
 
 }
-

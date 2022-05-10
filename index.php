@@ -4,32 +4,8 @@ namespace App;
 
 use App\Environment;
 
-/**
- * Shorthand for the platform-specific directory separator.
- *
- * @var string
- */
-define('DS', DIRECTORY_SEPARATOR);
-
-/**
- * Shorthand for the platform-specific path separator.
- *
- * @var string
- */
-define('PS', PATH_SEPARATOR);
-
-/**
- * Shorthand for the current directory of "bootstrap.php" (this file).
- *
- * @var string
- */
-define('ROOT', __DIR__);
-
-ob_start();
-
-require_once ROOT . DS . 'app' . DS . 'src' . DS . 'Environment.php';
-
-$environment = new Environment();
+$autoloader = require 'autoload.php';
+$environment = new Environment($autoloader);
 $app = $environment->bootstrap();
 
 switch ($app->request()->path()) {
@@ -67,6 +43,3 @@ switch ($app->request()->path()) {
     break;
 
 }
-
-ob_end_flush();
-exit();
