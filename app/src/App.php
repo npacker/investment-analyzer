@@ -12,13 +12,16 @@ final class App {
 
   private $settings;
 
+  private $routes;
+
   private $request;
 
   private $twig;
 
-  public function __construct($autoloader, Settings $settings, \Twig\Environment $twig) {
+  public function __construct($autoloader, Settings $settings, $routes, \Twig\Environment $twig) {
     $this->autoloader = $autoloader;
     $this->settings = $settings;
+    $this->routes = $routes;
     $this->twig = $twig;
   }
 

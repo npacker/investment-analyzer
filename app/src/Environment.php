@@ -29,7 +29,7 @@ final class Environment {
     $settings = $this->initializeSettings();
     $routes = $this->initializeRoutes();
     $twig = $this->initializeTwig();
-    $app = new App($this->autoloader, $settings, $twig);
+    $app = new App($this->autoloader, $settings, $routes, $twig);
 
     return $app;
   }
