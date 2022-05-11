@@ -3,6 +3,9 @@
 namespace App;
 
 use App\App;
+use App\Serialization\Yaml;
+use App\Settings;
+use App\Stream\LocalReadOnlyFile;
 
 final class Environment {
 
@@ -23,8 +26,9 @@ final class Environment {
 
     $this->autoloader->addPsr4('App\\Route\\', ROOT . DS . 'app' . DS . 'routes');
 
-    require ROOT . DS . 'app' . DS . 'config' . DS . 'settings.php';
-
+    $stream = new LocalReadOnlyFile(ROOT . DS . 'app' . DS . 'config' . DS . 'settings.yml');
+    $yaml = new Yaml($stream->read());
+    $settings = new Settings($yaml->decode());
     $loader = new \Twig\Loader\FilesystemLoader(ROOT . DS . 'app' . DS . 'templates');
     $twig = new \Twig\Environment($loader);
     $app = new App($this->autoloader, $settings, $twig);
@@ -57,9 +61,6 @@ final class Environment {
     $this->cleanAllBuffers();
     printf('<strong>Uncaught exception:</strong> %s on line %d of %s', $e->getMessage(), $e->getLine(), $e->getFile());
     exit();
-  }
-
-  private function provisionTwig() {
   }
 
   private function cleanAllBuffers() {

@@ -1,0 +1,5 @@
+database:
+  hostname: localhost
+  username: drupal
+  password: drupal
+  database: investments

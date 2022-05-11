@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Context;
+use App\Settings;
 use App\Http\Request;
 
 final class App {
@@ -15,7 +16,7 @@ final class App {
 
   private $twig;
 
-  public function __construct($autoloader, array $settings, \Twig\Environment $twig) {
+  public function __construct($autoloader, Settings $settings, \Twig\Environment $twig) {
     $this->autoloader = $autoloader;
     $this->settings = $settings;
     $this->twig = $twig;
