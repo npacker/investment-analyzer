@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Context;
 use App\Http\Request;
 
 final class App {
@@ -14,37 +15,62 @@ final class App {
 
   private $twig;
 
-  public function __construct($autoloader, array $settings, Request $request, \Twig\Environment $twig) {
+  public function __construct($autoloader, array $settings, \Twig\Environment $twig) {
     $this->autoloader = $autoloader;
     $this->settings = $settings;
-    $this->request = $request;
     $this->twig = $twig;
-
-    $this->twig->addGlobal('app', $this);
   }
 
   public function settings() {
     return $this->settings;
   }
 
-  public function request() {
-    return $this->request;
-  }
-
   public function twig() {
     return $this->twig;
   }
 
-  public function baseUrl() {
-    static $base_url;
+  public function handle(Request $request) {
+    $context = new Context($request, $this->settings);
 
-    if (!isset($base_url)) {
-      $scheme = $this->request->server('REQUEST_SCHEME');
-      $host = $this->request->server('HTTP_HOST');
-      $base_url = $scheme . '://' . $host;
+    $this->twig->addGlobal('app', $context);
+
+    switch ($request->path()) {
+
+      case '/':
+        $controller = new MainController($this);
+        break;
+
+      case '/portfolios':
+        $controller = new \App\Route\PortfoliosController($this);
+        break;
+
+      case '/portfolios/create':
+        $controller = new \App\Route\PortfoliosCreateController($this);
+        break;
+
+      case '/funds':
+        $controller = new \App\Route\FundsController($this);
+        break;
+
+      case '/funds/create':
+        $controller = new \App\Route\FundsCreateController($this);
+        break;
+
+      case '/securities':
+        $controller = new \App\Route\SecuritiesController($this);
+        break;
+
+      case '/overlap':
+        $controller = new \App\Route\OverlapController($this);
+        break;
+
+      default:
+        $controller = new \App\Route\NotFoundController($this);
+        break;
+
     }
 
-    return $base_url;
+    return $controller->handle($request);
   }
 
 }

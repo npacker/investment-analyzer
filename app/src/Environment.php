@@ -3,7 +3,6 @@
 namespace App;
 
 use App\App;
-use App\Http\HttpRequest;
 
 final class Environment {
 
@@ -24,11 +23,13 @@ final class Environment {
 
     set_include_path(ROOT . DS . 'app');
 
+    $this->autoloader->addPsr4('App\\Route\\', ROOT . DS . 'app' . DS . 'routes');
+
     require ROOT . DS . 'app' . DS . 'config' . DS . 'settings.php';
 
-    $request = new HttpRequest();
-    $twig = new \Twig\Environment(new \Twig\Loader\FilesystemLoader(ROOT . DS . 'app' . DS . 'templates'));
-    $app = new App($this->autoloader, $settings, $request, $twig);
+    $loader = new \Twig\Loader\FilesystemLoader(ROOT . DS . 'app' . DS . 'templates');
+    $twig = new \Twig\Environment($loader);
+    $app = new App($this->autoloader, $settings, $twig);
 
     return $app;
   }
@@ -58,6 +59,9 @@ final class Environment {
     $this->cleanAllBuffers();
     printf('<strong>Uncaught exception:</strong> %s on line %d of %s', $e->getMessage(), $e->getLine(), $e->getFile());
     exit();
+  }
+
+  private function provisionTwig() {
   }
 
   private function cleanAllBuffers() {
