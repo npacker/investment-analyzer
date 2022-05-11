@@ -54,6 +54,7 @@ main {
 .content {
   flex-grow: 1;
   padding: 4em;
+  padding-top: 5em;
   margin: 0 auto;
 }
 
