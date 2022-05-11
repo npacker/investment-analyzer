@@ -21,8 +21,6 @@ final class Environment {
     set_error_handler([$this, 'errorHandler']);
     set_exception_handler([$this, 'exeptionHandler']);
 
-    set_include_path(ROOT . DS . 'app');
-
     $this->autoloader->addPsr4('App\\Route\\', ROOT . DS . 'app' . DS . 'routes');
 
     require ROOT . DS . 'app' . DS . 'config' . DS . 'settings.php';
