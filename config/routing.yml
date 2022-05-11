@@ -1,0 +1,21 @@
+/:
+  controller: \App\Route\MainController
+  action: view
+/portfolios:
+  controller: \App\Route\PortfoliosController
+  action: view
+/portfolios/create:
+  controller: \App\Route\PortfoliosController
+  action: create
+/funds:
+  controller: \App\Route\FundsController
+  action: view
+/funds/create:
+  controller: \App\Route\FundsController
+  action: create
+/securities:
+  controller: \App\Route\SecuritiesController
+  action: view
+/overlap:
+  controller: \App\Route\OverlapController
+  action: view

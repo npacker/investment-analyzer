@@ -38,7 +38,7 @@ final class App {
     switch ($request->path()) {
 
       case '/':
-        $controller = new MainController($this);
+        $controller = new \App\Route\MainController($this);
         break;
 
       case '/portfolios':

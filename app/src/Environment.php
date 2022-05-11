@@ -26,11 +26,9 @@ final class Environment {
 
     $this->autoloader->addPsr4('App\\Route\\', ROOT . DS . 'app' . DS . 'routes');
 
-    $stream = new LocalReadOnlyFile(ROOT . DS . 'app' . DS . 'config' . DS . 'settings.yml');
-    $yaml = new Yaml($stream->read());
-    $settings = new Settings($yaml->decode());
-    $loader = new \Twig\Loader\FilesystemLoader(ROOT . DS . 'app' . DS . 'templates');
-    $twig = new \Twig\Environment($loader);
+    $settings = $this->initializeSettings();
+    $routes = $this->initializeRoutes();
+    $twig = $this->initializeTwig();
     $app = new App($this->autoloader, $settings, $twig);
 
     return $app;
@@ -67,6 +65,26 @@ final class Environment {
     while (ob_get_level() != 0) {
       ob_end_clean();
     }
+  }
+
+  private function initializeSettings() {
+    $stream = new LocalReadOnlyFile(ROOT . DS . 'app' . DS . 'config' . DS . 'settings.yml');
+    $yaml = new Yaml($stream->read());
+
+    return new Settings($yaml->decode());
+  }
+
+  private function initializeRoutes() {
+    $stream = new LocalReadOnlyFile(ROOT . DS . 'app' . DS . 'config' . DS . 'routing.yml');
+    $yaml = new Yaml($stream->read());
+
+    return $yaml->decode();
+  }
+
+  private function initializeTwig() {
+    $loader = new \Twig\Loader\FilesystemLoader(ROOT . DS . 'app' . DS . 'templates');
+
+    return new \Twig\Environment($loader);
   }
 
 }
