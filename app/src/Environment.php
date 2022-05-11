@@ -51,13 +51,13 @@ final class Environment {
     }
   }
 
-  public function errorHandler() {
+  public function errorHandler($errno, $errstr, $errfile, $errline) {
     if ($errno === E_ERROR) {
       throw new \ErrorException(sprintf('%s in %s on line %d', $errstr, $errfile, $errline), 0, $errno, $errfile, $errline);
     }
   }
 
-  public function exceptionHandler() {
+  public function exceptionHandler(Exception $e) {
     $this->cleanAllBuffers();
     printf('<strong>Uncaught exception:</strong> %s on line %d of %s', $e->getMessage(), $e->getLine(), $e->getFile());
     exit();
