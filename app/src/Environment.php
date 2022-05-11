@@ -11,8 +11,11 @@ final class Environment {
 
   private $autoloader;
 
+  private $root;
+
   public function __construct($autoloader) {
     $this->autoloader = $autoloader;
+    $this->root = $this->root();
   }
 
   public function bootstrap() {
@@ -24,7 +27,7 @@ final class Environment {
     set_error_handler([$this, 'errorHandler']);
     set_exception_handler([$this, 'exeptionHandler']);
 
-    $this->autoloader->addPsr4('App\\Route\\', ROOT . DS . 'app' . DS . 'routes');
+    $this->autoloader->addPsr4('App\\Route\\', $this->root . '/app/routes');
 
     $settings = $this->initializeSettings();
     $routes = $this->initializeRoutes();
@@ -68,23 +71,27 @@ final class Environment {
   }
 
   private function initializeSettings() {
-    $stream = new LocalReadOnlyFile(ROOT . DS . 'app' . DS . 'config' . DS . 'settings.yml');
+    $stream = new LocalReadOnlyFile($this->root . '/app/config/settings.yml');
     $yaml = new Yaml($stream->read());
 
     return new Settings($yaml->decode());
   }
 
   private function initializeRoutes() {
-    $stream = new LocalReadOnlyFile(ROOT . DS . 'app' . DS . 'config' . DS . 'routing.yml');
+    $stream = new LocalReadOnlyFile($this->root . '/app/config/routing.yml');
     $yaml = new Yaml($stream->read());
 
     return $yaml->decode();
   }
 
   private function initializeTwig() {
-    $loader = new \Twig\Loader\FilesystemLoader(ROOT . DS . 'app' . DS . 'templates');
+    $loader = new \Twig\Loader\FilesystemLoader($this->root . '/app/templates');
 
     return new \Twig\Environment($loader);
+  }
+
+  private function root() {
+    return dirname(__DIR__, 2);
   }
 
 }
