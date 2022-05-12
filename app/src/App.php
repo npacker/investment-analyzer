@@ -36,6 +36,10 @@ final class App {
   }
 
   public function handle(Request $request) {
+    $context = new Context($request, $this->settings);
+
+    $this->twig->addGlobal('app', $context);
+
     try {
       $match = $this->routes->match($request);
       $controller = $match->route()->controller();
