@@ -20,4 +20,8 @@ final class PregMatchableRouteEscaped {
     return preg_replace($pattern, $replacement, $this->path);
   }
 
+  public function raw() {
+    return $this->path;
+  }
+
 }
