@@ -8,7 +8,7 @@ use App\Controller\AbstractController;
 
 final class SecuritiesController extends AbstractController {
 
-  public function handle(Request $request) {
+  public function view(Request $request) {
     return new HttpResponse($this->app->twig()->render('base.html.twig', [
       'title' => 'Securities',
       'content' => 'Securities go here.',

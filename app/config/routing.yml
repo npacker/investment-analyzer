@@ -1,21 +1,32 @@
-/:
+main:
+  path: /
   controller: \App\Route\MainController
   action: view
-/portfolios:
+portfolios_view:
+  path: /portfolios
   controller: \App\Route\PortfoliosController
   action: view
-/portfolios/create:
+portfolios_create:
+  path: /portfolios/create
   controller: \App\Route\PortfoliosController
   action: create
-/funds:
+funds_view:
+  path: /funds
   controller: \App\Route\FundsController
   action: view
-/funds/create:
+funds_edit:
+  path: /funds/{name}/edit
+  controller: \App\Route\FundsController
+  action: edit
+funds_create:
+  path: /funds/create
   controller: \App\Route\FundsController
   action: create
-/securities:
+securities_view:
+  path: /securities
   controller: \App\Route\SecuritiesController
   action: view
-/overlap:
+overlap_view:
+  path: /overlap
   controller: \App\Route\OverlapController
   action: view

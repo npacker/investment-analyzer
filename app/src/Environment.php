@@ -6,6 +6,7 @@ use App\App;
 use App\Serialization\Yaml;
 use App\Settings;
 use App\Stream\LocalReadOnlyFile;
+use App\Router\RouteCollection;
 
 final class Environment {
 
@@ -23,7 +24,6 @@ final class Environment {
     ini_set('error_reporting', E_ALL);
 
     register_shutdown_function([$this, 'fatalErrorHandler']);
-
     set_error_handler([$this, 'errorHandler']);
     set_exception_handler([$this, 'exeptionHandler']);
 
@@ -47,7 +47,7 @@ final class Environment {
       case E_PARSE:
       case E_USER_ERROR:
         $this->cleanAllBuffers();
-        printf('<strong>Fatal error</strong>: %s in %s on line %d', $error['message'], $error['file'], $error['line']);
+        printf('<pre><strong>Fatal error</strong>: %s in %s on line %d</pre>', $error['message'], $error['file'], $error['line']);
         exit();
     }
   }
@@ -60,7 +60,7 @@ final class Environment {
 
   public function exceptionHandler(Exception $e) {
     $this->cleanAllBuffers();
-    printf('<strong>Uncaught exception:</strong> %s on line %d of %s', $e->getMessage(), $e->getLine(), $e->getFile());
+    printf('<pre><strong>Uncaught exception:</strong> %s on line %d of %s</pre>', $e->getMessage(), $e->getLine(), $e->getFile());
     exit();
   }
 
@@ -81,7 +81,7 @@ final class Environment {
     $stream = new LocalReadOnlyFile($this->root . '/app/config/routing.yml');
     $yaml = new Yaml($stream->read());
 
-    return $yaml->decode();
+    return RouteCollection::initialize($yaml->decode());
   }
 
   private function initializeTwig() {
