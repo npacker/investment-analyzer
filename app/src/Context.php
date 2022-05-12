@@ -8,11 +8,11 @@ final class Context {
 
   private $request;
 
-  private $settings;
+  private $app;
 
-  public function __construct(Request $request, $settings) {
+  public function __construct(Request $request, App $app) {
     $this->request = $request;
-    $this->settings = $settings;
+    $this->app = $app;
   }
 
   public function request() {
@@ -20,7 +20,11 @@ final class Context {
   }
 
   public function settings() {
-    return $this->settings;
+    return $this->app->settings();
+  }
+
+  public function routes() {
+    return $this->app->routes();
   }
 
   public function baseUrl() {

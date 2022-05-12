@@ -31,12 +31,16 @@ final class App {
     return $this->settings;
   }
 
+  public function routes() {
+    return $this->routes;
+  }
+
   public function twig() {
     return $this->twig;
   }
 
   public function handle(Request $request) {
-    $context = new Context($request, $this->settings);
+    $context = new Context($request, $this);
 
     $this->twig->addGlobal('app', $context);
 

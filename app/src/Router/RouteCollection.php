@@ -6,10 +6,14 @@ use App\Http\Request;
 
 final class RouteCollection implements RequestMatching {
 
-  private $routes;
+  private $routes = [];
 
-  public function __construct(Route ...$routes) {
-    $this->routes = $routes;
+  public function add(string $name, Route $route) {
+    $this->routes[$name] = $route;
+  }
+
+  public function remove(string $name) {
+    unset($this->routes[$name]);
   }
 
   public function match(Request $request) {

@@ -11,15 +11,15 @@ final class RouteCollectionFactory {
   }
 
   public function create($data) {
-    $routes = [];
+    $routes = new RouteCollection();
 
     foreach ($data as $name => $parameters) {
       extract($parameters);
 
-      $routes[] = $this->routeFactory->create($path, $controller, $action, $methods ?? ['GET']);
+      $routes->add($name, $this->routeFactory->create($path, $controller, $action, $methods ?? ['GET']));
     }
 
-    return new RouteCollection(...$routes);
+    return $routes;
   }
 
 }
