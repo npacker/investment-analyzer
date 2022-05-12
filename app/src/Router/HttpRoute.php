@@ -34,7 +34,7 @@ final class HttpRoute implements Route {
       return $this->route->match($request);
     }
     else {
-      throw new NonMatchingRouteException('Invalid request method.');
+      throw new NonMatchingRouteException();
     }
   }
 

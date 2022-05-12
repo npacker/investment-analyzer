@@ -3,9 +3,6 @@
 namespace App\Router;
 
 use App\Http\Request;
-use App\Router\NonMatchingRouteException;
-use App\Router\PregRoutePattern;
-use App\Router\RouteMatch;
 
 final class PregMatchableRoute implements Route {
 
@@ -34,7 +31,7 @@ final class PregMatchableRoute implements Route {
   }
 
   public function match(Request $request) {
-    $pattern = new PregRoutePattern($this->path);
+    $pattern = new PregMatchableRoutePattern($this->path);
     $labels = $pattern->labels();
     preg_match((string) $pattern, $request->path(), $match);
     $values = array_slice($match, 1);

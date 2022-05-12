@@ -39,7 +39,7 @@ final class RouteCollection implements RequestMatching {
       }
     }
 
-    throw new RouteNotFoundException('Not Found.');
+    throw new RouteNotFoundException();
   }
 
 }
