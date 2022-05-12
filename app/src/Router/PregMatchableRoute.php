@@ -30,6 +30,10 @@ final class PregMatchableRoute implements Route {
     return $this->action;
   }
 
+  public function methods() {
+    return [];
+  }
+
   public function match(Request $request) {
     $labels = $this->pattern->labels();
     preg_match($this->pattern, $request->path(), $match);

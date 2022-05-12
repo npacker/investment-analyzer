@@ -12,6 +12,8 @@ interface Route {
 
   public function action();
 
+  public function methods();
+
   public function match(Request $request);
 
 }
