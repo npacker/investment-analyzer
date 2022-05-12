@@ -21,4 +21,10 @@ final class PregRoutePattern {
     return $this->delimiter . '^' . preg_replace($pattern, $replacement, $escaped) . '$' . $this->delimiter;
   }
 
+  public function labels() {
+    preg_match_all($this->delimiter . '{([^\/]+)}' . $this->delimiter, $this->path, $labels);
+
+    return array_values(end(array_slice($labels, 1)));
+  }
+
 }

@@ -34,10 +34,9 @@ final class PregMatchableRoute implements Route {
   }
 
   public function match(Request $request) {
-    $pattern = (string) new PregRoutePattern($this->path);
-    preg_match_all('/{([^\/]+)}/', $this->path, $labels);
-    $labels = array_values(end(array_slice($labels, 1)));
-    preg_match($pattern, $request->path(), $match);
+    $pattern = new PregRoutePattern($this->path);
+    $labels = $pattern->labels();
+    preg_match((string) $pattern, $request->path(), $match);
     $values = array_slice($match, 1);
     $parameters = [];
 
