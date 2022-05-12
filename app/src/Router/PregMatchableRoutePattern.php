@@ -2,13 +2,13 @@
 
 namespace App\Router;
 
-final class PregMatchableRoutePattern {
+final class PregMatchableRoutePattern implements RoutePattern {
 
   private $path;
 
   private $delimiter;
 
-  public function __construct(PregMatchableRouteEscaped $path, string $delimiter = '@') {
+  public function __construct(RouteEscaped $path, string $delimiter = '@') {
     $this->path = $path;
     $this->delimiter = $delimiter;
   }
@@ -18,6 +18,10 @@ final class PregMatchableRoutePattern {
     $replacement = '([^/]+)';
 
     return $this->delimiter . '^' . preg_replace($pattern, $replacement, $this->path) . '$' . $this->delimiter;
+  }
+
+  public function raw() {
+    return $this->path->raw();
   }
 
   public function labels() {

@@ -3,10 +3,14 @@
 namespace App;
 
 use App\App;
+use App\Router\HttpRoute;
+use App\Router\PregMatchableRoute;
+use App\Router\PregMatchableRouteEscaped;
+use App\Router\PregMatchableRoutePattern;
+use App\Router\RouteCollection;
 use App\Serialization\Yaml;
 use App\Settings;
 use App\Stream\LocalReadOnlyFile;
-use App\Router\RouteCollection;
 
 final class Environment {
 
@@ -80,8 +84,16 @@ final class Environment {
   private function initializeRoutes() {
     $stream = new LocalReadOnlyFile($this->root . '/app/config/routing.yml');
     $yaml = new Yaml($stream->read());
+    $routes = [];
 
-    return RouteCollection::initialize($yaml->decode());
+    foreach ($yaml->decode() as $name => $parameters) {
+      extract($parameters);
+
+      $pattern = new PregMatchableRoutePattern(new PregMatchableRouteEscaped($path));
+      $routes[] = new HttpRoute(new PregMatchableRoute($pattern, $controller, $action), $methods ?? ['GET']);
+    }
+
+    return new RouteCollection(...$routes);
   }
 
   private function initializeTwig() {

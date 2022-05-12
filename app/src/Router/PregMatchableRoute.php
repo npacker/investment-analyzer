@@ -6,20 +6,20 @@ use App\Http\Request;
 
 final class PregMatchableRoute implements Route {
 
-  private $path;
+  private $pattern;
 
   private $controller;
 
   private $action;
 
-  public function __construct(string $path, string $controller, string $action) {
-    $this->path = $path;
+  public function __construct(RoutePattern $pattern, string $controller, string $action) {
+    $this->pattern = $pattern;
     $this->controller = $controller;
     $this->action = $action;
   }
 
   public function path() {
-    return $this->path;
+    return $this->pattern->raw();
   }
 
   public function controller() {
@@ -31,9 +31,8 @@ final class PregMatchableRoute implements Route {
   }
 
   public function match(Request $request) {
-    $pattern = new PregMatchableRoutePattern(new PregMatchableRouteEscaped($this->path));
-    $labels = $pattern->labels();
-    preg_match($pattern, $request->path(), $match);
+    $labels = $this->pattern->labels();
+    preg_match($this->pattern, $request->path(), $match);
     $values = array_slice($match, 1);
     $parameters = [];
 
