@@ -17,7 +17,7 @@ final class PregMatchableRoutePattern {
     $pattern = $this->delimiter . '{[^/]+}' . $this->delimiter;
     $replacement = '([^/]+)';
 
-    return $this->delimiter . '^' . preg_replace($pattern, $replacement, (string) $this->path) . '$' . $this->delimiter;
+    return $this->delimiter . '^' . preg_replace($pattern, $replacement, $this->path) . '$' . $this->delimiter;
   }
 
   public function labels() {
