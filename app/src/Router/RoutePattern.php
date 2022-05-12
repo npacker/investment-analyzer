@@ -6,4 +6,6 @@ interface RoutePattern {
 
   public function __toString();
 
+  public function labels();
+
 }
