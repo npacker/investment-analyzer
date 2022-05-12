@@ -36,7 +36,7 @@ final class MethodMatchableRoute implements Route {
       return $this->route->match($request);
     }
     else {
-      throw new NonMatchingRouteException();
+      return new RouteMatch($request, [], FALSE);
     }
   }
 
