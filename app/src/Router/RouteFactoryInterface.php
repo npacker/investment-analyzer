@@ -2,7 +2,7 @@
 
 namespace App\Router;
 
-interface RouteFactory {
+interface RouteFactoryInterface {
 
   public function create(string $path, string $controller, string $action, array $methods);
 

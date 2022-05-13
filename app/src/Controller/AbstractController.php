@@ -3,9 +3,8 @@
 namespace App\Controller;
 
 use App\App;
-use App\Controller\Controller;
 
-abstract class AbstractController implements Controller {
+abstract class AbstractController implements ControllerInterface {
 
   protected $app;
 

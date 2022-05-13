@@ -2,7 +2,7 @@
 
 namespace App\Router;
 
-interface RouteEscapedFactory {
+interface RoutePatternFactoryInterface {
 
   public function create(string $path);
 

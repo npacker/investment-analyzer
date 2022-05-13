@@ -2,11 +2,11 @@
 
 namespace App\Router;
 
-final class PregMatchableRoutePatternFactory implements RoutePatternFactory {
+final class PregMatchableRoutePatternFactory implements RoutePatternFactoryInterface {
 
   private $factory;
 
-  public function __construct(RouteEscapedFactory $factory) {
+  public function __construct(RouteEscapedFactoryInterface $factory) {
     $this->factory = $factory;
   }
 

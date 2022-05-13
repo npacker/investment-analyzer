@@ -5,7 +5,7 @@ namespace App\Serialization;
 use App\Serialization\Serialized;
 use Symfony\Component\Yaml\Parser;
 
-final class Yaml implements Serialized {
+final class Yaml implements SerializedInterface {
 
   private $data;
 

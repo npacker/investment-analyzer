@@ -4,7 +4,7 @@ namespace App\Http;
 
 use App\Http\Request;
 
-class EmptyRequest implements Request {
+class EmptyRequest implements RequestInterface {
 
   protected $headers;
 

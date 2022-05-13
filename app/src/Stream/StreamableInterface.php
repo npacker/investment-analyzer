@@ -2,7 +2,7 @@
 
 namespace App\Stream;
 
-interface Streamable {
+interface StreamableInterface {
 
   public function read(): string;
 

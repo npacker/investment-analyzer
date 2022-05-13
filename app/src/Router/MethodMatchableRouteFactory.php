@@ -2,11 +2,11 @@
 
 namespace App\Router;
 
-final class MethodMatchableRouteFactory implements RouteFactory {
+final class MethodMatchableRouteFactory implements RouteFactoryInterface {
 
   private $patternFactory;
 
-  public function __construct(RoutePatternFactory $pattern_factory) {
+  public function __construct(RoutePatternFactoryInterface $pattern_factory) {
     $this->patternFactory = $pattern_factory;
   }
 

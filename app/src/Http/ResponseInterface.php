@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-interface Response {
+interface ResponseInterface {
 
   public function send();
 

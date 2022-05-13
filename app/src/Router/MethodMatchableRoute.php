@@ -2,15 +2,15 @@
 
 namespace App\Router;
 
-use App\Http\Request;
+use App\Http\RequestInterface;
 
-final class MethodMatchableRoute implements Route {
+final class MethodMatchableRoute implements RouteInterface {
 
   private $route;
 
   private $methods;
 
-  public function __construct(Route $route, array $methods = ['GET']) {
+  public function __construct(RouteInterface $route, array $methods = ['GET']) {
     $this->route = $route;
     $this->methods = $methods;
   }
@@ -31,7 +31,7 @@ final class MethodMatchableRoute implements Route {
     return $this->methods;
   }
 
-  public function match(Request $request) {
+  public function match(RequestInterface $request) {
     if (in_array($request->server('REQUEST_METHOD'), $this->methods)) {
       return $this->route->match($request);
     }

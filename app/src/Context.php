@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Http\Request;
+use App\Http\RequestInterface;
 
 final class Context {
 
@@ -10,7 +10,7 @@ final class Context {
 
   private $app;
 
-  public function __construct(Request $request, App $app) {
+  public function __construct(RequestInterface $request, App $app) {
     $this->request = $request;
     $this->app = $app;
   }

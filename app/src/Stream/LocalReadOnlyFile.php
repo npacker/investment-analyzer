@@ -2,9 +2,9 @@
 
 namespace App\Stream;
 
-use App\Stream\Streamable;
+use App\Stream\StreamableInterface;
 
-final class LocalReadOnlyFile implements Streamable {
+final class LocalReadOnlyFile implements StreamableInterface {
 
   private $path;
 

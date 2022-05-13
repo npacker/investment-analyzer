@@ -6,7 +6,7 @@ final class RouteCollectionFactory {
 
   private $routeFactory;
 
-  public function __construct(RouteFactory $route_factory) {
+  public function __construct(RouteFactoryInterface $route_factory) {
     $this->routeFactory = $route_factory;
   }
 

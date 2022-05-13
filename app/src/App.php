@@ -3,10 +3,11 @@
 namespace App;
 
 use App\Context;
-use App\Http\Request;
-use App\Router\RouteCollection;
+use App\Http\RequestInterface;
+use App\Router\RequestMatchingInterface;
 use App\Router\RouteNotFoundException;
 use App\Settings;
+use Twig\environment as TwigEnvironment;
 
 final class App {
 
@@ -20,7 +21,7 @@ final class App {
 
   private $twig;
 
-  public function __construct($autoloader, Settings $settings, RouteCollection $routes, \Twig\Environment $twig) {
+  public function __construct($autoloader, Settings $settings, RequestMatchingInterface $routes, TwigEnvironment $twig) {
     $this->autoloader = $autoloader;
     $this->settings = $settings;
     $this->routes = $routes;
@@ -39,7 +40,7 @@ final class App {
     return $this->twig;
   }
 
-  public function handle(Request $request) {
+  public function handle(RequestInterface $request) {
     $context = new Context($request, $this);
 
     $this->twig->addGlobal('app', $context);

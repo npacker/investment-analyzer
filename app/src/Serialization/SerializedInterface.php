@@ -2,7 +2,7 @@
 
 namespace App\Serialization;
 
-interface Serialized {
+interface SerializedInterface {
 
   public function decode();
 

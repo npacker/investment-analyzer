@@ -11,6 +11,8 @@ use App\Router\RouteCollectionFactory;
 use App\Serialization\Yaml;
 use App\Settings;
 use App\Stream\LocalReadOnlyFile;
+use Twig\Environment as TwigEnvironment;
+use Twig\Loader\FilesystemLoader as TwigLoader;
 
 final class Environment {
 
@@ -74,6 +76,11 @@ final class Environment {
     }
   }
 
+  private function initializeContainer() {
+    $stream = new LocalReadOnlyFile($this->root . '/app/config/container.yml');
+    $yaml = new Yaml($stream->read());
+  }
+
   private function initializeSettings() {
     $stream = new LocalReadOnlyFile($this->root . '/app/config/settings.yml');
     $yaml = new Yaml($stream->read());
@@ -84,8 +91,8 @@ final class Environment {
   private function initializeRoutes() {
     $stream = new LocalReadOnlyFile($this->root . '/app/config/routing.yml');
     $yaml = new Yaml($stream->read());
-    $route_escape_factory = new PregMatchableRouteEscapedFactory();
-    $route_pattern_factory = new PregMatchableRoutePatternFactory($route_escape_factory);
+    $route_escaped_factory = new PregMatchableRouteEscapedFactory();
+    $route_pattern_factory = new PregMatchableRoutePatternFactory($route_escaped_factory);
     $route_factory = new MethodMatchableRouteFactory($route_pattern_factory);
     $route_collection_factory = new RouteCollectionFactory($route_factory);
 
@@ -93,9 +100,9 @@ final class Environment {
   }
 
   private function initializeTwig() {
-    $twig_loader = new \Twig\Loader\FilesystemLoader($this->root . '/app/templates');
+    $twig_loader = new TwigLoader($this->root . '/app/templates');
 
-    return new \Twig\Environment($twig_loader);
+    return new TwigEnvironment($twig_loader);
   }
 
   private function root() {

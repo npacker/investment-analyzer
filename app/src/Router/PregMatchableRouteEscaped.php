@@ -2,7 +2,7 @@
 
 namespace App\Router;
 
-final class PregMatchableRouteEscaped implements RouteEscaped {
+final class PregMatchableRouteEscaped implements RouteEscapedInterface {
 
   private $path;
 

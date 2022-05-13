@@ -2,7 +2,7 @@
 
 namespace App\Database;
 
-interface FundDataAccessObject {
+interface FundDataAccessObjectInterface {
 
   public function create(string $symbol, string $name);
 

@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-interface Request {
+interface RequestInterface {
 
   public function headers(string $name): array;
 

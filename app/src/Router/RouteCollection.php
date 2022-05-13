@@ -2,13 +2,13 @@
 
 namespace App\Router;
 
-use App\Http\Request;
+use App\Http\RequestInterface;
 
-final class RouteCollection implements RequestMatching {
+final class RouteCollection implements RequestMatchingInterface {
 
   private $routes = [];
 
-  public function add(string $name, Route $route) {
+  public function add(string $name, RouteInterface $route) {
     $this->routes[$name] = $route;
   }
 
@@ -16,7 +16,7 @@ final class RouteCollection implements RequestMatching {
     unset($this->routes[$name]);
   }
 
-  public function match(Request $request) {
+  public function match(RequestInterface $request) {
     foreach ($this->routes as $route) {
       $match = $route->match($request);
 

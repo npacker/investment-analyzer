@@ -2,14 +2,12 @@
 
 namespace App\Database\MySql;
 
-use App\Database\FundDataAccessObject;
+use App\Database\FundDataAccessObjectInterface;
 
-final class MySqlFundDataAccessObject extends MySqlDataAccessObject implements FundDataAccessObject {
+final class MySqlFundDataAccessObject extends MySqlDataAccessObject implements FundDataAccessObjectInterface {
 
-  public function create(string $symbol, string $name) {
-  }
+  public function create(string $symbol, string $name) {}
 
-  public function delete(string $symbol) {
-  }
+  public function delete(string $symbol) {}
 
 }

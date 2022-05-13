@@ -2,12 +2,10 @@
 
 namespace App\Router;
 
-interface RoutePattern {
+interface RouteEscapedInterface {
 
   public function __toString();
 
   public function raw();
-
-  public function labels();
 
 }

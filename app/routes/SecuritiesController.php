@@ -2,13 +2,13 @@
 
 namespace App\Route;
 
-use App\Http\Request;
+use App\Http\RequestInterface;
 use App\Http\HttpResponse;
 use App\Controller\AbstractController;
 
 final class SecuritiesController extends AbstractController {
 
-  public function view(Request $request) {
+  public function view(RequestInterface $request) {
     return new HttpResponse($this->app->twig()->render('base.html.twig', [
       'title' => 'Securities',
       'content' => 'Securities go here.',

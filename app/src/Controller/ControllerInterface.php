@@ -4,4 +4,4 @@ namespace App\Controller;
 
 use App\Http\Request;
 
-interface Controller {}
+interface ControllerInterface {}
