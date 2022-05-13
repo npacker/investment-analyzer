@@ -16,7 +16,7 @@ final class RouteCollectionFactory {
     foreach ($data as $name => $parameters) {
       extract($parameters);
 
-      $routes->add($name, $this->routeFactory->create($path, $controller, $action, $methods ?? ['GET']));
+      $routes->add($name, $this->routeFactory->create($path, $controller, $action, $methods));
     }
 
     return $routes;

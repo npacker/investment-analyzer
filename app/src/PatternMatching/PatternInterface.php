@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Router;
+namespace App\PatternMatching;
 
-interface RouteEscapedInterface {
+interface PatternInterface {
 
   public function __toString();
 

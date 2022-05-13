@@ -4,7 +4,7 @@ namespace App\Router;
 
 use App\Http\RequestInterface;
 
-final class PregMatchableRoute implements RouteInterface {
+final class Route implements RouteInterface, RequestMatchingInterface {
 
   private $pattern;
 
@@ -12,10 +12,13 @@ final class PregMatchableRoute implements RouteInterface {
 
   private $action;
 
-  public function __construct(RoutePatternInterface $pattern, string $controller, string $action) {
+  private $methods;
+
+  public function __construct(RoutePatternInterface $pattern, string $controller, string $action, array $methods = null) {
     $this->pattern = $pattern;
     $this->controller = $controller;
     $this->action = $action;
+    $this->methods = $methods ?? ['GET'];
   }
 
   public function path() {
@@ -31,10 +34,19 @@ final class PregMatchableRoute implements RouteInterface {
   }
 
   public function methods() {
-    return [];
+    return $this->methods;
   }
 
   public function match(RequestInterface $request) {
+    if (in_array($request->server('REQUEST_METHOD'), $this->methods)) {
+      return $this->matchPattern($request);
+    }
+    else {
+      return new RouteMatch($this, [], false);
+    }
+  }
+
+  private function matchPattern(RequestInterface $request) {
     $labels = $this->pattern->labels();
     preg_match($this->pattern, $request->path(), $match);
     $values = array_slice($match, 1);

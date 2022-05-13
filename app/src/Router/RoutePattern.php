@@ -2,13 +2,15 @@
 
 namespace App\Router;
 
-final class PregMatchableRoutePattern implements RoutePatternInterface {
+use App\PatternMatching\EscapedInterface;
+
+final class RoutePattern implements RoutePatternInterface {
 
   private $path;
 
   private $delimiter;
 
-  public function __construct(RouteEscapedInterface $path, string $delimiter = '@') {
+  public function __construct(EscapedInterface $path, string $delimiter = '@') {
     $this->path = $path;
     $this->delimiter = $delimiter;
   }

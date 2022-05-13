@@ -2,11 +2,9 @@
 
 namespace App\Router;
 
-interface RoutePatternInterface {
+use App\PatternMatching\PatternInterface;
 
-  public function __toString();
-
-  public function raw();
+interface RoutePatternInterface extends PatternInterface {
 
   public function labels();
 

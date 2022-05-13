@@ -2,8 +2,6 @@
 
 namespace App\Router;
 
-use App\Http\RequestInterface;
-
 interface RouteInterface {
 
   public function path();
@@ -13,7 +11,5 @@ interface RouteInterface {
   public function action();
 
   public function methods();
-
-  public function match(RequestInterface $request);
 
 }

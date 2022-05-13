@@ -8,7 +8,7 @@ final class RouteCollection implements RequestMatchingInterface {
 
   private $routes = [];
 
-  public function add(string $name, RouteInterface $route) {
+  public function add(string $name, RequestMatchingInterface $route) {
     $this->routes[$name] = $route;
   }
 
