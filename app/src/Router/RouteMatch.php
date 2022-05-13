@@ -2,7 +2,7 @@
 
 namespace App\Router;
 
-final class RouteMatch {
+final class RouteMatch implements RouteMatchInterface {
 
   private $route;
 
