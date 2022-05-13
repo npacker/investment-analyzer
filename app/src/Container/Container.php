@@ -2,18 +2,34 @@
 
 namespace App\Container;
 
-interface ContainerInterface {
+final class Container implements ContainerInterface {
 
-  public function get(string $name);
+  private $services = [];
 
-  public function has(string $name);
+  private $parameters = [];
 
-  public function set(string $name, Service $service);
+  public function get(string $name) {
+    return $this->services[$name];
+  }
 
-  public function getParameter(string $name);
+  public function has(string $name) {
+    return array_key_exists($name, $this->services);
+  }
 
-  public function hasParameter(string $name);
+  public function set(string $name, ServiceInterface $service) {
+    $this->services[$name] = $service;
+  }
 
-  public function setParameter(string $name, $value);
+  public function getParameter(string $name) {
+    return $this->parameters[$name];
+  }
+
+  public function hasParameter(string $name) {
+    return array_key_exists($name, $this->parameters);
+  }
+
+  public function setParameter(string $name, $value) {
+    $this->parameters[$name] = $value;
+  }
 
 }

@@ -7,7 +7,7 @@ use App\Http\RequestInterface;
 use App\Router\RequestMatchingInterface;
 use App\Router\RouteNotFoundException;
 use App\Settings;
-use Twig\environment as TwigEnvironment;
+use Twig\Environment as TwigEnvironment;
 
 final class App {
 
