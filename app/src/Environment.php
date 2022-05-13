@@ -4,18 +4,11 @@ namespace App;
 
 use App\App;
 use App\Container\Container;
-use App\Container\ContainerInterface;
 use App\Container\ContainerDefinition;
-use App\Router\HttpRoute;
-use App\Router\MethodMatchableRouteFactory;
-use App\Router\PregMatchableRouteEscapedFactory;
-use App\Router\PregMatchableRoutePatternFactory;
-use App\Router\RouteCollectionFactory;
+use App\Container\ContainerInterface;
 use App\Serialization\Yaml;
 use App\Settings;
 use App\Stream\LocalReadOnlyFile;
-use Twig\Environment as TwigEnvironment;
-use Twig\Loader\FilesystemLoader as TwigLoader;
 
 final class Environment {
 
