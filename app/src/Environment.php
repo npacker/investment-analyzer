@@ -4,6 +4,7 @@ namespace App;
 
 use App\App;
 use App\Container\Container;
+use App\Container\ContainerInterface;
 use App\Container\ContainerDefinition;
 use App\Router\HttpRoute;
 use App\Router\MethodMatchableRouteFactory;
@@ -39,8 +40,8 @@ final class Environment {
 
     $container = $this->initializeContainer();
     $settings = $this->initializeSettings();
-    $routes = $this->initializeRoutes();
-    $twig = $this->initializeTwig();
+    $routes = $this->initializeRoutes($container);
+    $twig = $this->initializeTwig($container);
     $app = new App($this->autoloader, $container, $settings, $routes, $twig);
 
     return $app;
@@ -90,8 +91,10 @@ final class Environment {
     }
 
     foreach ($container_definition->parameters() as $name => $parameter) {
-      $container->addParameter($name, $parameter);
+      $container->setParameter($name, $parameter);
     }
+
+    $container->setParameter('templates_path', $this->root . '/app/templates');
 
     return $container;
   }
@@ -103,21 +106,16 @@ final class Environment {
     return new Settings($yaml->decode());
   }
 
-  private function initializeRoutes() {
+  private function initializeRoutes(ContainerInterface $container) {
     $stream = new LocalReadOnlyFile($this->root . '/app/config/routing.yml');
     $yaml = new Yaml($stream->read());
-    $route_escaped_factory = new PregMatchableRouteEscapedFactory();
-    $route_pattern_factory = new PregMatchableRoutePatternFactory($route_escaped_factory);
-    $route_factory = new MethodMatchableRouteFactory($route_pattern_factory);
-    $route_collection_factory = new RouteCollectionFactory($route_factory);
+    $route_collection_factory = $container->get('route_collection_factory');
 
     return $route_collection_factory->create($yaml->decode());
   }
 
-  private function initializeTwig() {
-    $twig_loader = new TwigLoader($this->root . '/app/templates');
-
-    return new TwigEnvironment($twig_loader);
+  private function initializeTwig(ContainerInterface $container) {
+    return $container->get('twig_environment');
   }
 
   private function root() {

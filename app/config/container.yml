@@ -10,3 +10,9 @@ services:
   route_collection_factory:
     class: App\Router\RouteCollectionFactory
     arguments: ['@route_factory']
+  twig_loader:
+    class: Twig\Loader\FilesystemLoader
+    arguments: ['%templates_path%']
+  twig_environment:
+    class: Twig\Environment
+    arguments: ['@twig_loader']

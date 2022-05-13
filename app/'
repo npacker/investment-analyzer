@@ -8,23 +8,22 @@ final class Container implements ContainerInterface {
 
   private $parameters = [];
 
-  private $instances = [];
-
   public function get(string $name) {
-    if (isset($this->instances[$name])) {
-      return $this->instances[$name];
-    }
-
     $definition = $this->services[$name];
     $class = $definition->class();
-    $arguments = $this->resolveArgumentsAndParameters($definition);
-    $instance = new $class(...$arguments);
+    $arguments = [];
 
-    if ($definition->shared()) {
-      $this->instances[$name] = $instance;
+    foreach ($definition->arguments() as $name => $argument) {
+      if ($argument->type() == 'service') {
+        $arguments[] = $this->get($argument->name());
+      }
+
+      if ($argument->type() == 'parameter') {
+        $arguments[] = $this->getParameter($argument->name());
+      }
     }
 
-    return $instance;
+    return new $class(...$arguments);
   }
 
   public function has(string $name) {
@@ -45,22 +44,6 @@ final class Container implements ContainerInterface {
 
   public function setParameter(string $name, $value) {
     $this->parameters[$name] = $value;
-  }
-
-  private function resolveArgumentsAndParameters(ServiceDefinitionInterface $definition) {
-    $arguments = [];
-
-    foreach ($definition->arguments() as $name => $argument) {
-      if ($argument->type() === 'service') {
-        $arguments[] = $this->get($argument->name());
-      }
-
-      if ($argument->type() === 'parameter') {
-        $arguments[] = $this->getParameter($argument->name());
-      }
-    }
-
-    return $arguments;
   }
 
 }
