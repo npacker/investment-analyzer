@@ -3,6 +3,8 @@
 namespace App;
 
 use App\App;
+use App\Container\Container;
+use App\Container\ContainerDefinition;
 use App\Router\HttpRoute;
 use App\Router\MethodMatchableRouteFactory;
 use App\Router\PregMatchableRouteEscapedFactory;
@@ -35,10 +37,11 @@ final class Environment {
 
     $this->autoloader->addPsr4('App\\Route\\', $this->root . '/app/routes');
 
+    $container = $this->initializeContainer();
     $settings = $this->initializeSettings();
     $routes = $this->initializeRoutes();
     $twig = $this->initializeTwig();
-    $app = new App($this->autoloader, $settings, $routes, $twig);
+    $app = new App($this->autoloader, $container, $settings, $routes, $twig);
 
     return $app;
   }
@@ -79,6 +82,18 @@ final class Environment {
   private function initializeContainer() {
     $stream = new LocalReadOnlyFile($this->root . '/app/config/container.yml');
     $yaml = new Yaml($stream->read());
+    $container_definition = new ContainerDefinition($yaml->decode());
+    $container = new Container();
+
+    foreach ($container_definition->services() as $name => $service) {
+      $container->set($name, $service);
+    }
+
+    foreach ($container_definition->parameters() as $name => $parameter) {
+      $container->addParameter($name, $parameter);
+    }
+
+    return $container;
   }
 
   private function initializeSettings() {

@@ -1,11 +1,12 @@
-route_escaped_factory:
-  class: \App\Router\PregMatchableRouteEscapedFactory
-route_pattern_factory:
-  class: \App\Router\PregMatchableRoutePatternFactory
-  arguments: ['@route_escaped_factory']
-route_factory:
-  class: \App\Router\MethodMatchableRouteFactory
-  arguments: ['@route_pattern_factory']
-route_collection_factory:
-  class: \App\Router\RouteCollectionFactory
-  arguments: ['@route_factory']
+services:
+  route_escaped_factory:
+    class: App\Router\PregMatchableRouteEscapedFactory
+  route_pattern_factory:
+    class: App\Router\PregMatchableRoutePatternFactory
+    arguments: ['@route_escaped_factory']
+  route_factory:
+    class: App\Router\MethodMatchableRouteFactory
+    arguments: ['@route_pattern_factory']
+  route_collection_factory:
+    class: App\Router\RouteCollectionFactory
+    arguments: ['@route_factory']

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Container\ContainerInterface;
 use App\Context;
 use App\Http\RequestInterface;
 use App\Router\RequestMatchingInterface;
@@ -13,6 +14,8 @@ final class App {
 
   private $autoloader;
 
+  private $container;
+
   private $settings;
 
   private $routes;
@@ -21,11 +24,16 @@ final class App {
 
   private $twig;
 
-  public function __construct($autoloader, Settings $settings, RequestMatchingInterface $routes, TwigEnvironment $twig) {
+  public function __construct($autoloader, ContainerInterface $container, Settings $settings, RequestMatchingInterface $routes, TwigEnvironment $twig) {
     $this->autoloader = $autoloader;
+    $this->container = $container;
     $this->settings = $settings;
     $this->routes = $routes;
     $this->twig = $twig;
+  }
+
+  public function container() {
+    return $this->container;
   }
 
   public function settings() {

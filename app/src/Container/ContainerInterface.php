@@ -8,7 +8,7 @@ interface ContainerInterface {
 
   public function has(string $name);
 
-  public function set(string $name, ServiceInterface $service);
+  public function set(string $name, ServiceDefinitionInterface $service);
 
   public function getParameter(string $name);
 

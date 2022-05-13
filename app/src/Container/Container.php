@@ -16,7 +16,7 @@ final class Container implements ContainerInterface {
     return array_key_exists($name, $this->services);
   }
 
-  public function set(string $name, ServiceInterface $service) {
+  public function set(string $name, ServiceDefinitionInterface $service) {
     $this->services[$name] = $service;
   }
 
