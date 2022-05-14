@@ -4,7 +4,7 @@ namespace App\Http;
 
 interface RequestInterface {
 
-  public function headers(string $name): array;
+  public function headers(string $name);
 
   public function get(string $name);
 
@@ -16,6 +16,6 @@ interface RequestInterface {
 
   public function files(string $name);
 
-  public function path(): string;
+  public function path();
 
 }
