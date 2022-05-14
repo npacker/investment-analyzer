@@ -4,6 +4,6 @@ namespace App\Serialization;
 
 interface SerializedInterface {
 
-  public function decode();
+  public function decode($data);
 
 }

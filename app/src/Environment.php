@@ -4,12 +4,12 @@ namespace App;
 
 use App\App;
 use App\Container\Container;
-use App\Container\ContainerBuilder;
 use App\Container\ContainerDefinition;
 use App\Container\ContainerInterface;
-use App\Serialization\Yaml;
+use App\Serialization\YamlSymfony;
 use App\Settings;
 use App\Stream\LocalReadOnlyFile;
+use App\Stream\StreamableInterface;
 
 final class Environment {
 
@@ -30,10 +30,8 @@ final class Environment {
     set_error_handler([$this, 'errorHandler']);
     set_exception_handler([$this, 'exeptionHandler']);
 
-    $this->autoloader->addPsr4('App\\Route\\', $this->root . '/app/routes');
-
     $container = $this->initializeContainer();
-    $settings = $this->initializeSettings();
+    $settings = $this->initializeSettings($container);
     $routes = $this->initializeRoutes($container);
     $twig = $this->initializeTwig($container);
     $app = new App($this->autoloader, $container, $settings, $routes, $twig);
@@ -74,38 +72,51 @@ final class Environment {
     }
   }
 
-  private function initializeContainer() {
-    $stream = new LocalReadOnlyFile($this->root . '/app/config/container.yml');
-    $yaml = new Yaml($stream->read());
-    $container_definition = new ContainerDefinition($yaml->decode());
-    $container_builder = new ContainerBuilder();
-
-    return $container_builder->create($container_definition);
+  private function root() {
+    return dirname(__DIR__, 2);
   }
 
-  private function initializeSettings() {
-    $stream = new LocalReadOnlyFile($this->root . '/app/config/settings.yml');
-    $yaml = new Yaml($stream->read());
+  private function loadContainerDefinition(ContainerInterface $container, StreamableInterface $stream) {
+    $yaml = new YamlSymfony();
+    $definition = new ContainerDefinition($yaml->decode($stream->read()));
 
-    return new Settings($yaml->decode());
+    foreach ($definition->services() as $name => $service) {
+      $container->set($name, $service);
+    }
+
+    foreach ($definition->parameters() as $name => $parameter) {
+      $container->setParameter($name, $parameter);
+    }
+  }
+
+  private function initializeContainer() {
+    $container = new Container();
+    $stream = new LocalReadOnlyFile($this->root . '/app/config/container.yml');
+
+    $this->loadContainerDefinition($container, $stream);
+
+    return $container;
+  }
+
+  private function initializeSettings(ContainerInterface $container) {
+    $yaml = new YamlSymfony();
+    $stream = new LocalReadOnlyFile($this->root . '/app/config/settings.yml');
+
+    return new Settings($yaml->decode($stream->read()));
   }
 
   private function initializeRoutes(ContainerInterface $container) {
+    $yaml = new YamlSymfony();
     $stream = new LocalReadOnlyFile($this->root . '/app/config/routing.yml');
-    $yaml = new Yaml($stream->read());
     $route_collection_factory = $container->get('route_collection_factory');
 
-    return $route_collection_factory->create($yaml->decode());
+    return $route_collection_factory->create($yaml->decode($stream->read()));
   }
 
   private function initializeTwig(ContainerInterface $container) {
     $container->setParameter('templates_path', $this->root . '/app/templates');
 
     return $container->get('twig_environment');
-  }
-
-  private function root() {
-    return dirname(__DIR__, 2);
   }
 
 }
