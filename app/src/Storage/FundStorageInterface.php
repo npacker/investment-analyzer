@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Database;
+namespace App\Storage;
 
-interface FundDataAccessObjectInterface {
+interface FundStorageInterface {
 
   public function create(string $symbol, string $name);
 

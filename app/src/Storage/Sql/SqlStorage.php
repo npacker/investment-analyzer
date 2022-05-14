@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Database\MySql;
+namespace App\Storage\Sql;
 
-abstract class MySqlDataAccessObject {
+abstract class SqlStorage {
 
   protected $pdo;
 
