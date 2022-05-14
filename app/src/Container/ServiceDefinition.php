@@ -32,7 +32,7 @@ final class ServiceDefinition implements ServiceDefinitionInterface {
 
     foreach ($this->arguments as $argument) {
       $is_service = (bool) preg_match('/^@(.+)$/', $argument, $service);
-      $is_parameter = (bool) preg_match('/^%([^%]+)%/', $argument, $parameter);
+      $is_parameter = (bool) preg_match('/^%(.+)%$/', $argument, $parameter);
 
       if ($is_service) {
         $name = $service[1];
