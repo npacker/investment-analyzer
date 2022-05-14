@@ -4,6 +4,7 @@ namespace App;
 
 use App\App;
 use App\Container\Container;
+use App\Container\ContainerBuilder;
 use App\Container\ContainerDefinition;
 use App\Container\ContainerInterface;
 use App\Serialization\Yaml;
@@ -77,17 +78,9 @@ final class Environment {
     $stream = new LocalReadOnlyFile($this->root . '/app/config/container.yml');
     $yaml = new Yaml($stream->read());
     $container_definition = new ContainerDefinition($yaml->decode());
-    $container = new Container();
+    $container_builder = new ContainerBuilder();
 
-    foreach ($container_definition->services() as $name => $service) {
-      $container->set($name, $service);
-    }
-
-    foreach ($container_definition->parameters() as $name => $parameter) {
-      $container->setParameter($name, $parameter);
-    }
-
-    return $container;
+    return $container_builder->create($container_definition);
   }
 
   private function initializeSettings() {
