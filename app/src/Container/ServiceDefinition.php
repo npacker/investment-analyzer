@@ -16,7 +16,7 @@ final class ServiceDefinition implements ServiceDefinitionInterface {
     $this->name = $name;
     $this->class = $definition['class'];
     $this->arguments = $definition['arguments'] ?? [];
-    $this->shared = $definition['shared'] ?? TRUE;
+    $this->shared = $definition['shared'] ?? true;
   }
 
   public function name() {
