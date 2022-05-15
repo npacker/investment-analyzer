@@ -1,0 +1,3 @@
+schema:
+  fund:
+    class: App\Storage\Sql\Schema\SqlFundStorageSchema

@@ -101,16 +101,22 @@ final class Environment {
   private function initializeSettings(ContainerInterface $container) {
     $yaml = new YamlSymfony();
     $stream = new LocalReadOnlyFile($this->root . '/app/config/settings.yml');
+    $settings = new Settings($yaml->decode($stream->read()));
 
-    return new Settings($yaml->decode($stream->read()));
+    $container->set('settings', $settings);
+
+    return $settings;
   }
 
   private function initializeRoutes(ContainerInterface $container) {
     $yaml = new YamlSymfony();
     $stream = new LocalReadOnlyFile($this->root . '/app/config/routing.yml');
     $route_collection_factory = $container->get('route_collection_factory');
+    $router = $route_collection_factory->create($yaml->decode($stream->read()));
 
-    return $route_collection_factory->create($yaml->decode($stream->read()));
+    $container->set('router', $router);
+
+    return $router;
   }
 
   private function initializeTwig(ContainerInterface $container) {
