@@ -4,8 +4,8 @@ namespace App\Container;
 
 interface ArgumentDefinitionInterface {
 
-  public function type();
-
   public function name();
+
+  public function resolve(ContainerInterface $container);
 
 }

@@ -4,34 +4,31 @@ namespace App\Container;
 
 final class Container implements ContainerInterface {
 
-  private $services = [];
+  private $definitions = [];
 
   private $parameters = [];
 
-  private $instances = [];
+  private $services = [];
+
+  private $loading = [];
 
   public function get(string $name) {
-    if (isset($this->instances[$name])) {
-      return $this->instances[$name];
+    if (isset($this->services[$name])) {
+      return $this->services[$name];
     }
 
-    $definition = $this->services[$name];
-    $class = $definition->class();
-    $arguments = $this->resolveArgumentsAndParameters($definition);
-    $instance = new $class(...$arguments);
-
-    if ($definition->shared()) {
-      $this->instances[$name] = $instance;
+    if (isset($this->loading[$name])) {
+      throw new CircularServiceReferenceException();
     }
 
-    return $instance;
+    return $this->createService($name);
   }
 
   public function has(string $name) {
-    return array_key_exists($name, $this->services);
+    return array_key_exists($name, $this->definitions) || array_key_exists($name, $this->services);
   }
 
-  public function set(string $name, ServiceDefinitionInterface $service) {
+  public function set(string $name, $service) {
     $this->services[$name] = $service;
   }
 
@@ -47,17 +44,39 @@ final class Container implements ContainerInterface {
     $this->parameters[$name] = $value;
   }
 
+  public function getDefinition(string $name) {
+    return $this->definitions[$name];
+  }
+
+  public function hasDefinition(string $name) {
+    return array_key_exists($name, $this->definitions);
+  }
+
+  public function setDefinition(string $name, ServiceDefinitionInterface $service) {
+    $this->definitions[$name] = $service;
+  }
+
+  private function createService(string $name) {
+    $this->loading[$name] = true;
+    $definition = $this->definitions[$name];
+    $class = $definition->class();
+    $arguments = $this->resolveArgumentsAndParameters($definition);
+    $service = new $class(...$arguments);
+
+    if ($definition->shared()) {
+      $this->services[$name] = $instance;
+    }
+
+    unset($this->loading[$name]);
+
+    return $service;
+  }
+
   private function resolveArgumentsAndParameters(ServiceDefinitionInterface $definition) {
     $arguments = [];
 
     foreach ($definition->arguments() as $name => $argument) {
-      if ($argument->type() === 'service') {
-        $arguments[] = $this->get($argument->name());
-      }
-
-      if ($argument->type() === 'parameter') {
-        $arguments[] = $this->getParameter($argument->name());
-      }
+      $arguments[] = $argument->resolve($this);
     }
 
     return $arguments;

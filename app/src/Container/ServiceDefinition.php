@@ -36,12 +36,12 @@ final class ServiceDefinition implements ServiceDefinitionInterface {
 
       if ($is_service) {
         $name = $service[1];
-        $definition[$name] = new ArgumentDefinition('service', $name);
+        $definition[$name] = new ServiceArgumentDefinition($name);
       }
 
       if ($is_parameter) {
         $name = $parameter[1];
-        $definition[$name] = new ArgumentDefinition('parameter', $name);
+        $definition[$name] = new ParameterArgumentDefinition($name);
       }
     }
 

@@ -81,7 +81,7 @@ final class Environment {
     $definition = new ContainerDefinition($yaml->decode($stream->read()));
 
     foreach ($definition->services() as $name => $service) {
-      $container->set($name, $service);
+      $container->setDefinition($name, $service);
     }
 
     foreach ($definition->parameters() as $name => $parameter) {
