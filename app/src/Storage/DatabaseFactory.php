@@ -3,18 +3,19 @@
 namespace App\Storage;
 
 use App\Settings;
+use PDO;
 
-final class Database {
+final class DatabaseFactory {
 
-  private $hostname;
+  private string $hostname;
 
-  private $username;
+  private string $username;
 
-  private $password;
+  private string $password;
 
-  private $database;
+  private string $database;
 
-  private $pdo;
+  private PDO $pdo;
 
   public function __construct(Settings $settings) {
     $this->hostname = $settings->database['hostname'];
@@ -23,7 +24,7 @@ final class Database {
     $this->database = $settings->database['database'];
   }
 
-  public function getInstance() {
+  public function getInstance(): PDO {
     if (!isset($this->pdo)) {
       $this->pdo = new PDO("mysql:host={$this->hostname};dbname={$this->database}", $this->username, $this->password);
     }

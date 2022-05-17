@@ -53,6 +53,10 @@ final class App {
 
     $this->twig->addGlobal('app', $context);
 
+    $factory = $this->container->get('database_factory');
+
+    $this->container->set('database', $factory->getInstance());
+
     try {
       $match = $this->routes->match($request);
       $controller = $match->route()->controller();

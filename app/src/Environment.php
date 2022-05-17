@@ -6,23 +6,25 @@ use App\App;
 use App\Container\Container;
 use App\Container\ContainerDefinition;
 use App\Container\ContainerInterface;
+use App\Router\RouteCollection;
 use App\Serialization\YamlSymfony;
 use App\Settings;
 use App\Stream\LocalReadOnlyFile;
 use App\Stream\StreamableInterface;
+use Twig\Environment as TwigEnvironment;
 
 final class Environment {
 
   private $autoloader;
 
-  private $root;
+  private string $root;
 
   public function __construct($autoloader) {
     $this->autoloader = $autoloader;
     $this->root = $this->root();
   }
 
-  public function bootstrap() {
+  public function bootstrap(): App {
     ini_set('display_errors', 0);
     ini_set('error_reporting', E_ALL);
 
@@ -54,7 +56,7 @@ final class Environment {
     }
   }
 
-  public function errorHandler($errno, $errstr, $errfile, $errline) {
+  public function errorHandler($errno, $errstr, $errfile, $errline): void {
     if ($errno === E_ERROR) {
       throw new \ErrorException(sprintf('%s in %s on line %d', $errstr, $errfile, $errline), 0, $errno, $errfile, $errline);
     }
@@ -66,17 +68,17 @@ final class Environment {
     exit();
   }
 
-  private function cleanAllBuffers() {
+  private function cleanAllBuffers(): void {
     while (ob_get_level() != 0) {
       ob_end_clean();
     }
   }
 
-  private function root() {
+  private function root(): string {
     return dirname(__DIR__, 2);
   }
 
-  private function loadContainerDefinition(ContainerInterface $container, StreamableInterface $stream) {
+  private function loadContainerDefinition(ContainerInterface $container, StreamableInterface $stream): void {
     $yaml = new YamlSymfony();
     $definition = new ContainerDefinition($yaml->decode($stream->read()));
 
@@ -89,7 +91,7 @@ final class Environment {
     }
   }
 
-  private function initializeContainer() {
+  private function initializeContainer(): Container {
     $container = new Container();
     $stream = new LocalReadOnlyFile($this->root . '/app/config/container.yml');
 
@@ -98,7 +100,7 @@ final class Environment {
     return $container;
   }
 
-  private function initializeSettings(ContainerInterface $container) {
+  private function initializeSettings(ContainerInterface $container): Settings {
     $yaml = new YamlSymfony();
     $stream = new LocalReadOnlyFile($this->root . '/app/config/settings.yml');
     $settings = new Settings($yaml->decode($stream->read()));
@@ -108,7 +110,7 @@ final class Environment {
     return $settings;
   }
 
-  private function initializeRoutes(ContainerInterface $container) {
+  private function initializeRoutes(ContainerInterface $container): RouteCollection {
     $yaml = new YamlSymfony();
     $stream = new LocalReadOnlyFile($this->root . '/app/config/routing.yml');
     $route_collection_factory = $container->get('route_collection_factory');
@@ -119,7 +121,7 @@ final class Environment {
     return $router;
   }
 
-  private function initializeTwig(ContainerInterface $container) {
+  private function initializeTwig(ContainerInterface $container): TwigEnvironment {
     $container->setParameter('templates_path', $this->root . '/app/templates');
 
     return $container->get('twig_environment');

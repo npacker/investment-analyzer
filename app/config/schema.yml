@@ -1,3 +1,7 @@
 schema:
   fund:
     class: App\Storage\Sql\Schema\SqlFundStorageSchema
+  security:
+    class: App\Storage\Sql\Schema\SqlSecurityStorageSchema
+  fund_position:
+    class: App\Storage\Sql\Schema\Sql\FundPositionStorageSchema

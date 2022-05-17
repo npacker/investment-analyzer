@@ -1,6 +1,6 @@
 services:
-  database:
-    class: App\Storage\Database
+  database_factory:
+    class: App\Storage\DatabaseFactory
     arguments: ['@settings']
   route_escaped_factory:
     class: App\Router\EscapedRoutePathFactory
