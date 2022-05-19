@@ -4,13 +4,13 @@ namespace App\Container;
 
 final class Container implements ContainerInterface {
 
-  private $definitions = [];
+  private array $definitions = [];
 
-  private $parameters = [];
+  private array $parameters = [];
 
-  private $services = [];
+  private array $services = [];
 
-  private $loading = [];
+  private array $loading = [];
 
   public function get(string $name) {
     if (isset($this->services[$name])) {
@@ -24,7 +24,7 @@ final class Container implements ContainerInterface {
     return $this->createService($name);
   }
 
-  public function has(string $name) {
+  public function has(string $name): bool {
     return array_key_exists($name, $this->definitions) || array_key_exists($name, $this->services);
   }
 
@@ -36,7 +36,7 @@ final class Container implements ContainerInterface {
     return $this->parameters[$name];
   }
 
-  public function hasParameter(string $name) {
+  public function hasParameter(string $name): bool {
     return array_key_exists($name, $this->parameters);
   }
 
@@ -60,7 +60,7 @@ final class Container implements ContainerInterface {
     $this->loading[$name] = true;
     $definition = $this->definitions[$name];
     $class = $definition->class();
-    $arguments = $this->resolveArgumentsAndParameters($definition);
+    $arguments = $this->resolveArguments($definition);
     $service = new $class(...$arguments);
 
     if ($definition->shared()) {
@@ -72,7 +72,7 @@ final class Container implements ContainerInterface {
     return $service;
   }
 
-  private function resolveArgumentsAndParameters(ServiceDefinitionInterface $definition) {
+  private function resolveArguments(ServiceDefinitionInterface $definition) {
     $arguments = [];
 
     foreach ($definition->arguments() as $name => $argument) {

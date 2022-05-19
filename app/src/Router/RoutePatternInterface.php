@@ -6,6 +6,6 @@ use App\PatternMatching\PatternInterface;
 
 interface RoutePatternInterface extends PatternInterface {
 
-  public function labels();
+  public function labels(): array;
 
 }

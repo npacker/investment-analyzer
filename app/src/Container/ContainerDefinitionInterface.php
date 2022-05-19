@@ -4,8 +4,8 @@ namespace App\Container;
 
 interface ContainerDefinitionInterface {
 
-  public function services();
+  public function services(): array;
 
-  public function parameters();
+  public function parameters(): array;
 
 }

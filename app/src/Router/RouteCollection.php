@@ -3,20 +3,22 @@
 namespace App\Router;
 
 use App\Http\RequestInterface;
+use App\Router\RequestMatchingInterface;
+use App\Router\RouteMatchInterface;
 
 final class RouteCollection implements RequestMatchingInterface {
 
-  private $routes = [];
+  private array $routes = [];
 
-  public function add(string $name, RequestMatchingInterface $route) {
+  public function add(string $name, RequestMatchingInterface $route): void {
     $this->routes[$name] = $route;
   }
 
-  public function remove(string $name) {
+  public function remove(string $name): void {
     unset($this->routes[$name]);
   }
 
-  public function match(RequestInterface $request) {
+  public function match(RequestInterface $request): RouteMatchInterface {
     foreach ($this->routes as $route) {
       $match = $route->match($request);
 

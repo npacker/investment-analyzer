@@ -4,12 +4,12 @@ namespace App\Container;
 
 interface ServiceDefinitionInterface {
 
-  public function name();
+  public function name(): string;
 
-  public function class();
+  public function class(): string;
 
-  public function arguments();
+  public function arguments(): array;
 
-  public function shared();
+  public function shared(): bool;
 
 }

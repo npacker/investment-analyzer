@@ -41,6 +41,9 @@ final class Environment {
     return $app;
   }
 
+  public function install() {
+  }
+
   public function fatalErrorHandler() {
     $error = error_get_last();
 
@@ -125,6 +128,11 @@ final class Environment {
     $container->setParameter('templates_path', $this->root . '/app/templates');
 
     return $container->get('twig_environment');
+  }
+
+  private function initializeSchema(ContainerInterface $container) {
+    $yaml = new YamlSymfony();
+    $stream = new LocalReadOnlyFile($this->root . '/app/config/schema.yml');
   }
 
 }

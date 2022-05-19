@@ -4,16 +4,16 @@ namespace App\Container;
 
 final class ContainerDefinition implements ContainerDefinitionInterface {
 
-  private $services;
+  private array $services;
 
-  private $parameters;
+  private array $parameters;
 
   public function __construct(array $definition) {
     $this->services = $definition['services'] ?? [];
     $this->parameters = $definition['parameters'] ?? [];
   }
 
-  public function services() {
+  public function services(): array {
     $definition = [];
 
     foreach ($this->services as $name => $service) {
@@ -23,7 +23,7 @@ final class ContainerDefinition implements ContainerDefinitionInterface {
     return $definition;
   }
 
-  public function parameters() {
+  public function parameters(): array {
     return $this->parameters;
   }
 

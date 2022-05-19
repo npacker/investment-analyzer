@@ -2,15 +2,18 @@
 
 namespace App\Router;
 
+use App\Router\RouteCollection;
+use App\Router\RouteFactoryInterface;
+
 final class RouteCollectionFactory {
 
-  private $routeFactory;
+  private RouteFactoryInterface $routeFactory;
 
   public function __construct(RouteFactoryInterface $route_factory) {
     $this->routeFactory = $route_factory;
   }
 
-  public function create($data) {
+  public function create($data): RouteCollection {
     $routes = new RouteCollection();
 
     foreach ($data as $name => $parameters) {

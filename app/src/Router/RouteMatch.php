@@ -2,13 +2,16 @@
 
 namespace App\Router;
 
+use App\Router\RouteInterface;
+use App\Router\RouteMatchInterface;
+
 final class RouteMatch implements RouteMatchInterface {
 
-  private $route;
+  private RouteInterface $route;
 
-  private $parameters;
+  private array $parameters;
 
-  private $success;
+  private bool $success;
 
   public function __construct(RouteInterface $route, array $parameters, bool $success) {
     $this->route = $route;
@@ -16,15 +19,15 @@ final class RouteMatch implements RouteMatchInterface {
     $this->success = $success;
   }
 
-  public function route() {
+  public function route(): RouteInterface {
     return $this->route;
   }
 
-  public function parameters() {
+  public function parameters(): array {
     return $this->parameters;
   }
 
-  public function success() {
+  public function success(): bool {
     return $this->success;
   }
 

@@ -4,8 +4,8 @@ namespace App\PatternMatching;
 
 interface PatternInterface {
 
-  public function __toString();
+  public function __toString(): string;
 
-  public function raw();
+  public function raw(): string;
 
 }

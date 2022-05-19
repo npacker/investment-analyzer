@@ -4,13 +4,13 @@ namespace App\Container;
 
 final class ServiceDefinition implements ServiceDefinitionInterface {
 
-  private $name;
+  private string $name;
 
-  private $class;
+  private string $class;
 
-  private $arguments;
+  private array $arguments;
 
-  private $shared;
+  private bool $shared;
 
   public function __construct(string $name, array $definition) {
     $this->name = $name;
@@ -19,15 +19,15 @@ final class ServiceDefinition implements ServiceDefinitionInterface {
     $this->shared = $definition['shared'] ?? true;
   }
 
-  public function name() {
+  public function name(): string {
     return $this->name;
   }
 
-  public function class() {
+  public function class(): string {
     return $this->class;
   }
 
-  public function arguments() {
+  public function arguments(): array {
     $definition = [];
 
     foreach ($this->arguments as $argument) {
@@ -48,7 +48,7 @@ final class ServiceDefinition implements ServiceDefinitionInterface {
     return $definition;
   }
 
-  public function shared() {
+  public function shared(): bool {
     return $this->shared;
   }
 

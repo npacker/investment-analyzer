@@ -3,16 +3,20 @@
 namespace App\Router;
 
 use App\Http\RequestInterface;
+use App\Router\RequestMatchingInterface;
+use App\Router\RouteInterface;
+use App\Router\RouteMatchInterface;
+use App\Router\RoutePatternInterface;
 
 final class Route implements RouteInterface, RequestMatchingInterface {
 
-  private $pattern;
+  private RoutePatternInterface $pattern;
 
-  private $controller;
+  private string $controller;
 
-  private $action;
+  private string $action;
 
-  private $methods;
+  private array $methods;
 
   public function __construct(RoutePatternInterface $pattern, string $controller, string $action, array $methods = null) {
     $this->pattern = $pattern;
@@ -21,23 +25,23 @@ final class Route implements RouteInterface, RequestMatchingInterface {
     $this->methods = $methods ?? ['GET'];
   }
 
-  public function path() {
+  public function path(): string {
     return $this->pattern->raw();
   }
 
-  public function controller() {
+  public function controller(): string {
     return $this->controller;
   }
 
-  public function action() {
+  public function action(): string {
     return $this->action;
   }
 
-  public function methods() {
+  public function methods(): array {
     return $this->methods;
   }
 
-  public function match(RequestInterface $request) {
+  public function match(RequestInterface $request): RouteMatchInterface {
     if (in_array($request->server('REQUEST_METHOD'), $this->methods)) {
       return $this->matchPattern($request);
     }
@@ -46,7 +50,7 @@ final class Route implements RouteInterface, RequestMatchingInterface {
     }
   }
 
-  private function matchPattern(RequestInterface $request) {
+  private function matchPattern(RequestInterface $request): RouteMatchInterface {
     $labels = $this->pattern->labels();
     preg_match($this->pattern, $request->path(), $match);
     $values = array_slice($match, 1);

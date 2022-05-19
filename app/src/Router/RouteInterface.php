@@ -4,12 +4,12 @@ namespace App\Router;
 
 interface RouteInterface {
 
-  public function path();
+  public function path(): string;
 
-  public function controller();
+  public function controller(): string;
 
-  public function action();
+  public function action(): string;
 
-  public function methods();
+  public function methods(): array;
 
 }

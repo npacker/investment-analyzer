@@ -6,23 +6,23 @@ use App\PatternMatching\EscapedInterface;
 
 final class EscapedRoutePath implements EscapedInterface {
 
-  private $path;
+  private string $path;
 
-  private $delimiter;
+  private string $delimiter;
 
   public function __construct(string $path, string $delimiter = '@') {
     $this->path = $path;
     $this->delimiter = $delimiter;
   }
 
-  public function __toString() {
+  public function __toString(): string {
     $pattern = $this->delimiter . '(['. preg_quote('=-+?!$*:<>') . '])' . $this->delimiter;
     $replacement = preg_quote('\\') . '$1';
 
     return preg_replace($pattern, $replacement, $this->path);
   }
 
-  public function raw() {
+  public function raw(): string {
     return $this->path;
   }
 
