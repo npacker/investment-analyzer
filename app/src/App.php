@@ -5,6 +5,7 @@ namespace App;
 use App\Container\ContainerInterface;
 use App\Context;
 use App\Http\RequestInterface;
+use App\Http\ResponseInterface;
 use App\Router\RequestMatchingInterface;
 use App\Router\RouteNotFoundException;
 use App\Settings;
@@ -14,15 +15,15 @@ final class App {
 
   private $autoloader;
 
-  private $container;
+  private ContainerInterface $container;
 
-  private $settings;
+  private Settings $settings;
 
-  private $routes;
+  private RequestMatchingInterface $routes;
 
-  private $request;
+  private RequestInterface $request;
 
-  private $twig;
+  private TwigEnvironment $twig;
 
   public function __construct($autoloader, ContainerInterface $container, Settings $settings, RequestMatchingInterface $routes, TwigEnvironment $twig) {
     $this->autoloader = $autoloader;
@@ -32,23 +33,23 @@ final class App {
     $this->twig = $twig;
   }
 
-  public function container() {
+  public function container(): ContainerInterface {
     return $this->container;
   }
 
-  public function settings() {
+  public function settings(): Settings {
     return $this->settings;
   }
 
-  public function routes() {
+  public function routes(): RequestMatchingInterface {
     return $this->routes;
   }
 
-  public function twig() {
+  public function twig(): TwigEnvironment {
     return $this->twig;
   }
 
-  public function handle(RequestInterface $request) {
+  public function handle(RequestInterface $request): ResponseInterface {
     $context = new Context($request, $this);
 
     $this->twig->addGlobal('app', $context);
@@ -59,8 +60,12 @@ final class App {
 
     try {
       $match = $this->routes->match($request);
-      $controller = $match->route()->controller();
-      $action = $match->route()->action();
+
+      $this->container('route_match', $match);
+
+      $route = $match->route();
+      $controller = $route->controller();
+      $action = $route->action();
     }
     catch (RouteNotFoundException $e) {
       $controller = '\App\Controller\NotFoundController';

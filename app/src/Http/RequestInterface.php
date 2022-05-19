@@ -4,18 +4,18 @@ namespace App\Http;
 
 interface RequestInterface {
 
-  public function headers(string $name);
+  public function headers(string $name): string;
 
-  public function get(string $name);
+  public function get(string $name): string;
 
-  public function post(string $name);
+  public function post(string $name): string;
 
-  public function server(string $name);
+  public function server(string $name): string;
 
-  public function cookie(string $name);
+  public function cookie(string $name): string;
 
-  public function files(string $name);
+  public function files(string $name): string;
 
-  public function path();
+  public function path(): string;
 
 }

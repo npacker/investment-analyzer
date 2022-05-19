@@ -2,9 +2,9 @@
 
 namespace App\Http;
 
-use App\Http\Response;
+use App\Http\ResponseInterface;
 
-final class HttpResponse {
+final class HttpResponse implements ResponseInterface {
 
   public const HTTP_CONTINUE = 100;
 
