@@ -6,9 +6,12 @@ use App\App;
 use App\Container\Container;
 use App\Container\ContainerDefinition;
 use App\Container\ContainerInterface;
+use App\Http\ResponseInterface;
 use App\Router\RouteCollection;
 use App\Serialization\YamlSymfony;
 use App\Settings;
+use App\Storage\Schema\StorageSchemaCollection;
+use App\Storage\Schema\StorageSchemaCollectionDefinition;
 use App\Stream\LocalReadOnlyFile;
 use App\Stream\StreamableInterface;
 use Twig\Environment as TwigEnvironment;
@@ -21,7 +24,7 @@ final class Environment {
 
   public function __construct($autoloader) {
     $this->autoloader = $autoloader;
-    $this->root = $this->root();
+    $this->root = dirname(__DIR__, 2);
   }
 
   public function bootstrap(): App {
@@ -41,7 +44,14 @@ final class Environment {
     return $app;
   }
 
-  public function install() {
+  public function install(RequestInterface $request, App $app): ResponseInterface {
+    $schema = $this->initializeSchema();
+
+    $schema->build();
+
+    $context = new Context($request, $app);
+
+    return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $context->baseUrl()]);
   }
 
   public function fatalErrorHandler() {
@@ -75,10 +85,6 @@ final class Environment {
     while (ob_get_level() != 0) {
       ob_end_clean();
     }
-  }
-
-  private function root(): string {
-    return dirname(__DIR__, 2);
   }
 
   private function loadContainerDefinition(ContainerInterface $container, StreamableInterface $stream): void {
@@ -130,9 +136,13 @@ final class Environment {
     return $container->get('twig_environment');
   }
 
-  private function initializeSchema(ContainerInterface $container) {
+  private function initializeSchema(ContainerInterface $container): StorageSchemaCollection {
     $yaml = new YamlSymfony();
     $stream = new LocalReadOnlyFile($this->root . '/app/config/schema.yml');
+    $definition = new StorageSchemaCollectionDefinition($yaml->decode($stream->read()));
+    $schema = new StorageSchemaCollection($definition);
+
+    return $schema;
   }
 
 }
