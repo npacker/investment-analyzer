@@ -12,7 +12,7 @@ final class SqlPortfolioPositionStorageSchema {
                 weight DECIMAL(12,9) NOT NULL,
                 PRIMARY KEY (portfolio, fund)
                 CONSTRAINT fk_portfolio_position__portfolio
-                  FOREGIN KEY (portfolio) REFERENCES portfolio (id)
+                  FOREIGN KEY (portfolio) REFERENCES portfolio (id)
                     ON DELETE CASCADE
                     ON UPDATE CASCADE
                   FOREIGN KEY (fund) REFERENCES fund (symbol)
