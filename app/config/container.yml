@@ -2,7 +2,7 @@ services:
   schema_collection_factory:
     class: App\Storage\Schema\StorageSchemaCollectionFactory
   database_factory:
-    class: App\Storage\DatabaseFactory
+    class: App\Storage\Database\DatabaseFactory
     arguments: ['@settings']
   route_escaped_factory:
     class: App\Router\EscapedRoutePathFactory

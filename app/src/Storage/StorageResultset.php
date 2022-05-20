@@ -2,10 +2,7 @@
 
 namespace App\Storage;
 
-use Iterator;
-use Countable;
-
-final class Resultset implements Iterator, Coutnable {
+final class StorageResultset implements \Iterator, \Coutnable {
 
   private $objects = [];
 
