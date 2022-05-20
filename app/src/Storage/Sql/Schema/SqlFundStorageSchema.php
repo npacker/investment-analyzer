@@ -14,7 +14,8 @@ final class SqlFundStorageSchema extends SqlStorage {
               ENGINE=InnoDB
               DEFAULT CHARSET=utf8mb4';
 
-    $this->pdo->query($query);
+    $statement = $this->handle->prepare($query);
+    $statement->execute();
   }
 
 }

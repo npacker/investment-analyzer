@@ -6,10 +6,10 @@ use PDO;
 
 abstract class SqlStorage {
 
-  protected $pdo;
+  protected PDO $handle;
 
-  final public function __construct(PDO $pdo) {
-    $this->pdo = $pdo;
+  final public function __construct(PDO $handle) {
+    $this->handle = $handle;
   }
 
 }

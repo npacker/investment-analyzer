@@ -15,7 +15,7 @@ final class DatabaseFactory {
 
   private string $database;
 
-  private PDO $pdo;
+  private PDO $handle;
 
   public function __construct(Settings $settings) {
     $this->hostname = $settings->database['hostname'];
@@ -25,11 +25,14 @@ final class DatabaseFactory {
   }
 
   public function getInstance(): PDO {
-    if (!isset($this->pdo)) {
-      $this->pdo = new PDO("mysql:host={$this->hostname};dbname={$this->database}", $this->username, $this->password);
+    if (!isset($this->handle)) {
+      $this->handle = new PDO("mysql:host={$this->hostname};dbname={$this->database}", $this->username, $this->password);
+
+      $handle->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+      $handle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    return $this->pdo;
+    return $this->handle;
   }
 
 }

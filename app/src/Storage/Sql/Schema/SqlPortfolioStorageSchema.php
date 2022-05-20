@@ -14,7 +14,8 @@ final class SqlPortfolioStorageSchema extends SqlStorage {
               ENGINE=InnoDB
               DEFAULT CHARSEt=utf8mb4';
 
-    $this->pdo->query($query);
+    $statement = $this->handle->prepare($query);
+    $statement->execute();
   }
 
 }
