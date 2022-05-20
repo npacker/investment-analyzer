@@ -13,7 +13,6 @@ use App\Router\RouteCollection;
 use App\Serialization\YamlSymfony;
 use App\Settings;
 use App\Storage\Schema\StorageSchemaCollection;
-use App\Storage\Schema\StorageSchemaCollectionDefinition;
 use App\Stream\LocalReadOnlyFile;
 use App\Stream\StreamableInterface;
 use Twig\Environment as TwigEnvironment;
@@ -147,8 +146,8 @@ final class Environment {
   private function initializeSchema(ContainerInterface $container): StorageSchemaCollection {
     $yaml = new YamlSymfony();
     $stream = new LocalReadOnlyFile($this->root . '/app/config/schema.yml');
-    $definition = new StorageSchemaCollectionDefinition($yaml->decode($stream->read()));
-    $schema = new StorageSchemaCollection($definition);
+    $schema_collection_factory = $container->get('schema_collection_factory');
+    $schema = $schema_collection_factory->create($yaml->decode($stream->read()));
 
     return $schema;
   }

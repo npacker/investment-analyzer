@@ -1,4 +1,6 @@
 services:
+  schema_collection_factory:
+    class: App\Storage\Schema\StorageSchemaCollectionFactory
   database_factory:
     class: App\Storage\DatabaseFactory
     arguments: ['@settings']
