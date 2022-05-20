@@ -28,8 +28,9 @@ final class DatabaseFactory {
     if (!isset($this->handle)) {
       $this->handle = new PDO("mysql:host={$this->hostname};dbname={$this->database}", $this->username, $this->password);
 
-      $handle->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
-      $handle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $this->handle->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+      $this->handle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $this->handle->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
 
     return $this->handle;
