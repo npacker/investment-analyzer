@@ -2,18 +2,21 @@
 
 {% block content %}
   <p>The following storage schema will be installed:</p>
-  <table>
-    <thead>
-      <th>Name</th>
-      <th>Class</th>
-    </thead>
-    <tbody>
-      {% for schema_definition in schema_definitions %}
-        <tr>
-          <td>{{ schema_definition.name }}</td>
-          <td>{{ schema_definition.class }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <form method="post">
+    <table>
+      <thead>
+        <th>Name</th>
+        <th>Class</th>
+      </thead>
+      <tbody>
+        {% for schema_definition in schema_definitions %}
+          <tr>
+            <td>{{ schema_definition.name }}</td>
+            <td>{{ schema_definition.class }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <input type="submit" value="Install">
+  </form>
 {% endblock %}

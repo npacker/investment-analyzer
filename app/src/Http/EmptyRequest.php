@@ -30,27 +30,27 @@ class EmptyRequest implements RequestInterface {
     $this->path = $path;
   }
 
-  public function headers(string $name): string {
+  public function headers(string $name): ?string {
     return $this->headers[strtolower($name)];
   }
 
-  public function get(string $name): string {
+  public function get(string $name): ?string {
     return $this->get[$name] ?? null;
   }
 
-  public function post(string $name): string {
+  public function post(string $name): ?string {
     return $this->post[$name] ?? null;
   }
 
-  public function server(string $name): string {
+  public function server(string $name): ?string {
     return $this->server[$name] ?? null;
   }
 
-  public function cookie(string $name): string {
+  public function cookie(string $name): ?string {
     return $this->cookie[$name] ?? null;
   }
 
-  public function files(string $name): string {
+  public function files(string $name): ?string {
     return $this->cookie[$name] ?? null;
   }
 

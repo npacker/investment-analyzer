@@ -59,12 +59,18 @@ main {
 }
 
 table {
+  background: #fff;
   border-collapse: collapse;
   min-width: 100%;
   margin: 0 0 2em 0;
 }
 
+tr {
+  background: #fff;
+}
+
 th, td {
+  background: #fff;
   border: 2px solid #333;
   padding: .75em;
 }
@@ -187,6 +193,7 @@ input {
 [type=submit] {
   display: block;
   padding: 1em 2em;
+  margin-bottom: 0;
   background: #ddd;
   color: #333;
   border: 0;

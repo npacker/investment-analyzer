@@ -47,18 +47,23 @@ final class Environment {
 
   public function install(RequestInterface $request, App $app): ResponseInterface {
     $schema_collection = $this->initializeSchema($app->container());
-    $schema_collection_definition = $schema_collection->definition();
-    $schema_definitions = $schema_collection_definition->schema();
 
-    // $schema_collection->build();
+    if ($request->server('REQUEST_METHOD') === 'POST') {
+      // $schema_collection->build();
 
-    $context = new Context($request, $app);
+      $context = new Context($request, $app);
 
-    // return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $context->baseUrl()]);
-    return new HttpResponse($app->twig()->render('schema.html.twig', [
-      'title' => 'Install',
-      'schema_definitions' => $schema_definitions,
-    ]));
+      return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $context->baseUrl()]);
+    }
+    else {
+      $schema_collection_definition = $schema_collection->definition();
+      $schema_definitions = $schema_collection_definition->schema();
+
+      return new HttpResponse($app->twig()->render('schema.html.twig', [
+        'title' => 'Install',
+        'schema_definitions' => $schema_definitions,
+      ]));
+    }
   }
 
   public function fatalErrorHandler() {
