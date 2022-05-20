@@ -6,6 +6,8 @@ use App\App;
 use App\Container\Container;
 use App\Container\ContainerDefinition;
 use App\Container\ContainerInterface;
+use App\Http\HttpResponse;
+use App\Http\RequestInterface;
 use App\Http\ResponseInterface;
 use App\Router\RouteCollection;
 use App\Serialization\YamlSymfony;
@@ -45,13 +47,19 @@ final class Environment {
   }
 
   public function install(RequestInterface $request, App $app): ResponseInterface {
-    $schema = $this->initializeSchema();
+    $schema_collection = $this->initializeSchema($app->container());
+    $schema_collection_definition = $schema_collection->definition();
+    $schema_definitions = $schema_collection_definition->schema();
 
-    $schema->build();
+    // $schema_collection->build();
 
     $context = new Context($request, $app);
 
-    return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $context->baseUrl()]);
+    // return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $context->baseUrl()]);
+    return new HttpResponse($app->twig()->render('schema.html.twig', [
+      'title' => 'Install',
+      'schema_definitions' => $schema_definitions,
+    ]));
   }
 
   public function fatalErrorHandler() {

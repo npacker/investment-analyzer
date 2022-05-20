@@ -12,9 +12,13 @@ final class StorageSchemaCollection {
     $this->definition = $definition;
   }
 
+  public function definition(): StorageSchemaCollectionDefinition {
+    return $this->definition;
+  }
+
   public function build() {
-    foreach ($this->definition->schema() as $name => $value) {
-      $instance = new $value();
+    foreach ($this->definition->schema() as $name => $class) {
+      $instance = new $class();
 
       try {
         $instance->build();

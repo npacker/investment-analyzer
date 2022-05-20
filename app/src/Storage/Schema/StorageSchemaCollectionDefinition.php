@@ -7,17 +7,17 @@ final class StorageSchemaCollectionDefinition {
   private array $definition;
 
   public function __construct(array $definition) {
-    $this->definition = $definition;
+    $this->definition = $definition['schema'] ?? [];
   }
 
   public function schema(): array {
-    $schema = [];
+    $definitions = [];
 
     foreach ($this->definition as $name => $schema) {
-      $schema[$name] = new StorageSchemaDefinition($name, $schema);
+      $definitions[$name] = new StorageSchemaDefinition($name, $schema);
     }
 
-    return $schema;
+    return $definitions;
   }
 
 }

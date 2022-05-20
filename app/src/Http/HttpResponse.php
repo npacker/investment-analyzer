@@ -222,7 +222,7 @@ final class HttpResponse implements ResponseInterface {
       return;
     }
 
-    foreach ($headers as $name => $value) {
+    foreach ($this->headers as $name => $value) {
       header(sprintf("%s: %s", $name, $value), false, $this->status);
     }
 
