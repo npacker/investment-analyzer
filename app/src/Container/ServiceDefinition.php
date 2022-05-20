@@ -2,6 +2,10 @@
 
 namespace App\Container;
 
+use App\Container\ServiceDefinitionInterface;
+use App\Container\ServiceArgumentDefinition;
+use App\Container\ParameterArgumentDefinition;
+
 final class ServiceDefinition implements ServiceDefinitionInterface {
 
   private string $name;

@@ -2,6 +2,9 @@
 
 namespace App\Container;
 
+use App\Container\ContainerDefinitionInterface;
+use App\Container\ServiceDefinition;
+
 final class ContainerDefinition implements ContainerDefinitionInterface {
 
   private array $services;

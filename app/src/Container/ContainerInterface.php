@@ -2,6 +2,8 @@
 
 namespace App\Container;
 
+use App\Container\ServiceDefinitionInterface;
+
 interface ContainerInterface {
 
   public function get(string $name);

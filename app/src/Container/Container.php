@@ -2,6 +2,10 @@
 
 namespace App\Container;
 
+use App\Container\CircularServiceReferenceException;
+use App\Container\ContainerInterface;
+use App\Container\ServiceDefinitionInterface;
+
 final class Container implements ContainerInterface {
 
   private array $definitions = [];
