@@ -30,7 +30,7 @@ final class Messenger implements MessengerInterface {
   }
 
   public function all(): array {
-    $messages = $this->session->get('messages');
+    $messages = $this->session->get('messages') ?? [];
 
     $this->session->remove('messages');
 
