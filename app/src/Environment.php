@@ -156,8 +156,6 @@ final class Environment {
 
   private function initializeTwig(ContainerInterface $container): TwigEnvironment {
     $container->setParameter('templates_path', $this->root . '/app/templates');
-
-    return $container->get('twig');
   }
 
   private function initializeSession(ContainerInterface $container) {
