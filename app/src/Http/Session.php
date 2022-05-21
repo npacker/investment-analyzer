@@ -32,7 +32,10 @@ final class Session implements SessionInterface {
     }
 
     $this->started = session_start($this->options);
-    $this->storage = &$_SESSION;
+
+    if ($this->started) {
+      $this->storage = &$_SESSION;
+    }
   }
 
   public function started(): bool {
@@ -57,7 +60,7 @@ final class Session implements SessionInterface {
     }
   }
 
-  public function &get(string $name) {
+  public function get(string $name) {
     return $this->storage[$name];
   }
 

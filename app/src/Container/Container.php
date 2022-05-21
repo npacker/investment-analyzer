@@ -68,7 +68,7 @@ final class Container implements ContainerInterface {
     $service = new $class(...$arguments);
 
     if ($definition->shared()) {
-      $this->services[$name] = $instance;
+      $this->services[$name] = $service;
     }
 
     unset($this->loading[$name]);

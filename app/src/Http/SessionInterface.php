@@ -16,7 +16,7 @@ interface SessionInterface {
 
   public function save();
 
-  public function &get(string $name);
+  public function get(string $name);
 
   public function has(string $name): bool;
 

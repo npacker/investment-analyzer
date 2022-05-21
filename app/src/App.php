@@ -53,6 +53,7 @@ final class App {
     $context = new Context($request, $this);
 
     $this->twig->addGlobal('app', $context);
+    $this->twig->addGlobal('messenger', $this->container->get('messenger'));
 
     $factory = $this->container->get('database_factory');
 

@@ -13,22 +13,28 @@ final class Messenger implements MessengerInterface {
     $this->session = $session;
   }
 
-  public function set(string $message, string $type = MessengerInterface::TYPE_STATUS) {
+  public function set(string $message, string $type = MessengerInterface::TYPE_STATUS): void {
     if (!$this->session->has('messages')) {
       $this->session->set('messages', []);
     }
 
-    $messages =& $this->session->get('messages');
+    $messages = $this->session->get('messages');
 
     if (!isset($messages[$type])) {
       $messages[$type] = [];
     }
 
     $messages[$type][] = $message;
+
+    $this->session->set('messages', $messages);
   }
 
   public function all(): array {
-    return $this->session->get('messages');
+    $messages = $this->session->get('messages');
+
+    $this->session->remove('messages');
+
+    return $messages;
   }
 
 }

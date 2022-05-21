@@ -1,0 +1,12 @@
+{% set messages = messenger.all() %}
+{% if not messages is empty %}
+  <div class="messages status">
+    <ul>
+      {% for type in messages %}
+        {% for message in type %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}

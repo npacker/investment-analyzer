@@ -2,7 +2,7 @@
 
 namespace App\Messenger;
 
-interface Messenger {
+interface MessengerInterface {
 
   public const TYPE_STATUS = 'status';
 
