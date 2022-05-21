@@ -203,13 +203,24 @@ final class HttpResponse implements ResponseInterface {
 
   private array $headers;
 
-  private string $version;
+  private string $version = '1.1';
 
   public function __construct(string $content = '', int $status = HttpResponse::HTTP_OK, array $headers = []) {
     $this->content = $content;
     $this->status = $status;
     $this->headers = $headers;
-    $this->version = '1.1';
+  }
+
+  public function __toString(): string {
+    return $this->content;
+  }
+
+  public function status(): int {
+    return $this->status;
+  }
+
+  public function headers(): array {
+    return $this->headers;
   }
 
   public function send() {
