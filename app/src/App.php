@@ -53,16 +53,20 @@ final class App {
     $context = new Context($request, $this);
 
     $this->twig->addGlobal('app', $context);
-    $this->twig->addGlobal('messenger', $this->container->get('messenger'));
 
-    $factory = $this->container->get('database_factory');
+    $messenger = $this->container->get('messenger');
 
-    $this->container->set('database', $factory->getInstance());
+    $this->twig->addGlobal('messenger', $messenger);
+
+    $database_factory = $this->container->get('database_factory');
+    $database = $database_factory->getInstance();
+
+    $this->container->set('database', $database);
 
     try {
       $match = $this->routes->match($request);
 
-      $this->container('route_match', $match);
+      $this->container->set('route_match', $match);
 
       $route = $match->route();
       $controller = $route->controller();
