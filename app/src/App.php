@@ -9,7 +9,6 @@ use App\Http\ResponseInterface;
 use App\Router\RequestMatchingInterface;
 use App\Router\RouteNotFoundException;
 use App\Settings;
-use Twig\Environment as TwigEnvironment;
 
 final class App {
 
@@ -23,14 +22,11 @@ final class App {
 
   private RequestInterface $request;
 
-  private TwigEnvironment $twig;
-
-  public function __construct($autoloader, ContainerInterface $container, Settings $settings, RequestMatchingInterface $routes, TwigEnvironment $twig) {
+  public function __construct($autoloader, ContainerInterface $container, Settings $settings, RequestMatchingInterface $routes) {
     $this->autoloader = $autoloader;
     $this->container = $container;
     $this->settings = $settings;
     $this->routes = $routes;
-    $this->twig = $twig;
   }
 
   public function container(): ContainerInterface {
@@ -45,23 +41,18 @@ final class App {
     return $this->routes;
   }
 
-  public function twig(): TwigEnvironment {
-    return $this->twig;
-  }
-
   public function handle(RequestInterface $request): ResponseInterface {
-    $context = new Context($request, $this);
-
-    $this->twig->addGlobal('app', $context);
-
-    $messenger = $this->container->get('messenger');
-
-    $this->twig->addGlobal('messenger', $messenger);
-
     $database_factory = $this->container->get('database_factory');
     $database = $database_factory->getInstance();
 
     $this->container->set('database', $database);
+
+    $twig = $this->container->get('twig');
+    $context = new Context($request, $this);
+    $messenger = $this->container->get('messenger');
+
+    $twig->addGlobal('app', $context);
+    $twig->addGlobal('messenger', $messenger);
 
     try {
       $match = $this->routes->match($request);
@@ -77,7 +68,7 @@ final class App {
       $action = 'view';
     }
 
-    $instance = new $controller($this);
+    $instance = new $controller($this->container);
 
     return $instance->{$action}($request);
   }

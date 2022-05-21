@@ -23,6 +23,6 @@ services:
   twig_loader:
     class: Twig\Loader\FilesystemLoader
     arguments: ['%templates_path%']
-  twig_environment:
+  twig:
     class: Twig\Environment
     arguments: ['@twig_loader']

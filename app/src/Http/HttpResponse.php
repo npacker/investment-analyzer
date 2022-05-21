@@ -209,7 +209,7 @@ final class HttpResponse implements ResponseInterface {
     $this->content = $content;
     $this->status = $status;
     $this->headers = $headers;
-    $this->version = '1.0';
+    $this->version = '1.1';
   }
 
   public function send() {

@@ -9,7 +9,7 @@ use App\Controller\AbstractController;
 final class OverlapController extends AbstractController {
 
   public function view(RequestInterface $request) {
-    return new HttpResponse($this->app->twig()->render('base.html.twig', [
+    return new HttpResponse($this->twig()->render('base.html.twig', [
       'title' => 'Overlap',
       'content' => 'Overlap goes here.',
     ]));

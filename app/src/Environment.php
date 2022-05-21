@@ -39,11 +39,10 @@ final class Environment {
     $container = $this->initializeContainer();
     $settings = $this->initializeSettings($container);
     $routes = $this->initializeRoutes($container);
-    $twig = $this->initializeTwig($container);
-    $app = new App($this->autoloader, $container, $settings, $routes, $twig);
-    $session = $container->get('session');
+    $app = new App($this->autoloader, $container, $settings, $routes);
 
-    $session->start();
+    $this->initializeTwig($container);
+    $this->initializeSession($container);
 
     return $app;
   }
@@ -61,8 +60,9 @@ final class Environment {
     else {
       $schema_collection_definition = $schema_collection->definition();
       $schema_definitions = $schema_collection_definition->schema();
+      $twig = $app->container()->get('twig');
 
-      return new HttpResponse($app->twig()->render('schema.html.twig', [
+      return new HttpResponse($twig->render('schema.html.twig', [
         'title' => 'Install',
         'schema_definitions' => $schema_definitions,
       ]));
@@ -145,12 +145,6 @@ final class Environment {
     return $router;
   }
 
-  private function initializeTwig(ContainerInterface $container): TwigEnvironment {
-    $container->setParameter('templates_path', $this->root . '/app/templates');
-
-    return $container->get('twig_environment');
-  }
-
   private function initializeSchema(ContainerInterface $container): StorageSchemaCollection {
     $yaml = new YamlSymfony();
     $stream = new LocalReadOnlyFile($this->root . '/app/config/schema.yml');
@@ -158,6 +152,18 @@ final class Environment {
     $schema = $schema_collection_factory->create($yaml->decode($stream->read()));
 
     return $schema;
+  }
+
+  private function initializeTwig(ContainerInterface $container): TwigEnvironment {
+    $container->setParameter('templates_path', $this->root . '/app/templates');
+
+    return $container->get('twig');
+  }
+
+  private function initializeSession(ContainerInterface $container) {
+    $session = $container->get('session');
+
+    $session->start();
   }
 
 }
