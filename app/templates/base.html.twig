@@ -22,6 +22,9 @@
       </div>
       <div class="content">
         <h2>{{ title }}</h2>
+        {% if not messages is empty %}
+          <div class="messages">{{ messages }}</div>
+        {% endif %}
         {% block content %}
         {% endblock %}
       </div>
