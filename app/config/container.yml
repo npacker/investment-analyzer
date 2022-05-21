@@ -1,9 +1,10 @@
 services:
-  schema_collection_factory:
-    class: App\Storage\Schema\StorageSchemaCollectionFactory
   database_factory:
     class: App\Storage\Database\DatabaseFactory
     arguments: ['@settings']
+  messenger:
+    class: App\Messenger\Messenger
+    arguments: ['@session']
   route_escaped_factory:
     class: App\Router\EscapedRoutePathFactory
   route_pattern_factory:
@@ -15,6 +16,8 @@ services:
   route_collection_factory:
     class: App\Router\RouteCollectionFactory
     arguments: ['@route_factory']
+  schema_collection_factory:
+    class: App\Storage\Schema\StorageSchemaCollectionFactory
   session:
     class: App\Http\Session
   twig_loader:

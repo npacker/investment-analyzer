@@ -41,6 +41,9 @@ final class Environment {
     $routes = $this->initializeRoutes($container);
     $twig = $this->initializeTwig($container);
     $app = new App($this->autoloader, $container, $settings, $routes, $twig);
+    $session = $container->get('session');
+
+    $session->start();
 
     return $app;
   }

@@ -2,9 +2,10 @@
 
 namespace App\Http;
 
+use App\Http\SessionInterface;
 use RuntimeException;
 
-final class Session {
+final class Session implements SessionInterface {
 
   private array $storage = [];
 
@@ -56,7 +57,7 @@ final class Session {
     }
   }
 
-  public function get(string $name) {
+  public function &get(string $name) {
     return $this->storage[$name];
   }
 
