@@ -9,9 +9,6 @@ use App\Controller\AbstractController;
 final class FundsController extends AbstractController {
 
   public function view(RequestInterface $request) {
-    $session = $this->container->get('session');
-    $messenger = $this->container->get('messenger');
-    $messenger->set('Hello World');
     return new HttpResponse($this->render('funds.html.twig', [
       'title' => 'Funds',
     ]));
