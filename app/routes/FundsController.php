@@ -37,6 +37,8 @@ final class FundsController extends AbstractController {
   }
 
   public function createSubmit(RequestInterface $request) {
+    $this->messenger->set('Created new fund.');
+
     return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => '/funds/create']);
   }
 
