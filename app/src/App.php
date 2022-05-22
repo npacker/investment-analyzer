@@ -49,10 +49,8 @@ final class App {
 
     $twig = $this->container->get('twig');
     $context = new Context($request, $this);
-    $messenger = $this->container->get('messenger');
 
     $twig->addGlobal('app', $context);
-    $twig->addGlobal('messenger', $messenger);
 
     try {
       $match = $this->routes->match($request);

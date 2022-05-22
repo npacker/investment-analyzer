@@ -57,25 +57,24 @@ final class Environment {
       try {
         $schema_collection->build();
         $messenger->set('Installation completed successfuly.');
+
+        $context = new Context($request, $app);
+
+        return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $context->baseUrl()]);
       }
       catch (\Exception $e) {
-        $messenger->set('Installation failed to complete.', MessengerInterface::TYPE_ERROR);
+        $messenger->set($e->getMessage(), MessengerInterface::TYPE_ERROR);
       }
-
-      $context = new Context($request, $app);
-
-      return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $context->baseUrl()]);
     }
-    else {
-      $schema_collection_definition = $schema_collection->definition();
-      $schema_definitions = $schema_collection_definition->schema();
-      $twig = $app->container()->get('twig');
 
-      return new HttpResponse($twig->render('schema.html.twig', [
-        'title' => 'Install',
-        'schema_definitions' => $schema_definitions,
-      ]));
-    }
+    $schema_collection_definition = $schema_collection->definition();
+    $schema_definitions = $schema_collection_definition->schema();
+    $twig = $app->container()->get('twig');
+
+    return new HttpResponse($twig->render('schema.html.twig', [
+      'title' => 'Install',
+      'schema_definitions' => $schema_definitions,
+    ]));
   }
 
   public function fatalErrorHandler() {
@@ -165,6 +164,11 @@ final class Environment {
 
   private function initializeTwig(ContainerInterface $container): void {
     $container->setParameter('templates_path', $this->root . '/app/templates');
+
+    $messenger = $container->get('messenger');
+    $twig = $container->get('twig');
+
+    $twig->addGlobal('messenger', $messenger);
   }
 
   private function initializeSession(ContainerInterface $container): void {
