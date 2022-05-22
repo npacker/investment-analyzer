@@ -12,11 +12,11 @@ final class SqlFundPositionStorageSchema extends SqlStorage {
                 fund VARCHAR(15) NOT NULL,
                 security VARCHAR(15) NOT NULL,
                 weight DECIMAL(12,9) NOT NULL,
-                PRIMARY KEY (fund, security)
+                PRIMARY KEY (fund, security),
                 CONSTRAINT fk_fund_position__fund
                   FOREIGN KEY (fund) REFERENCES fund (symbol)
                   ON DELETE CASCADE
-                  ON UPDATE CASCADE
+                  ON UPDATE CASCADE,
                 CONSTRAINT fk_fund_position__security
                   FOREIGN KEY (security) REFERENCES security (symbol)
                   ON DELETE CASCADE
