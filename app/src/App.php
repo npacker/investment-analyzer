@@ -62,11 +62,11 @@ final class App {
       $action = $route->action();
     }
     catch (RouteNotFoundException $e) {
-      $controller = '\App\Controller\NotFoundController';
+      $controller = 'App\Controller\NotFoundController';
       $action = 'view';
     }
 
-    $instance = new $controller($this->container);
+    $instance = $controller::create($this->container);
 
     return $instance->{$action}($request);
   }

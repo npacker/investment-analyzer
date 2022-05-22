@@ -15,7 +15,7 @@ final class PortfoliosController extends AbstractController {
     ]));
   }
 
-  public function create(RequestInterface $request) {
+  public function createView(RequestInterface $request) {
     return new HttpResponse($this->render('portfolios/create.html.twig', [
       'title' => 'Create Portfolio',
     ]));

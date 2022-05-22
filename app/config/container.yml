@@ -2,6 +2,9 @@ services:
   database_factory:
     class: App\Storage\Database\DatabaseFactory
     arguments: ['@settings']
+  fund_storage:
+    class: App\Storage\Sql\SqlFundStorage
+    arguments: ['@database']
   messenger:
     class: App\Messenger\Messenger
     arguments: ['@session']

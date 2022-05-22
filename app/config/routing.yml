@@ -1,32 +1,42 @@
 main:
   path: /
-  controller: \App\Route\MainController
+  controller: App\Route\MainController
   action: view
 portfolios_view:
   path: /portfolios
-  controller: \App\Route\PortfoliosController
+  controller: App\Route\PortfoliosController
   action: view
-portfolios_create:
+portfolios_create_view:
   path: /portfolios/create
-  controller: \App\Route\PortfoliosController
-  action: create
+  controller: App\Route\PortfoliosController
+  action: createView
+portfolios_create_submit:
+  path: /portfolios/create
+  controller: App\Route\PortfoliosController
+  action: createSubmit
+  methods: [POST]
 funds_view:
   path: /funds
-  controller: \App\Route\FundsController
+  controller: App\Route\FundsController
   action: view
-funds_edit:
+funds_edit_view:
   path: /funds/{name}/edit
-  controller: \App\Route\FundsController
-  action: edit
-funds_create:
+  controller: App\Route\FundsController
+  action: editView
+funds_create_view:
   path: /funds/create
-  controller: \App\Route\FundsController
-  action: create
+  controller: App\Route\FundsController
+  action: createView
+funds_create_submit:
+  path: /funds/create
+  controller: App\Route\FundsController
+  action: createSubmit
+  methods: [POST]
 securities_view:
   path: /securities
-  controller: \App\Route\SecuritiesController
+  controller: App\Route\SecuritiesController
   action: view
 overlap_view:
   path: /overlap
-  controller: \App\Route\OverlapController
+  controller: App\Route\OverlapController
   action: view

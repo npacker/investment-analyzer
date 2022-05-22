@@ -6,6 +6,6 @@ use App\Container\ContainerInterface;
 
 interface ContainerInjectionInterface {
 
-  public function create(ContainerInterface $container);
+  public static function create(ContainerInterface $container);
 
 }

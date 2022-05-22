@@ -2,11 +2,27 @@
 
 namespace App\Route;
 
-use App\Http\RequestInterface;
-use App\Http\HttpResponse;
+use App\Container\ContainerInterface;
 use App\Controller\AbstractController;
+use App\Http\HttpResponse;
+use App\Http\RequestInterface;
+use App\Storage\FundStorageInterface;
 
 final class FundsController extends AbstractController {
+
+  private FundStorageInterface $storage;
+
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+
+    $instance->setStorage($container->get('fund_storage'));
+
+    return $instance;
+  }
+
+  public function setStorage(FundStorageInterface $storage) {
+    $this->storage = $storage;
+  }
 
   public function view(RequestInterface $request) {
     return new HttpResponse($this->render('funds.html.twig', [
@@ -14,10 +30,14 @@ final class FundsController extends AbstractController {
     ]));
   }
 
-  public function create(RequestInterface $request) {
+  public function createView(RequestInterface $request) {
     return new HttpResponse($this->render('funds/create.html.twig', [
       'title' => 'Create Fund',
     ]));
+  }
+
+  public function createSubmit(RequestInterface $request) {
+    return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => '/funds/create']);
   }
 
 }
