@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\App;
 use App\Container\ContainerInterface;
 use App\Controller\ControllerInterface;
-use Twig\Environment as TwigEnvironment;
+use App\Render\TemplateFacadeInterface;
 
 abstract class AbstractController implements ControllerInterface {
 
@@ -15,8 +15,20 @@ abstract class AbstractController implements ControllerInterface {
     $this->container = $container;
   }
 
-  protected function twig(): TwigEnvironment {
-    return $this->container->get('twig');
+  protected function template(string $name): TemplateFacadeInterface {
+    $factory = $this->container->get('template_factory');
+
+    return $factory->load($name);
+  }
+
+  protected function render(string $name, array $variables): string {
+    $template = $this->template($name);
+
+    foreach ($variables as $name => $value) {
+      $template->set($name, $value);
+    }
+
+    return $template->render();
   }
 
 }

@@ -12,13 +12,13 @@ final class FundsController extends AbstractController {
     $session = $this->container->get('session');
     $messenger = $this->container->get('messenger');
     $messenger->set('Hello World');
-    return new HttpResponse($this->twig()->render('funds.html.twig', [
+    return new HttpResponse($this->render('funds.html.twig', [
       'title' => 'Funds',
     ]));
   }
 
   public function create(RequestInterface $request) {
-    return new HttpResponse($this->twig()->render('funds/create.html.twig', [
+    return new HttpResponse($this->render('funds/create.html.twig', [
       'title' => 'Create Fund',
     ]));
   }

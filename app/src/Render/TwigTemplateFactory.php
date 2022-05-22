@@ -3,6 +3,7 @@
 namespace App\Render;
 
 use App\Render\TemplateFacadeInterface;
+use App\Render\TemplateFactoryInterface;
 use Twig\Environment as TwigEnvironment;
 
 final class TwigTemplateFactory implements TemplateFactoryInterface {

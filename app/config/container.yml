@@ -20,6 +20,9 @@ services:
     class: App\Storage\Schema\StorageSchemaCollectionFactory
   session:
     class: App\Http\Session
+  template_factory:
+    class: App\Render\TwigTemplateFactory
+    arguments: ['@twig']
   twig_loader:
     class: Twig\Loader\FilesystemLoader
     arguments: ['%templates_path%']

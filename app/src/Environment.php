@@ -154,11 +154,11 @@ final class Environment {
     return $schema;
   }
 
-  private function initializeTwig(ContainerInterface $container): TwigEnvironment {
+  private function initializeTwig(ContainerInterface $container): void {
     $container->setParameter('templates_path', $this->root . '/app/templates');
   }
 
-  private function initializeSession(ContainerInterface $container) {
+  private function initializeSession(ContainerInterface $container): void {
     $session = $container->get('session');
 
     $session->start();
