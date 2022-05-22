@@ -211,3 +211,35 @@ input {
   background: #555;
   color: #eee;
 }
+
+.messages ul {
+  list-style: none;
+  padding: 0;
+  font-size: 90%;
+  font-weight: 500;
+}
+
+.messages li {
+  padding: 1em;
+  border-style: solid;
+  border-width: 3px;
+  border-left-width: 8px;
+}
+
+.messages.status li {
+  background: #c0e8ca;
+  border-color: #9cd5aa;
+  color: #285e35;
+}
+
+.messages.warning li {
+  background: #e8e2c0;
+  border-color: #d5c79c;
+  color: #5e5628;
+}
+
+.messages.error li {
+  background: #e8c0c0;
+  border-color: #d59c9c;
+  color: #5e2828;
+}
