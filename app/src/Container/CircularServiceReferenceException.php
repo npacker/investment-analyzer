@@ -2,6 +2,4 @@
 
 namespace App\Container;
 
-use Exception;
-
-class CircularServiceReferenceException extends Exception {}
+class CircularServiceReferenceException extends \Exception {}

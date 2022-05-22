@@ -9,6 +9,7 @@ use App\Container\ContainerInterface;
 use App\Http\HttpResponse;
 use App\Http\RequestInterface;
 use App\Http\ResponseInterface;
+use App\Messenger\MessengerInterface;
 use App\Router\RouteCollection;
 use App\Serialization\YamlSymfony;
 use App\Settings;
@@ -51,7 +52,15 @@ final class Environment {
     $schema_collection = $this->initializeSchema($app->container());
 
     if ($request->server('REQUEST_METHOD') === 'POST') {
-      // $schema_collection->build();
+      $messenger = $app->container()->get('messenger');
+
+      try {
+        // $schema_collection->build();
+        $messenger->set('Installation completed successfuly.');
+      }
+      catch (\Exception $e) {
+        $messenger->set('Installation failed to complete.', MessengerInterface::TYPE_ERROR);
+      }
 
       $context = new Context($request, $app);
 
