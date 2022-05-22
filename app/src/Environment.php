@@ -55,7 +55,7 @@ final class Environment {
       $messenger = $app->container()->get('messenger');
 
       try {
-        // $schema_collection->build();
+        $schema_collection->build();
         $messenger->set('Installation completed successfuly.');
       }
       catch (\Exception $e) {

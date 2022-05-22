@@ -1,12 +1,12 @@
 {% set messages = messenger.all() %}
 {% if not messages is empty %}
-  <div class="messages status">
-    <ul>
-      {% for type in messages %}
-        {% for message in type %}
+  {% for type, messages_of_type in messages %}
+    <div class="messages {{ type }}">
+      <ul>
+        {% for message in messages_of_type %}
           <li>{{ message }}</li>
         {% endfor %}
-      {% endfor %}
-    </ul>
-  </div>
+      </ul>
+    </div>
+  {% endfor %}
 {% endif %}

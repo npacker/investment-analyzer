@@ -18,6 +18,7 @@ services:
     arguments: ['@route_factory']
   schema_collection_factory:
     class: App\Storage\Schema\StorageSchemaCollectionFactory
+    arguments: ['@database_factory']
   session:
     class: App\Http\Session
   template_factory:

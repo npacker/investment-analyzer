@@ -2,6 +2,8 @@
 
 namespace App\Storage\Sql\Schema;
 
+use App\Storage\Sql\SqlStorage;
+
 final class SqlFundStorageSchema extends SqlStorage {
 
   public function build() {

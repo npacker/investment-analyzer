@@ -2,13 +2,16 @@
 
 namespace App\Storage\Schema;
 
-use PDOException;
+use PDO;
 
 final class StorageSchemaCollection {
 
+  private PDO $handle;
+
   private StorageSchemaCollectionDefinition $definition;
 
-  public function __construct(StorageSchemaCollectionDefinition $definition) {
+  public function __construct(PDO $handle, StorageSchemaCollectionDefinition $definition) {
+    $this->handle = $handle;
     $this->definition = $definition;
   }
 
@@ -17,13 +20,11 @@ final class StorageSchemaCollection {
   }
 
   public function build() {
-    foreach ($this->definition->schema() as $name => $class) {
-      $instance = new $class();
+    foreach ($this->definition->schema() as $name => $storage_schema_definition) {
+      $class = $storage_schema_definition->class();
+      $instance = new $class($this->handle);
 
-      try {
-        $instance->build();
-      }
-      catch (PDOException $e) { }
+      $instance->build();
     }
   }
 
