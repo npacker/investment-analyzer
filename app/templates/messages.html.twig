@@ -4,7 +4,7 @@
     <div class="messages {{ type }}">
       <ul>
         {% for message in messages_of_type %}
-          <li>{{ message }}</li>
+          <li>{{ message|striptags('<br><strong><em>')|raw }}</li>
         {% endfor %}
       </ul>
     </div>

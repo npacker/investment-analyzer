@@ -179,13 +179,16 @@ label {
 }
 
 input {
+  background: #fff;
+  border: 2px solid #ddd;
   padding: .5em;
   margin: 0 0 .5em 0;
   font-family: inherit;
   font-size: inherit;
 }
 
-[type=text] {
+[type=text],
+[type=file] {
   margin-bottom: 1.5em;
 }
 
@@ -212,11 +215,22 @@ input {
   color: #eee;
 }
 
+.operations {
+  display: flex;
+  flex-direction: row;
+}
+
+.operations input {
+  margin: 0 1em 0 0;
+  padding-top: .75em;
+  padding-bottom: .75em;
+}
+
 .messages ul {
   list-style: none;
   padding: 0;
   font-size: 90%;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .messages li {

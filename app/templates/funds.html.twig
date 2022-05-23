@@ -11,11 +11,16 @@
       {% for fund in funds %}
         <td>{{ fund.symbol }}</td>
         <td>{{ fund.name }}</td>
-        <td></td>
+        <td>
+          <div class="operations">
+            <input type="button" value="Edit" onclick="window.location.href='/funds/{{ fund.symbol }}/edit'">
+            <input type="button" value="Delete">
+          </div>
+        </td>
       {% endfor %}
     </tbody>
   </table>
   <div>
-    <input type="button" value="Create Fund" onclick="window.location.href='funds/create'">
+    <input type="button" value="Create Fund" onclick="window.location.href='/funds/create'">
   </div>
 {% endblock %}

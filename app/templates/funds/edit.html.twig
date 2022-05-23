@@ -2,10 +2,8 @@
 
 {% block content %}
   <form method="post">
-    <label for="symbol">Symbol</label>
-    <input type="text" name="symbol" size="40" required>
     <label for="name">Name</label>
-    <input type="text" name="name" size="40" required>
+    <input type="text" name="name" value="{{ name }}" size="40" required>
     <label for="positions">Positions</label>
     <input type="file" name="positions" accept=".csv">
     <div class="form-actions">

@@ -20,9 +20,14 @@ funds_view:
   controller: App\Route\FundsController
   action: view
 funds_edit_view:
-  path: /funds/{name}/edit
+  path: /funds/{symbol}/edit
   controller: App\Route\FundsController
   action: editView
+funds_edit_submit:
+  path: /funds/{symbol}/edit
+  controller: App\Route\FundsController
+  action: editSubmit
+  methods: [POST]
 funds_create_view:
   path: /funds/create
   controller: App\Route\FundsController
