@@ -215,15 +215,24 @@ input {
   color: #eee;
 }
 
+.name {
+  max-width: 100%;
+}
+
 .operations {
   display: flex;
   flex-direction: row;
+  font-size: 85%;
 }
 
 .operations input {
   margin: 0 1em 0 0;
-  padding-top: .75em;
-  padding-bottom: .75em;
+  padding-top: .65em;
+  padding-bottom: .65em;
+}
+
+.operations input:last-child {
+  margin: 0;
 }
 
 .messages ul {
