@@ -6,6 +6,16 @@ use App\Storage\FundStorageInterface;
 
 final class SqlFundStorage extends SqlStorage implements FundStorageInterface {
 
+  public function all(): array {
+    $query = 'SELECT symbol, name
+              FROM fund';
+
+    $statement = $this->handle->prepare($query);
+    $statement->execute();
+
+    return $statement->fetchAll();
+  }
+
   public function find(string $symbol) {
     $query = 'SELECT name
               FROM fund
@@ -54,16 +64,6 @@ final class SqlFundStorage extends SqlStorage implements FundStorageInterface {
     $statement->execute();
 
     return $statement->rowCount();
-  }
-
-  public function all(): array {
-    $query = 'SELECT symbol, name
-              FROM fund';
-
-    $statement = $this->handle->prepare($query);
-    $statement->execute();
-
-    return $statement->fetchAll();
   }
 
 }

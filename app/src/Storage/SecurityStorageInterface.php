@@ -4,7 +4,9 @@ namespace App\Storage;
 
 interface SecurityStorageInterface {
 
-  public function find(string $symbol);
+  public function all(): array;
+
+  public function find(string $symbol): array;
 
   public function create(string $symbol, string $name): int;
 

@@ -4,8 +4,10 @@ namespace App\Storage;
 
 interface FundPositionStorageInterface {
 
-  public function create(string $fund, string $security, string $weight);
+  public function all(): array;
 
-  public function delete(string $fund, string $security);
+  public function create(string $fund, string $security, string $weight): int;
+
+  public function delete(string $fund, string $security): int;
 
 }

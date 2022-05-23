@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+  <table>
+    <thead>
+      <th>Security</th>
+      <th>Name</th>
+      <th>Weight</th>
+    </thead>
+    <tbody>
+      {% for position in positions %}
+        <tr>
+          <td class="security">{{ position.security }}</td>
+          <td class="name">{{ position.name }}</td>
+          <td class="weight">{{ position.weight }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

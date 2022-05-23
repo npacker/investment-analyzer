@@ -14,7 +14,7 @@ interface RequestInterface {
 
   public function cookie(string $name): ?string;
 
-  public function files(string $name): ?string;
+  public function files(string $name): ?array;
 
   public function path(): string;
 

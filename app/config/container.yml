@@ -8,6 +8,9 @@ services:
   security_storage:
     class: App\Storage\Sql\SqlSecurityStorage
     arguments: ['@database']
+  fund_position_storage:
+    class: App\Storage\Sql\SqlFundPositionStorage
+    arguments: ['@database']
   messenger:
     class: App\Messenger\Messenger
     arguments: ['@session']

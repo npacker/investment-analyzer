@@ -50,8 +50,8 @@ class EmptyRequest implements RequestInterface {
     return $this->cookie[$name] ?? null;
   }
 
-  public function files(string $name): ?string {
-    return $this->cookie[$name] ?? null;
+  public function files(string $name): ?array {
+    return $this->files[$name] ?? null;
   }
 
   public function path(): string {

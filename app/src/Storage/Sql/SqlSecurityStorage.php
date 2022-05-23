@@ -4,9 +4,19 @@ namespace App\Storage\Sql;
 
 use App\Storage\SecurityStorageInterface;
 
-final class SqlSecurityStorage implements SecurityStorageInterface {
+final class SqlSecurityStorage extends SqlStorage implements SecurityStorageInterface {
 
-  public function find(string $symbol) {
+  public function all(): array {
+    $query = 'SELECT symbol, name
+              FROM security';
+
+    $statement = $this->handle->prepare($query);
+    $statement->execute();
+
+    return $statement->fetchAll();
+  }
+
+  public function find(string $symbol): array {
     $query = 'SELECT symbol, name
               FROM security
               WHERE symbol = :symbol';
@@ -22,13 +32,14 @@ final class SqlSecurityStorage implements SecurityStorageInterface {
     $query = 'INSERT INTO security
               (symbol, name)
               VALUES
-              (:symbol, :name)
+              (:symbol, :name1)
               ON DUPLICATE KEY UPDATE
-              name = :name';
+              name = :name2';
 
     $statement = $this->handle->prepare($query);
     $statement->bindParam('symbol', $symbol);
-    $statement->bindParam('name', $name);
+    $statement->bindParam('name1', $name);
+    $statement->bindParam('name2', $name);
     $statement->execute();
 
     return $this->handle->lastInsertId();

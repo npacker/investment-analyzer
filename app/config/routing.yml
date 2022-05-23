@@ -16,9 +16,13 @@ portfolios_create_submit:
   action: createSubmit
   methods: [POST]
 funds_view:
-  path: /funds
+  path: /funds/{symbol}
   controller: App\Route\FundsController
   action: view
+funds_view_all:
+  path: /funds
+  controller: App\Route\FundsController
+  action: viewAll
 funds_edit_view:
   path: /funds/{symbol}/edit
   controller: App\Route\FundsController
