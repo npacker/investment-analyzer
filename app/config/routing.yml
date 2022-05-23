@@ -1,11 +1,3 @@
-main:
-  path: /
-  controller: App\Route\MainController
-  action: view
-portfolios_view:
-  path: /portfolios
-  controller: App\Route\PortfoliosController
-  action: view
 portfolios_create_view:
   path: /portfolios/create
   controller: App\Route\PortfoliosController
@@ -15,14 +7,10 @@ portfolios_create_submit:
   controller: App\Route\PortfoliosController
   action: createSubmit
   methods: [POST]
-funds_view:
-  path: /funds/{symbol}
-  controller: App\Route\FundsController
+portfolios_view:
+  path: /portfolios
+  controller: App\Route\PortfoliosController
   action: view
-funds_view_all:
-  path: /funds
-  controller: App\Route\FundsController
-  action: viewAll
 funds_edit_view:
   path: /funds/{symbol}/edit
   controller: App\Route\FundsController
@@ -41,6 +29,14 @@ funds_create_submit:
   controller: App\Route\FundsController
   action: createSubmit
   methods: [POST]
+funds_view:
+  path: /funds/{symbol}
+  controller: App\Route\FundsController
+  action: view
+funds_view_all:
+  path: /funds
+  controller: App\Route\FundsController
+  action: viewAll
 securities_view:
   path: /securities
   controller: App\Route\SecuritiesController
@@ -48,4 +44,8 @@ securities_view:
 overlap_view:
   path: /overlap
   controller: App\Route\OverlapController
+  action: view
+main:
+  path: /
+  controller: App\Route\MainController
   action: view
