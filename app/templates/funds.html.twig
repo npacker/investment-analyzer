@@ -12,11 +12,17 @@
         <tr>
           <td class="symbol">{{ fund.symbol }}</td>
           <td class="name">{{ fund.name }}</td>
-          <td>
-            <div class="operations">
-              <input type="button" value="Positions" onclick="window.location.href='/funds/{{ fund.symbol }}'">
-              <input type="button" value="Edit" onclick="window.location.href='/funds/{{ fund.symbol }}/edit'">
-              <input type="button" value="Delete">
+          <td class="operations">
+            <div>
+              <button type="button" onclick="window.location.href='/funds/{{ fund.symbol }}'">
+                <i class="material-icons">article</i>Positions
+              </button>
+              <button type="button" onclick="window.location.href='/funds/{{ fund.symbol }}/edit'">
+                <i class="material-icons">edit</i>Edit
+              </button>
+              <button type="button">
+                <i class="material-icons">delete</i>Delete
+              </button>
             </div>
           </td>
         </tr>

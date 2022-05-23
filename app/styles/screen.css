@@ -30,6 +30,7 @@ h1 {
   border-right: 35px solid #777;
   display: flex;
   flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: center;
 }
@@ -178,6 +179,18 @@ label {
   font-weight: normal;
 }
 
+[type=checkbox] {
+  margin-right: 1ex;
+}
+
+.checkbox {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 input {
   background: #fff;
   border: 2px solid #ddd;
@@ -220,19 +233,32 @@ input {
 }
 
 .operations {
+  min-width: 5%;
+}
+
+.operations div {
   display: flex;
   flex-direction: row;
   font-size: 85%;
 }
 
-.operations input {
+.operations [type=button] {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
   margin: 0 1em 0 0;
-  padding-top: .65em;
-  padding-bottom: .65em;
+  padding: .55em 1em;
 }
 
-.operations input:last-child {
+.operations [type=button]:last-child {
   margin: 0;
+}
+
+.operations .material-icons {
+  font-size: 120%;
+  margin-right: .5ex;
 }
 
 .messages ul {
