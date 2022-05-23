@@ -228,8 +228,16 @@ input {
   color: #eee;
 }
 
+.symbol {
+  min-width: 1%;
+}
+
 .name {
   max-width: 100%;
+}
+
+.weight {
+  min-width: 1%;
 }
 
 .operations {

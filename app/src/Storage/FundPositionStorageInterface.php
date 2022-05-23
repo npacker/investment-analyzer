@@ -10,4 +10,6 @@ interface FundPositionStorageInterface {
 
   public function delete(string $fund, string $security): int;
 
+  public function deletebyFund(string $fund): int;
+
 }

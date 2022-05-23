@@ -3,8 +3,8 @@
 {% block content %}
   <table>
     <thead>
-      <th>Name</th>
       <th>Symbol</th>
+      <th>Name</th>
       <th>Operations</th>
     </thead>
     <tbody>
@@ -20,7 +20,7 @@
               <button type="button" onclick="window.location.href='/funds/{{ fund.symbol }}/edit'">
                 <i class="material-icons">edit</i>Edit
               </button>
-              <button type="button">
+              <button type="button" onclick="window.location.href='/funds/{{ fund.symbol }}/delete'">
                 <i class="material-icons">delete</i>Delete
               </button>
             </div>

@@ -29,6 +29,10 @@ final class Messenger implements MessengerInterface {
     $this->session->set('messages', $messages);
   }
 
+  public function setError(string $message): void {
+    $this->set($message, MessengerInterface::TYPE_ERROR);
+  }
+
   public function all(): array {
     $messages = $this->session->get('messages') ?? [];
 

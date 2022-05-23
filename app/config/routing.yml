@@ -20,6 +20,15 @@ funds_edit_submit:
   controller: App\Route\FundsController
   action: editSubmit
   methods: [POST]
+funds_delete_confirm:
+  path: /funds/{symbol}/delete
+  controller: App\Route\FundsController
+  action: deleteConfirm
+funds_delete_submit:
+  path: /funds/{symbol}/delete
+  controller: App\Route\FundsController
+  action: deleteSubmit
+  methods: [POST]
 funds_create_view:
   path: /funds/create
   controller: App\Route\FundsController

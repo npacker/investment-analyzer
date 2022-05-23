@@ -68,4 +68,15 @@ final class SqlFundPositionStorage extends SqlStorage implements FundPositionSto
     return $statement->rowCount();
   }
 
+  public function deleteByFund(string $fund): int {
+    $query = 'DELETE FROM fund_position
+              WHERE fund = :fund';
+
+    $statement = $this->handle->prepare($query);
+    $statement->bindParam('fund', $fund);
+    $statement->execute();
+
+    return $statement->rowCount();
+  }
+
 }

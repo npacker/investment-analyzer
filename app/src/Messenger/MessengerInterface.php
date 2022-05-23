@@ -12,6 +12,8 @@ interface MessengerInterface {
 
   public function set(string $message, string $type = self::TYPE_STATUS): void;
 
+  public function setError(string $message): void;
+
   public function all(): array;
 
 }

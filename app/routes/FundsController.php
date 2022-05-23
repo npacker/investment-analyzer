@@ -47,7 +47,7 @@ final class FundsController extends AbstractController {
       $positions = $this->fundPositionStorage->find($symbol);
     }
     catch (\Exception $e) {
-      $this->messenger->set($e->getMessage(), MessengerInterface::TYPE_ERROR);
+      $this->messenger->setError($e->getMessage());
     }
 
     try {
@@ -55,7 +55,7 @@ final class FundsController extends AbstractController {
       $name = $fund['name'];
     }
     catch (\Exception $e) {
-      $this->messenger->set($e->getMessage(), MessengerInterface::TYPE_ERROR);
+      $this->messenger->setError($e->getMessage());
     }
 
     return new HttpResponse($this->render('funds/view.html.twig', [
@@ -88,7 +88,7 @@ final class FundsController extends AbstractController {
       $this->messenger->set(sprintf("Created new fund <strong>%s</strong>.", $name));
     }
     catch (\Exception $e) {
-      $this->messenger->set($e->getMessage(), MessageInterface::TYPE_ERROR);
+      $this->messenger->setError($e->getMessage());
     }
 
     return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => '/funds/create']);
@@ -111,12 +111,21 @@ final class FundsController extends AbstractController {
     $symbol = $parameters['symbol'];
     $name = $request->post('name');
 
+    if ($request->post('replace_positions')) {
+      try {
+        $this->fundPositionStorage->deleteByFund($symbol);
+      }
+      catch (\Exception $e) {
+        $this->messenger->setError($e->getMessage());
+      }
+    }
+
     try {
       $this->fundStorage->update($symbol, $name);
       $this->messenger->set(sprintf("Updated fund <strong>%s</strong>.", $name));
     }
     catch (\Exception $e) {
-      $this->messenger->set($e->getMessage(), MessengerInterface::TYPE_ERROR);
+      $this->messenger->setError($e->getMessage());
     }
 
     $positions = $request->files('positions');
@@ -135,10 +144,18 @@ final class FundsController extends AbstractController {
         $this->fundPositionStorage->create($fund_symbol, $security_symbol, $security_weight);
       }
       catch (\Exception $e) {
-        $this->messenger->set(sprintf("Error while adding position %s: ", $security_symbol) . $e->getMessage(), MessengerInterface::TYPE_ERROR);
+        $this->messenger->setError(sprintf("Error while adding position %s: ", $security_symbol) . $e->getMessage());
       }
     }
 
+    return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => '/funds']);
+  }
+
+  public function deleteConfirm(RequestInterface $request) {
+    return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => '/funds']);
+  }
+
+  public function deleteSubmit(RequestInterface $request) {
     return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => '/funds']);
   }
 
