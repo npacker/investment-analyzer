@@ -4,8 +4,10 @@ namespace App\Storage;
 
 interface SecurityStorageInterface {
 
-  public function create(string $symbol, string $name);
+  public function find(string $symbol);
 
-  public function delete(string $symbol);
+  public function create(string $symbol, string $name): int;
+
+  public function delete(string $symbol): int;
 
 }
