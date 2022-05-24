@@ -133,7 +133,7 @@ final class FundsController extends AbstractController {
     $positions = $request->files('positions');
     $file = new FileLinesAsCsv($positions['tmp_name']);
 
-    foreach ($file as $position => $line) {
+    foreach ($file as $line) {
       try {
         $this->securityStorage->create($line['Security'], $line['Name']);
         $this->fundPositionStorage->create($symbol, $line['Security'], $line['Weight']);
