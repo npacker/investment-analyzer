@@ -42,6 +42,12 @@ final class SecuritiesController extends AbstractController {
   }
 
   public function deleteSubmit(RequestInterface $request) {
+    $symbol = $this->routeMatch->parameters('symbol');
+    $security = $this->securityStorage->find($symbol);
+
+    $this->securityStorage->delete($symbol);
+    $this->messenger->set('Deleted security ' . $symbol . ': ' . $security['name'] . '.');
+
     return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => '/securities']);
   }
 
