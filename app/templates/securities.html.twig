@@ -5,12 +5,23 @@
     <thead>
       <th>Symbol</th>
       <th>Name</th>
+      <th>Operations</th>
     </thead>
     <tbody>
       {% for security in securities %}
         <tr>
           <td class="symbol">{{ security.symbol }}</td>
           <td class="name">{{ security.name }}</td>
+          <td class="operations">
+            <div>
+              <button type="button" onclick="window.location.href='{{ app.baseUrl() }}/securities/{{ security.symbol }}/edit'">
+                <i class="material-icons">edit</i>Edit
+              </button>
+              <button type="button" onclick="window.location.href='{{ app.baseUrl() }}/securities/{{ security.symbol }}/delete'">
+                <i class="material-icons">delete</i>Delete
+              </button>
+            </div>
+          </td>
         </tr>
       {% endfor %}
     </tbody>
