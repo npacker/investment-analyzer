@@ -6,7 +6,7 @@ use App\Stream\StreamableInterface;
 
 final class LocalReadOnlyFile implements StreamableInterface {
 
-  private $path;
+  private string $path;
 
   public function __construct(string $path) {
     $this->path = $path;

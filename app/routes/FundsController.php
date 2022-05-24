@@ -10,6 +10,7 @@ use App\Messenger\MessengerInterface;
 use App\Storage\FundPositionStorageInterface;
 use App\Storage\FundStorageInterface;
 use App\Storage\SecurityStorageInterface;
+use App\Stream\FileLinesAsCsv;
 
 final class FundsController extends AbstractController {
 
@@ -40,8 +41,7 @@ final class FundsController extends AbstractController {
   }
 
   public function view(RequestInterface $request) {
-    $parameters = $this->routeMatch->parameters();
-    $symbol = $parameters['symbol'];
+    $symbol = $this->routeMatch->parameters('symbol');
 
     try {
       $positions = $this->fundPositionStorage->find($symbol);
@@ -56,6 +56,10 @@ final class FundsController extends AbstractController {
     }
     catch (\Exception $e) {
       $this->messenger->setError($e->getMessage());
+    }
+
+    foreach ($positions as &$position) {
+      $position['weight'] = number_format($position['weight'], 2) . '%';
     }
 
     return new HttpResponse($this->render('funds/view.html.twig', [
@@ -95,8 +99,7 @@ final class FundsController extends AbstractController {
   }
 
   public function editView(RequestInterface $request) {
-    $parameters = $this->routeMatch->parameters();
-    $symbol = $parameters['symbol'];
+    $symbol = $this->routeMatch->parameters('symbol');
     $fund = $this->fundStorage->find($symbol);
     $name = $fund['name'];
 
@@ -107,8 +110,7 @@ final class FundsController extends AbstractController {
   }
 
   public function editSubmit(RequestInterface $request) {
-    $parameters = $this->routeMatch->parameters();
-    $symbol = $parameters['symbol'];
+    $symbol = $this->routeMatch->parameters('symbol');
     $name = $request->post('name');
 
     if ($request->post('replace_positions')) {
@@ -129,22 +131,15 @@ final class FundsController extends AbstractController {
     }
 
     $positions = $request->files('positions');
-    $stream = fopen($positions['tmp_name'], 'r');
+    $file = new FileLinesAsCsv($positions['tmp_name']);
 
-    fgets($stream);
-
-    while ($line = array_combine(['Fund', 'Security', 'Weight', 'Name'], fgetcsv($stream, 100))) {
-      $fund_symbol = $line['Fund'];
-      $security_symbol = $line['Security'];
-      $security_weight = $line['Weight'];
-      $security_name = $line['Name'];
-
+    foreach ($file as $position => $line) {
       try {
-        $this->securityStorage->create($security_symbol, $security_name);
-        $this->fundPositionStorage->create($fund_symbol, $security_symbol, $security_weight);
+        $this->securityStorage->create($line['Security'], $line['Name']);
+        $this->fundPositionStorage->create($symbol, $line['Security'], $line['Weight']);
       }
       catch (\Exception $e) {
-        $this->messenger->setError(sprintf("Error while adding position %s: ", $security_symbol) . $e->getMessage());
+        $this->messenger->setError(sprintf("Error while adding position %s: ", $line['Security']) . $e->getMessage());
       }
     }
 

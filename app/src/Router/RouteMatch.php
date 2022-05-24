@@ -23,8 +23,13 @@ final class RouteMatch implements RouteMatchInterface {
     return $this->route;
   }
 
-  public function parameters(): array {
-    return $this->parameters;
+  public function parameters(?string $name) {
+    if (isset($name)) {
+      return $this->parameters[$name] ?? null;
+    }
+    else {
+      return $this->parameters;
+    }
   }
 
   public function success(): bool {

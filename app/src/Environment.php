@@ -86,7 +86,7 @@ final class Environment {
       case E_ERROR:
       case E_PARSE:
       case E_USER_ERROR:
-        $this->cleanAllBuffers();
+        // $this->cleanAllBuffers();
         printf('<pre><strong>Fatal error</strong>: %s in %s on line %d</pre>', $error['message'], $error['file'], $error['line']);
         exit();
     }
@@ -99,7 +99,7 @@ final class Environment {
   }
 
   public function exceptionHandler(Exception $e) {
-    $this->cleanAllBuffers();
+    // $this->cleanAllBuffers();
     printf('<pre><strong>Uncaught exception:</strong> %s on line %d of %s</pre>', $e->getMessage(), $e->getLine(), $e->getFile());
     exit();
   }

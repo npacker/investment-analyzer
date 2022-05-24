@@ -8,7 +8,7 @@ interface RouteMatchInterface {
 
   public function route(): RouteInterface;
 
-  public function parameters(): array;
+  public function parameters(?string $name);
 
   public function success(): bool;
 
