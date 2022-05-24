@@ -12,7 +12,7 @@
         <tr>
           <td class="symbol">{{ position.security }}</td>
           <td class="name">{{ position.name }}</td>
-          <td class="weight">{{ position.weight }}</td>
+          <td class="weight">{{ position.weight|number_format(2) }}%</td>
         </tr>
       {% endfor %}
     </tbody>

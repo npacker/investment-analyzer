@@ -58,10 +58,6 @@ final class FundsController extends AbstractController {
       $this->messenger->setError($e->getMessage());
     }
 
-    foreach ($positions as &$position) {
-      $position['weight'] = number_format($position['weight'], 2) . '%';
-    }
-
     return new HttpResponse($this->render('funds/view.html.twig', [
       'title' => $symbol . ': ' . $name,
       'positions' => $positions,
@@ -134,6 +130,10 @@ final class FundsController extends AbstractController {
     $file = new FileLinesAsCsv($positions['tmp_name']);
 
     foreach ($file as $line) {
+      if (empty(trim($line['Security']))) {
+        continue;
+      }
+
       try {
         $this->securityStorage->create($line['Security'], $line['Name']);
         $this->fundPositionStorage->create($symbol, $line['Security'], $line['Weight']);

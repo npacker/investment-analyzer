@@ -4,20 +4,26 @@
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Investments Analyzer</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{{ app.baseUrl }}/app/styles/screen.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript">
-      window.settings = Object.freeze({{ app.settings.window ?? []|json_encode() }});
-    </script>
-    <!--<script type="text/javascript" src="{{ app.baseUrl }}/scripts/app.js"></script>-->
+    {% block fonts %}
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {% endblock %}
+    {% block stylesheets %}
+      <link href="{{ app.baseUrl }}/app/styles/screen.css" rel="stylesheet" type="text/css">
+    {% endblock %}
+    {% block javascripts %}
+      <script type="text/javascript">
+        window.settings = Object.freeze({{ app.settings.window ?? []|json_encode() }});
+      </script>
+      <!--<script type="text/javascript" src="{{ app.baseUrl }}/scripts/app.js"></script>-->
+    {% endblock %}
   </head>
   <body>
     <main>
       <div class="menu">
         {% block menu %}
-        {% include 'menu.html.twig' %}
+          {% include 'menu.html.twig' %}
         {% endblock %}
       </div>
       <div class="content">
