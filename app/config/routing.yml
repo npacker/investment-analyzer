@@ -46,6 +46,15 @@ funds_view_all:
   path: /funds
   controller: App\Route\FundsController
   action: viewAll
+securities_delete_confirm:
+  path: /securities/{symbol}/delete
+  controller: App\Route\SecuritiesController
+  action: deleteConfirm
+securities_delete_submit:
+  path: /securities/{symbol}/delete
+  controller: App\Route\SecuritiesController
+  action: deleteSubmit
+  methods: [POST]
 securities_view:
   path: /securities
   controller: App\Route\SecuritiesController

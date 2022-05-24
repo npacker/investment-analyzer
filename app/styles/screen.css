@@ -300,3 +300,8 @@ input {
   border-color: #d59c9c;
   color: #5e2828;
 }
+
+.confirm {
+  background: transparent;
+  padding: 2em 0;
+}

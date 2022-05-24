@@ -33,4 +33,16 @@ final class SecuritiesController extends AbstractController {
     ]));
   }
 
+  public function deleteConfirm(RequestInterface $request) {
+    $symbol = $this->routeMatch->parameters('symbol');
+
+    return new HttpResponse($this->render('securities/delete.html.twig', [
+      'title' => 'Delete security ' . $symbol . '?',
+    ]));
+  }
+
+  public function deleteSubmit(RequestInterface $request) {
+    return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => '/securities']);
+  }
+
 }
