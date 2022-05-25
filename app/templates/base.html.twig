@@ -10,13 +10,13 @@
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     {% endblock %}
     {% block stylesheets %}
-      <link href="{{ app.baseUrl }}/app/styles/screen.css" rel="stylesheet" type="text/css">
+      <link href="{{ urlFromPath('/app/styles/screen.css') }}" rel="stylesheet" type="text/css">
     {% endblock %}
     {% block javascripts_head %}
       <script type="text/javascript">
         window.settings = Object.freeze({{ app.settings.window ?? []|json_encode() }});
       </script>
-      <!--<script type="text/javascript" src="{{ app.baseUrl }}/scripts/app.js"></script>-->
+      <!--<script type="text/javascript" src="{{ urlFromPath('/scripts/app.js') }}"></script>-->
     {% endblock %}
   </head>
   <body>

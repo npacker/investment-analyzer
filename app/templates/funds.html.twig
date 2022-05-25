@@ -14,13 +14,13 @@
           <td class="name">{{ fund.name }}</td>
           <td class="operations">
             <div>
-              <button type="button" onclick="window.location.href='{{ app.baseUrl() }}/funds/{{ fund.symbol }}'">
+                <button type="button" onclick="window.location.href='{{ urlFromPath('/funds/' ~ fund.symbol) }}'">
                 <i class="material-icons">article</i>Positions
               </button>
-              <button type="button" onclick="window.location.href='{{ app.baseUrl() }}/funds/{{ fund.symbol }}/edit'">
+              <button type="button" onclick="window.location.href='{{ urlFromPath('/funds/' ~ fund.symbol ~ '/edit') }}'">
                 <i class="material-icons">edit</i>Edit
               </button>
-              <button type="button" onclick="window.location.href='{{ app.baseUrl() }}/funds/{{ fund.symbol }}/delete'">
+              <button type="button" onclick="window.location.href='{{ urlFromPath('/funds/' ~ fund.symbol ~ '/delete') }}'">
                 <i class="material-icons">delete</i>Delete
               </button>
             </div>

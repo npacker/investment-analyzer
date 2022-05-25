@@ -3,40 +3,30 @@
 namespace App;
 
 use App\Http\RequestInterface;
+use App\Router\RouteCollection;
+use App\Settings;
 
 final class Context {
 
-  private $request;
+  private App $app;
 
-  private $app;
+  private RequestInterface $request;
 
-  public function __construct(RequestInterface $request, App $app) {
-    $this->request = $request;
+  public function __construct(App $app, RequestInterface $request) {
     $this->app = $app;
+    $this->request = $request;
   }
 
-  public function request() {
+  public function request(): RequestInterface {
     return $this->request;
   }
 
-  public function settings() {
+  public function settings(): Settings {
     return $this->app->settings();
   }
 
-  public function routes() {
+  public function routes(): RouteCollection {
     return $this->app->routes();
-  }
-
-  public function baseUrl() {
-    static $base_url;
-
-    if (!isset($base_url)) {
-      $scheme = $this->request->server('REQUEST_SCHEME');
-      $host = $this->request->server('HTTP_HOST');
-      $base_url = $scheme . '://' . $host;
-    }
-
-    return $base_url;
   }
 
 }

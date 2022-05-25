@@ -6,6 +6,7 @@ use App\App;
 use App\Container\Container;
 use App\Container\ContainerDefinition;
 use App\Container\ContainerInterface;
+use App\Context;
 use App\Http\HttpResponse;
 use App\Http\RequestInterface;
 use App\Http\ResponseInterface;
@@ -16,6 +17,7 @@ use App\Settings;
 use App\Storage\Schema\StorageSchemaCollection;
 use App\Stream\LocalReadOnlyFile;
 use App\Stream\StreamableInterface;
+use App\UrlFactory;
 use Twig\Environment as TwigEnvironment;
 
 final class Environment {
@@ -58,9 +60,10 @@ final class Environment {
         $schema_collection->build();
         $messenger->set('Installation completed successfuly.');
 
-        $context = new Context($request, $app);
+        $context = new Context($app, $request);
+        $url_factory = new UrlFactory($context);
 
-        return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $context->baseUrl()]);
+        return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $url_factory->baseUrl()]);
       }
       catch (\Exception $e) {
         $messenger->set($e->getMessage(), MessengerInterface::TYPE_ERROR);

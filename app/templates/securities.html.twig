@@ -14,10 +14,10 @@
           <td class="name">{{ security.name }}</td>
           <td class="operations">
             <div>
-              <button type="button" onclick="window.location.href='{{ app.baseUrl() }}/securities/{{ security.symbol }}/edit'">
+              <button type="button" onclick="window.location.href='{{ urlFromPath('/securities/' ~ security.symbol ~ '/edit') }}'">
                 <i class="material-icons">edit</i>Edit
               </button>
-              <button type="button" onclick="window.location.href='{{ app.baseUrl() }}/securities/{{ security.symbol }}/delete'">
+              <button type="button" onclick="window.location.href='{{ urlFromPath('/securities/' ~ security.symbol ~ '/delete') }}'">
                 <i class="material-icons">delete</i>Delete
               </button>
             </div>

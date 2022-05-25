@@ -7,7 +7,7 @@ portfolios_create_submit:
   controller: App\Route\PortfoliosController
   action: createSubmit
   methods: [POST]
-portfolios_view:
+portfolios_view_all:
   path: /portfolios
   controller: App\Route\PortfoliosController
   action: view
@@ -55,11 +55,11 @@ securities_delete_submit:
   controller: App\Route\SecuritiesController
   action: deleteSubmit
   methods: [POST]
-securities_view:
+securities_view_all:
   path: /securities
   controller: App\Route\SecuritiesController
   action: view
-overlap_view:
+overlap_view_all:
   path: /overlap
   controller: App\Route\OverlapController
   action: view

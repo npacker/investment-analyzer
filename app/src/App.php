@@ -6,9 +6,11 @@ use App\Container\ContainerInterface;
 use App\Context;
 use App\Http\RequestInterface;
 use App\Http\ResponseInterface;
+use App\Render\Twig\RuntimeTwigExtension;
 use App\Router\RequestMatchingInterface;
 use App\Router\RouteNotFoundException;
 use App\Settings;
+use App\UrlFactory;
 
 final class App {
 
@@ -42,15 +44,11 @@ final class App {
   }
 
   public function handle(RequestInterface $request): ResponseInterface {
-    $database_factory = $this->container->get('database_factory');
-    $database = $database_factory->getInstance();
-
-    $this->container->set('database', $database);
-
+    $context = new Context($this, $request);
+    $url_factory = new UrlFactory($context);
     $twig = $this->container->get('twig');
-    $context = new Context($request, $this);
 
-    $twig->addGlobal('app', $context);
+    $twig->addExtension(new RunTimeTwigExtension($context, $url_factory));
 
     try {
       $match = $this->routes->match($request);
@@ -60,6 +58,8 @@ final class App {
       $route = $match->route();
       $controller = $route->controller();
       $action = $route->action();
+
+      $this->initializeDatabase();
     }
     catch (RouteNotFoundException $e) {
       $controller = 'App\Controller\NotFoundController';
@@ -69,6 +69,13 @@ final class App {
     $instance = $controller::create($this->container);
 
     return $instance->{$action}($request);
+  }
+
+  private function initializeDatabase(): void {
+    $database_factory = $this->container->get('database_factory');
+    $database = $database_factory->getInstance();
+
+    $this->container->set('database', $database);
   }
 
 }
