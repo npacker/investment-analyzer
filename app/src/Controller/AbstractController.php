@@ -10,6 +10,7 @@ use App\Messenger\MessengerInterface;
 use App\Render\TemplateFacadeInterface;
 use App\Render\TemplateFactoryInterface;
 use App\Router\RouteMatchInterface;
+use App\UrlFactory;
 
 abstract class AbstractController implements ControllerInterface, ContainerInjectionInterface {
 
@@ -19,17 +20,19 @@ abstract class AbstractController implements ControllerInterface, ContainerInjec
 
   protected RouteMatchInterface $routeMatch;
 
-  public function __construct(TemplateFactoryInterface $template_factory, MessengerInterface $messenger, RouteMatchInterface $route_match) {
+  public function __construct(TemplateFactoryInterface $template_factory, MessengerInterface $messenger, RouteMatchInterface $route_match, UrlFactory $url_factory) {
     $this->templateFactory = $template_factory;
     $this->messenger = $messenger;
     $this->routeMatch = $route_match;
+    $this->urlFactory = $url_factory;
   }
 
   public static function create(ContainerInterface $container) {
     return new static($container
       ->get('template_factory'), $container
       ->get('messenger'), $container
-      ->get('route_match'));
+      ->get('route_match'), $container
+      ->get('url_factory'));
   }
 
   protected function template(string $name): TemplateFacadeInterface {

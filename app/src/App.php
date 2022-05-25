@@ -44,21 +44,20 @@ final class App {
   }
 
   public function handle(RequestInterface $request): ResponseInterface {
+    $twig = $this->container->get('twig');
     $context = new Context($this, $request);
     $url_factory = new UrlFactory($context);
-    $twig = $this->container->get('twig');
 
     $twig->addExtension(new RunTimeTwigExtension($context, $url_factory));
 
     try {
       $match = $this->routes->match($request);
-
-      $this->container->set('route_match', $match);
-
       $route = $match->route();
       $controller = $route->controller();
       $action = $route->action();
 
+      $this->container->set('route_match', $match);
+      $this->container->set('url_factory', $url_factory);
       $this->initializeDatabase();
     }
     catch (RouteNotFoundException $e) {

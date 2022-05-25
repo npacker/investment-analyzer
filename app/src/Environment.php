@@ -11,6 +11,7 @@ use App\Http\HttpResponse;
 use App\Http\RequestInterface;
 use App\Http\ResponseInterface;
 use App\Messenger\MessengerInterface;
+use App\Render\Twig\BootstrapTwigExtension;
 use App\Router\RouteCollection;
 use App\Serialization\YamlSymfony;
 use App\Settings;
@@ -66,7 +67,7 @@ final class Environment {
         return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $url_factory->baseUrl()]);
       }
       catch (\Exception $e) {
-        $messenger->set($e->getMessage(), MessengerInterface::TYPE_ERROR);
+        $messenger->setError($e->getMessage());
       }
     }
 
@@ -171,7 +172,7 @@ final class Environment {
     $messenger = $container->get('messenger');
     $twig = $container->get('twig');
 
-    $twig->addGlobal('messenger', $messenger);
+    $twig->addExtension(new BootstrapTwigExtension($messenger));
   }
 
   private function initializeSession(ContainerInterface $container): void {
