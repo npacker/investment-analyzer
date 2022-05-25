@@ -4,7 +4,20 @@
     <div class="messages {{ type }}">
       <ul>
         {% for message in messages_of_type %}
-          <li>{{ message|striptags('<br><strong><em>')|raw }}</li>
+          <li>
+            {% apply spaceless %}
+            <i class="material-icons">
+              {% if type == 'status' %}
+                info
+              {% elseif type == 'warning' %}
+                report_problem
+              {% else %}
+                dangerous
+              {% endif %}
+            </i>
+            {% endapply %}
+            {{ message|striptags('<br><strong><em>')|raw }}
+          </li>
         {% endfor %}
       </ul>
     </div>

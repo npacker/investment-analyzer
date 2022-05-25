@@ -12,7 +12,7 @@
     {% block stylesheets %}
       <link href="{{ app.baseUrl }}/app/styles/screen.css" rel="stylesheet" type="text/css">
     {% endblock %}
-    {% block javascripts %}
+    {% block javascripts_head %}
       <script type="text/javascript">
         window.settings = Object.freeze({{ app.settings.window ?? []|json_encode() }});
       </script>
@@ -34,4 +34,6 @@
       </div>
     </main>
   </body>
+  {% block javascripts_foot %}
+  {% endblock %}
 </html>

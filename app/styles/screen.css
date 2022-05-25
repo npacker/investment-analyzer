@@ -161,12 +161,15 @@ a:hover, a:focus, a:active {
 }
 
 form {
+  display: table;
   background: #eee;
   padding: 2em;
 }
 
 .form-actions {
-  margin: 1em 0 0 0;
+  margin: 1.5em 0 0 0;
+  padding-top: 2em;
+  border-top: 1px solid #ccc;
 }
 
 .form-actions input {
@@ -208,7 +211,7 @@ input {
 [type=button],
 [type=submit] {
   display: block;
-  padding: 1em 2em;
+  padding: .75em 2em;
   margin-bottom: 0;
   background: #ddd;
   color: #333;
@@ -242,21 +245,22 @@ input {
 
 .operations {
   min-width: 5%;
+  padding: .5em;
 }
 
 .operations div {
   display: flex;
   flex-direction: row;
-  font-size: 85%;
 }
 
 .operations [type=button] {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  font-size: 85%;
   justify-content: flex-start;
   align-items: center;
-  margin: 0 1em 0 0;
+  margin: 0 .5rem 0 0;
   padding: .55em 1em;
 }
 
@@ -269,6 +273,15 @@ input {
   margin-right: .5ex;
 }
 
+.messages .material-icons {
+  font-size: 150%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: .5em;
+}
+
 .messages ul {
   list-style: none;
   padding: 0;
@@ -277,10 +290,12 @@ input {
 }
 
 .messages li {
+  position: relative;
   padding: 1em;
   border-style: solid;
   border-width: 3px;
   border-left-width: 8px;
+  padding-left: 2.5em;
 }
 
 .messages.status li {
