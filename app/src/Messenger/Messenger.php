@@ -29,6 +29,10 @@ final class Messenger implements MessengerInterface {
     $this->session->set('messages', $messages);
   }
 
+  public function setWarning(string $message): void {
+    $this->set($message, MessengerInterface::TYPE_WARNING);
+  }
+
   public function setError(string $message): void {
     $this->set($message, MessengerInterface::TYPE_ERROR);
   }
@@ -39,6 +43,10 @@ final class Messenger implements MessengerInterface {
     $this->session->remove('messages');
 
     return $messages;
+  }
+
+  public function clear(): void {
+    $this->session->remove('messages');
   }
 
 }
