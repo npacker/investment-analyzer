@@ -27,7 +27,7 @@ final class UrlFactory {
     $query = http_build_query($parameters);
     $url = $this->baseUrl() . $path;
 
-    return ($query) ? $url . $query : $url;
+    return ($query) ? $url . '?' . $query : $url;
   }
 
   public function baseUrl(): string {
