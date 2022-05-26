@@ -1,0 +1,25 @@
+{
+  "name": "investments",
+  "version": "1.0.0",
+  "description": "An app build in a custom PHP framework.",
+  "private": true,
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/npacker/investment-analyzer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/npacker/investment-analyzer/issues"
+  },
+  "homepage": "https://github.com/npacker/investment-analyzer#readme",
+  "devDependencies": {
+    "css-loader": "^6.7.1",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2"
+  }
+}
