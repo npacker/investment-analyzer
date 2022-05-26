@@ -27,7 +27,7 @@ h1 {
   font-size: 140%;
   background: #eee;
   color: #333;
-  border-right: 35px solid #777;
+  border-right: 50px solid #777;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -36,7 +36,7 @@ h1 {
 }
 
 h1 .material-icons {
-  font-size: 150%;
+  font-size: 200%;
   display: block;
   margin-right: 0.5ex;
 }
@@ -128,12 +128,14 @@ a:hover, a:focus, a:active {
 
 .menu {
   order: 1;
-  width: 15%;
-  min-width: 250px;
+  width: 350px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-evenly;
   background: #333;
+  transition: width .5s ease;
 }
 
 .menu ul {
@@ -145,6 +147,12 @@ a:hover, a:focus, a:active {
   background: #333;
   margin: 0;
   padding: 1em;
+  width: 100%;
+  border-bottom: 1px solid #666;
+}
+
+.menu ul * {
+  transition: opacity .5s ease;
 }
 
 .menu li {
@@ -160,6 +168,27 @@ a:hover, a:focus, a:active {
   text-decoration: none;
   background: #ddd;
   color: #333;
+}
+
+.menu.hidden {
+  width: 50px;
+}
+
+.menu.hidden ul * {
+  opacity: 0;
+}
+
+button.menu-toggle,
+button.menu-toggle:hover,
+button.menu-toggle:active {
+  background: transparent;
+  color: #ddd;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 form {
