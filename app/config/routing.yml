@@ -55,10 +55,14 @@ securities_delete_submit:
   controller: App\Route\SecuritiesController
   action: deleteSubmit
   methods: [POST]
+securities_view:
+  path: /securities/{symbol}
+  controller: App\Route\SecuritiesController
+  action: view
 securities_view_all:
   path: /securities
   controller: App\Route\SecuritiesController
-  action: view
+  action: viewAll
 overlap_view_all:
   path: /overlap
   controller: App\Route\OverlapController

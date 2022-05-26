@@ -25,6 +25,16 @@ final class SecuritiesController extends AbstractController {
   }
 
   public function view(RequestInterface $request) {
+    $symbol = $this->routeMatch->parameters('symbol');
+    $security = $this->securityStorage->find($symbol);
+    $name = $security['name'];
+
+    return new HttpResponse($this->render('securities/view.html.twig', [
+      'title' => $symbol . ': ' . ucwords(strtolower($name)),
+    ]));
+  }
+
+  public function viewAll(RequestInterface $request) {
     $securities = $this->securityStorage->all();
 
     return new HttpResponse($this->render('securities.html.twig', [

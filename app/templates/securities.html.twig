@@ -11,7 +11,11 @@
       {% for security in securities %}
         <tr>
           <td class="symbol">{{ security.symbol }}</td>
-          <td class="name">{{ security.name }}</td>
+          <td class="name">
+            <a href="{{ urlFromPath('/securities/' ~ security.symbol) }}">
+              {{ security.name }}
+            </a>
+          </td>
           <td class="operations">
             <div>
               <button type="button" onclick="window.location.href='{{ urlFromPath('/securities/' ~ security.symbol ~ '/edit') }}'">
