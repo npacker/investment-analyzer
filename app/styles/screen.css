@@ -53,6 +53,7 @@ main {
 }
 
 .content {
+  order: 2;
   flex-grow: 1;
   padding: 4em;
   padding-top: 5em;
@@ -126,6 +127,7 @@ a:hover, a:focus, a:active {
 }
 
 .menu {
+  order: 1;
   width: 15%;
   min-width: 250px;
   flex-shrink: 0;

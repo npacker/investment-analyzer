@@ -14,7 +14,7 @@
           <td class="name">{{ fund.name }}</td>
           <td class="operations">
             <div>
-                <button type="button" onclick="window.location.href='{{ urlFromPath('/funds/' ~ fund.symbol) }}'">
+              <button type="button" onclick="window.location.href='{{ urlFromPath('/funds/' ~ fund.symbol) }}'">
                 <i class="material-icons">article</i>Positions
               </button>
               <button type="button" onclick="window.location.href='{{ urlFromPath('/funds/' ~ fund.symbol ~ '/edit') }}'">
@@ -30,6 +30,6 @@
     </tbody>
   </table>
   <div>
-    <input type="button" value="Create Fund" onclick="window.location.href='/funds/create'">
+    <input type="button" value="Create Fund" onclick="window.location.href='{{ url('funds_create_view') }}'">
   </div>
 {% endblock %}

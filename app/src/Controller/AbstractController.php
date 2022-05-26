@@ -6,6 +6,8 @@ use App\App;
 use App\Container\ContainerInjectionInterface;
 use App\Container\ContainerInterface;
 use App\Controller\ControllerInterface;
+use App\Http\ResponseInterface;
+use App\Http\HttpResponse;
 use App\Messenger\MessengerInterface;
 use App\Render\TemplateFacadeInterface;
 use App\Render\TemplateFactoryInterface;
@@ -20,7 +22,7 @@ abstract class AbstractController implements ControllerInterface, ContainerInjec
 
   protected RouteMatchInterface $routeMatch;
 
-  public function __construct(TemplateFactoryInterface $template_factory, MessengerInterface $messenger, RouteMatchInterface $route_match, UrlFactory $url_factory) {
+  final public function __construct(TemplateFactoryInterface $template_factory, MessengerInterface $messenger, RouteMatchInterface $route_match, UrlFactory $url_factory) {
     $this->templateFactory = $template_factory;
     $this->messenger = $messenger;
     $this->routeMatch = $route_match;
@@ -35,11 +37,11 @@ abstract class AbstractController implements ControllerInterface, ContainerInjec
       ->get('url_factory'));
   }
 
-  protected function template(string $name): TemplateFacadeInterface {
+  final protected function template(string $name): TemplateFacadeInterface {
     return $this->templateFactory->load($name);
   }
 
-  protected function render(string $name, array $variables): string {
+  final protected function render(string $name, array $variables): string {
     $template = $this->template($name);
 
     foreach ($variables as $name => $value) {
@@ -47,6 +49,14 @@ abstract class AbstractController implements ControllerInterface, ContainerInjec
     }
 
     return $template->render();
+  }
+
+  final protected function url(string $name): string {
+    return $this->urlFactory->urlFromRoute($name);
+  }
+
+  final protected function redirect(string $url): ResponseInterface {
+    return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $url]);
   }
 
 }

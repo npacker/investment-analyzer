@@ -48,7 +48,7 @@ final class SecuritiesController extends AbstractController {
     $this->securityStorage->delete($symbol);
     $this->messenger->set('Deleted security ' . $symbol . ': ' . $security['name'] . '.');
 
-    return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => '/securities']);
+    return $this->redirect($this->url('securities_view_all'));
   }
 
 }

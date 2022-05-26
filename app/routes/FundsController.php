@@ -91,7 +91,7 @@ final class FundsController extends AbstractController {
       $this->messenger->setError($e->getMessage());
     }
 
-    return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => '/funds/create']);
+    return $this->redirect($this->url('funds_create_view'));
   }
 
   public function editView(RequestInterface $request) {
@@ -143,15 +143,15 @@ final class FundsController extends AbstractController {
       }
     }
 
-    return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => '/funds']);
+    return $this->redirect($this->url('funds_view_all'));
   }
 
   public function deleteConfirm(RequestInterface $request) {
-    return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => '/funds']);
+    return $this->redirect($this->url('funds_view_all'));
   }
 
   public function deleteSubmit(RequestInterface $request) {
-    return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => '/funds']);
+    return $this->redirect($this->url('funds_view_all'));
   }
 
 }
