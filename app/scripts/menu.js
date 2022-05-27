@@ -4,5 +4,5 @@ const menu = document.querySelector('.menu');
 
 toggle.onclick = () => {
   menu.classList.toggle('hidden');
-  content.classList.toggle('no-menu');
+  content.classList.toggle('menu-hidden');
 };

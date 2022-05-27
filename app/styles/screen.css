@@ -62,7 +62,7 @@ main {
   transition: margin .5s ease, width .5s ease;
 }
 
-.content.no-menu {
+.content.menu-hidden {
   margin-left: 50px;
 }
 
@@ -246,6 +246,7 @@ input {
 [type=text],
 [type=file] {
   margin-bottom: 1.5em;
+  width: 100%;
 }
 
 [type=button],
