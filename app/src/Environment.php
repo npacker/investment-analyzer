@@ -12,6 +12,7 @@ use App\Http\RequestInterface;
 use App\Http\ResponseInterface;
 use App\Messenger\MessengerInterface;
 use App\Render\Twig\BootstrapTwigExtension;
+use App\Render\Twig\RuntimeTwigExtension;
 use App\Router\RouteCollection;
 use App\Serialization\YamlSymfony;
 use App\Settings;
@@ -51,7 +52,13 @@ final class Environment {
     return $app;
   }
 
-  public function install(RequestInterface $request, App $app): ResponseInterface {
+  public function install(App $app, RequestInterface $request): ResponseInterface {
+    $context = new Context($app, $request);
+    $url_factory = new UrlFactory($context);
+    $twig = $app->container()->get('twig');
+
+    $twig->addExtension(new RuntimeTwigExtension($context, $url_factory));
+
     $schema_collection = $this->initializeSchema($app->container());
 
     if ($request->server('REQUEST_METHOD') === 'POST') {
@@ -60,9 +67,6 @@ final class Environment {
       try {
         $schema_collection->build();
         $messenger->set('Installation completed successfuly.');
-
-        $context = new Context($app, $request);
-        $url_factory = new UrlFactory($context);
 
         return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $url_factory->baseUrl()]);
       }
@@ -73,7 +77,6 @@ final class Environment {
 
     $schema_collection_definition = $schema_collection->definition();
     $schema_definitions = $schema_collection_definition->schema();
-    $twig = $app->container()->get('twig');
 
     return new HttpResponse($twig->render('schema.html.twig', [
       'title' => 'Install',

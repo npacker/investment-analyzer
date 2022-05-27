@@ -21,4 +21,8 @@ final class PortfoliosController extends AbstractController {
     ]));
   }
 
+  public function createSubmit(RequestInterface $request) {
+    return $this->redirect($this->url('portfolios_view_all'));
+  }
+
 }

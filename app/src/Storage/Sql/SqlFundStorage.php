@@ -3,6 +3,7 @@
 namespace App\Storage\Sql;
 
 use App\Storage\FundStorageInterface;
+use App\Storage\Sql\SqlStorage;
 
 final class SqlFundStorage extends SqlStorage implements FundStorageInterface {
 
