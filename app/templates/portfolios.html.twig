@@ -4,14 +4,24 @@
   <table>
     <thead>
       <th>Name</th>
-      <th>Positions</th>
       <th>Operations</th>
     </thead>
     <tbody>
       {% for portfolio in portfolios %}
-        <td>{{ portfolio.name }}</td>
-        <td>{{ portfolio.positions }}</td>
-        <td></td>
+        <td class="name">{{ portfolio.name }}</td>
+        <td class="operations">
+          <div>
+            <button type="button" onclick="window.location.href='{{ urlFromPath('/porfolios/' ~ portfolio.id) }}'">
+              <i class="material-icons">article</i>Positions
+            </button>
+            <button type="button" onclick="window.location.href='{{ urlFromPath('/porfolios/' ~ portfolio.id ~ '/edit') }}'">
+              <i class="material-icons">edit</i>Edit
+            </button>
+            <button type="button" onclick="window.location.href='{{ urlFromPath('/porfolios/' ~ portfolio.id ~ '/delete') }}'">
+              <i class="material-icons">delete</i>Delete
+            </button>
+          </div>
+        </td>
       {% endfor %}
     </tbody>
   </table>

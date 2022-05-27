@@ -205,6 +205,7 @@ form {
   display: table;
   background: #eee;
   padding: 2em;
+  min-width: 25%;
 }
 
 .form-actions {
@@ -223,6 +224,7 @@ label {
 }
 
 [type=checkbox] {
+  margin: 0;
   margin-right: 1ex;
 }
 
@@ -232,6 +234,11 @@ label {
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 1.5em;
+}
+
+.checkbox label {
+  margin: 0;
 }
 
 input {
