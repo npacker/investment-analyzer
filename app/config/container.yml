@@ -11,6 +11,9 @@ services:
   fund_position_storage:
     class: App\Storage\Sql\SqlFundPositionStorage
     arguments: ['@database']
+  portfolio_storage:
+    class: App\Storage\Sql\SqlPortfolioStorage
+    arguments: ['@database']
   messenger:
     class: App\Messenger\Messenger
     arguments: ['@session']
