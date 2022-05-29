@@ -10,9 +10,9 @@ final class FileLinesAsCsv implements \Iterator {
 
   private $handle;
 
-  private array $fields;
+  private int $position;
 
-  private int $position = 0;
+  private array $fields;
 
   private $current;
 
@@ -44,6 +44,7 @@ final class FileLinesAsCsv implements \Iterator {
 
     rewind($this->handle);
 
+    $this->position = 0;
     $this->fields = fgetcsv($this->handle, $this->length);
   }
 
