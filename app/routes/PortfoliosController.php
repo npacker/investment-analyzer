@@ -6,16 +6,20 @@ use App\Container\ContainerInterface;
 use App\Controller\AbstractController;
 use App\Http\HttpResponse;
 use App\Http\RequestInterface;
+use App\Storage\FundStorageInterface;
 use App\Storage\PortfolioStorageInterface;
 
 final class PortfoliosController extends AbstractController {
 
   private PortfolioStorageInterface $portfolioStorage;
 
+  private FundStorageInterface $fundStorage;
+
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
 
     $instance->setPortfolioStorage($container->get('portfolio_storage'));
+    $instance->setFundStorage($container->get('fund_storage'));
 
     return $instance;
   }
@@ -24,7 +28,11 @@ final class PortfoliosController extends AbstractController {
     $this->portfolioStorage = $portfolio_storage;
   }
 
-  public function view(RequestInterface $request) {
+  public function setFundStorage(FundStorageInterface $fund_storage) {
+    $this->fundStorage = $fund_storage;
+  }
+
+  public function viewAll(RequestInterface $request) {
     $portfolios = $this->portfolioStorage->all();
 
     return new HttpResponse($this->render('portfolios.html.twig', [
@@ -51,6 +59,19 @@ final class PortfoliosController extends AbstractController {
     }
 
     return $this->redirect($this->url('portfolios_view_all'));
+  }
+
+  public function editView(RequestInterface $request) {
+    $id = $this->routeMatch->parameters('id');
+    $portfolio = $this->portfolioStorage->find($id);
+    $name = $portfolio['name'];
+    $funds = $this->fundStorage->all();
+
+    return new HttpResponse($this->render('portfolios/edit.html.twig', [
+      'title' => 'Edit Portfolio ' . $name,
+      'name' => $name,
+      'funds' => $funds,
+    ]));
   }
 
 }

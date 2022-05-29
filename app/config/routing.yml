@@ -7,10 +7,14 @@ portfolios_create_submit:
   controller: App\Route\PortfoliosController
   action: createSubmit
   methods: [POST]
+portfolios_edit_view:
+  path: /portfolios/{id}/edit
+  controller: App\Route\PortfoliosController
+  action: editView
 portfolios_view_all:
   path: /portfolios
   controller: App\Route\PortfoliosController
-  action: view
+  action: viewAll
 funds_edit_view:
   path: /funds/{symbol}/edit
   controller: App\Route\FundsController

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block page_title %}
+  <h2>Edit Portfolio <em>{{ name }}</em></h2>
+{% endblock %}
+
+{% block content %}
+  <form class="portfolio-form" method="POST">
+    <label for="name">Name</label>
+    <input type="text" name="name" value="{{ name }}" size="40" required>
+    <div class="portfolio-row">
+      <div class="portfolio-position">
+        <label for="position_1">
+          Position 1
+        </label>
+        <select name="position_1">
+          {% for fund in funds %}
+            <option value="{{ fund.symbol }}">{{ fund.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="portfolio-weight">
+        <label for="weight_1">
+          Allocation for Position 1
+        </label>
+        <input type="text" name="weight_1" size="3">
+      </div>
+    </div>
+    <div class="portfolio-row portfolio-totals">
+      <div class="portfolio-weight">
+        <label for="total_weight">
+          Total
+        </label>
+        <input type="text" name="total_weight" readonly>
+      </div>
+    </div>
+    <button type="button">Add Position</button>
+    <div class="form-actions">
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+{% endblock %}

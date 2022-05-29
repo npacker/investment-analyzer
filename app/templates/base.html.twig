@@ -1,3 +1,4 @@
+{% set menu_hidden = app.request().cookie('menu_hidden') %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -13,15 +14,16 @@
     {% block body %}
       <main>
         {% block main %}
-          <div class="content">
+          <div class="content {% if menu_hidden == 'true' %}menu-hidden{% endif %}">
             {% block page_title %}
               <h2>{{ title }}</h2>
             {% endblock %}
             {% include 'messages.html.twig' %}
             {% block content %}
+              {{ content }}
             {% endblock %}
           </div>
-          <div class="menu">
+          <div class="menu {% if menu_hidden == 'true' %}hidden{% endif %}">
             {% block menu %}
               {% include 'menu.html.twig' %}
             {% endblock %}

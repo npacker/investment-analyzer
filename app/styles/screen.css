@@ -241,7 +241,8 @@ label {
   margin: 0;
 }
 
-input {
+input,
+select {
   background: #fff;
   border: 2px solid #ddd;
   padding: .5em;
@@ -250,6 +251,7 @@ input {
   font-size: inherit;
 }
 
+select,
 [type=text],
 [type=file] {
   margin-bottom: 1.5em;
@@ -367,4 +369,33 @@ input {
 .confirm {
   background: transparent;
   padding: 2em 0;
+}
+
+.portfolio-form {
+  width: 50%;
+}
+
+.portfolio-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.portfolio-row > div {
+  padding-right: 1em;
+  flex-grow: 1;
+  max-width: 50%;
+}
+
+.portfolio-row > div:last-child {
+  padding-right: 0;
+}
+
+.portfolio-totals {
+  justify-content: flex-end;
+}
+
+.input-percent::after {
+  content: '%';
 }
