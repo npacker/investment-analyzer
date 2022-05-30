@@ -59,7 +59,8 @@ final class FundsController extends AbstractController {
     }
 
     return new HttpResponse($this->render('funds/view.html.twig', [
-      'title' => $symbol . ': ' . $name,
+      'symbol' => $symbol,
+      'name' => $name,
       'positions' => $positions,
     ]));
   }
@@ -68,15 +69,12 @@ final class FundsController extends AbstractController {
     $funds = $this->fundStorage->all();
 
     return new HttpResponse($this->render('funds.html.twig', [
-      'title' => 'Funds',
       'funds' => $funds,
     ]));
   }
 
   public function createView(RequestInterface $request) {
-    return new HttpResponse($this->render('funds/create.html.twig', [
-      'title' => 'Create Fund',
-    ]));
+    return new HttpResponse($this->render('funds/create.html.twig'));
   }
 
   public function createSubmit(RequestInterface $request) {
@@ -100,8 +98,8 @@ final class FundsController extends AbstractController {
     $name = $fund['name'];
 
     return new HttpResponse($this->render('funds/edit.html.twig', [
-      'title' => 'Edit fund ' . $symbol,
       'name' => $name,
+      'symbol' => $symbol,
     ]));
   }
 

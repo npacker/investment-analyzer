@@ -36,15 +36,12 @@ final class PortfoliosController extends AbstractController {
     $portfolios = $this->portfolioStorage->all();
 
     return new HttpResponse($this->render('portfolios.html.twig', [
-      'title' => 'Portfolios',
       'portfolios' => $portfolios,
     ]));
   }
 
   public function createView(RequestInterface $request) {
-    return new HttpResponse($this->render('portfolios/create.html.twig', [
-      'title' => 'Create Portfolio',
-    ]));
+    return new HttpResponse($this->render('portfolios/create.html.twig'));
   }
 
   public function createSubmit(RequestInterface $request) {
@@ -68,7 +65,6 @@ final class PortfoliosController extends AbstractController {
     $funds = $this->fundStorage->all();
 
     return new HttpResponse($this->render('portfolios/edit.html.twig', [
-      'title' => 'Edit Portfolio ' . $name,
       'name' => $name,
       'funds' => $funds,
     ]));

@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block page_title %}
+  <h2>Edit Fund <em>{{ symbol }}: {{ name }}</em></h2>
+{% endblock %}
+
 {% block content %}
   <form enctype="multipart/form-data" method="POST">
     <label for="name">Name</label>

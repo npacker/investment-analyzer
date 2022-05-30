@@ -41,7 +41,7 @@ abstract class AbstractController implements ControllerInterface, ContainerInjec
     return $this->templateFactory->load($name);
   }
 
-  final protected function render(string $name, array $variables): string {
+  final protected function render(string $name, array $variables = []): string {
     $template = $this->template($name);
 
     foreach ($variables as $name => $value) {
