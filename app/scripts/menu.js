@@ -5,5 +5,5 @@ const menu = document.querySelector('.menu');
 toggle.onclick = () => {
   menu.classList.toggle('hidden');
   content.classList.toggle('menu-hidden');
-  document.cookie = `menu_hidden=${menu.classList.contains('hidden')};path=/`;
+  document.cookie = `menu_hidden=${menu.classList.contains('hidden')};path=/;SameSite=Strict`;
 };

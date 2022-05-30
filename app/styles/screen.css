@@ -375,27 +375,92 @@ select,
   width: 50%;
 }
 
+.portfolio-headers {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  font-weight: 400;
+}
+
 .portfolio-row {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
+  padding: .5em 0;
 }
 
 .portfolio-row > div {
-  padding-right: 1em;
+  padding-right: .5em;
+  padding-left: .5em;
   flex-grow: 1;
-  max-width: 50%;
+  width: 50%;
 }
 
-.portfolio-row > div:last-child {
+.portfolio-row > div:first-of-type {
+  padding-left: 0;
+}
+
+.portfolio-row > div:last-of-type {
   padding-right: 0;
 }
 
+.portfolio-row input,
+.portfolio-row select {
+  margin: 0;
+}
+
 .portfolio-totals {
+  align-items: bottom;
   justify-content: flex-end;
 }
 
-.input-percent::after {
-  content: '%';
+.portfolio-row > button {
+  flex-grow: 0;
+}
+
+.position-delete {
+  display: flex;
+  background: transparent;
+  padding: .25em;
+  padding-right: 0;
+  border: 2px solid transparent;
+}
+
+.position-delete:hover,
+.position-delete:active {
+  background: transparent;
+  color: #666;
+}
+
+.portfolio-row .material-icons {
+  font-size: 150%;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  clip: rect(1px,1px,1px,1px);
+  padding: 0 !important;
+  border: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+
+.drag-handle {
+  color: #666;
+  display: flex;
+  background: transparent;
+  padding: .25em;
+  border: 2px solid transparent;
+  border-right: 0;
+  border-left: 0;
+  padding-left: 0;
+  cursor: move;
+}
+
+.drag-handle:hover,
+.drag-handle:active {
+  background: transparent;
+  color: #666;
 }
