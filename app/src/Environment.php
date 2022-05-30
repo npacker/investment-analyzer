@@ -79,7 +79,6 @@ final class Environment {
     $schema_definitions = $schema_collection_definition->schema();
 
     return new HttpResponse($twig->render('schema.html.twig', [
-      'title' => 'Install',
       'schema_definitions' => $schema_definitions,
     ]));
   }
