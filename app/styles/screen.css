@@ -411,8 +411,9 @@ select,
 }
 
 .portfolio-totals {
-  align-items: bottom;
+  align-items: end;
   justify-content: flex-end;
+  margin-bottom: .5em;
 }
 
 .portfolio-row > button {
