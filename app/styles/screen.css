@@ -449,7 +449,7 @@ select,
 }
 
 .drag-handle {
-  color: #666;
+  color: #aaa;
   display: flex;
   background: transparent;
   padding: .25em;
