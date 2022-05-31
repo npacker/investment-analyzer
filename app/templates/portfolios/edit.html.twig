@@ -34,22 +34,30 @@
         <label for="weight_1" class="visually-hidden">
           Allocation for Position 1
         </label>
-        <input type="text" name="weight_1" size="3">
+        <input type="number" name="weight_1" size="3" min="0" max="100" step="0.1">
+        <span class="input-decorator percent-decorator">%</span>
       </div>
       <button type="button" class="position-delete">
         <i class="material-icons">delete</i>
       </button>
     </div>
     <div class="portfolio-row portfolio-totals">
+      <button type="button" class="drag-handle" disabled>
+        <i class="material-icons">drag_indicator</i>
+      </button>
       <div class="portfolio-actions">
         <button type="button" id="add-position">Add Position</button>
       </div>
       <div class="portfolio-weight">
-        <label for="total_weight">
+        <label class="visually-hidden" for="total_weight">
           Total
         </label>
         <input type="text" name="total_weight" readonly>
+        <span class="input-decorator percent-decorator">%</span>
       </div>
+      <button type="button" class="position-delete" disabled>
+        <i class="material-icons">delete</i>
+      </button>
     </div>
     <div class="form-actions">
       <input type="submit" value="Submit">
@@ -72,7 +80,8 @@
       <div class="portfolio-weight">
         <label class="visually-hidden">
         </label>
-        <input type="text" size="3">
+        <input type="number" size="3" min="0" max="100" step="0.1">
+        <span class="input-decorator percent-decorator">%</span>
       </div>
       <button type="button" class="position-delete">
         <i class="material-icons">delete</i>
