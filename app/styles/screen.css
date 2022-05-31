@@ -434,7 +434,7 @@ select,
 .portfolio-totals {
   align-items: end;
   justify-content: flex-end;
-  margin-bottom: .5em;
+  margin-bottom: 1em;
 }
 
 .portfolio-totals .drag-handle,
