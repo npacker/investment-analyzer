@@ -14,7 +14,7 @@ let last_position_select = null;
 let last_weight = null;
 let last_position = null;
 
-const row_ondrop = event => {
+function row_ondrop(event) {
   event.preventDefault();
 
   dragged = null;
@@ -32,13 +32,13 @@ const row_ondrop = event => {
 
   last_weight = null;
   last_position = null;
-};
+}
 
-const row_ondragover = event => {
+function row_ondragover(event) {
   event.preventDefault();
-};
+}
 
-const row_ondragenter = event => {
+function row_ondragenter(event) {
   event.preventDefault();
 
   event.dataTransfer.dropEffect = 'move';
@@ -79,11 +79,11 @@ const row_ondragenter = event => {
   }
 }
 
-const row_ondragend = event => {
+function row_ondragend(event) {
   event.target.removeAttribute('draggable');
-};
+}
 
-const row_ondragstart = event => {
+function row_ondragstart(event) {
   event.dataTransfer.effectAllowed = 'move';
 
   dragged = event.target;
@@ -101,44 +101,91 @@ const row_ondragstart = event => {
 
   last_weight = dragged_weight;
   last_position = dragged_position;
-};
+}
 
-const delete_button_onclick = event => {
+function delete_button_onclick(event) {
   event.target.parentElement.parentElement.remove();
-};
 
-const drag_handle_onmousedown = event => {
+  const rows = document.querySelectorAll('.portfolio-position-row');
+
+  rows.forEach((row, index) => {
+    const position_select = row.querySelector('.portfolio-position select');
+    const position_label = row.querySelector('.portfolio-position label');
+
+    position_select.setAttribute('name', `position_${index + 1}`);
+    position_label.setAttribute('for', `position_${index + 1}`);
+
+    const weight_input = row.querySelector('.portfolio-weight input');
+    const weight_label = row.querySelector('.portfolio-weight label');
+
+    weight_input.setAttribute('name', `weight_${index + 1}`);
+    weight_label.setAttribute('for', `weight_${index + 1}`);
+  });
+}
+
+function drag_handle_onmousedown(event) {
   event.target.parentElement.parentElement.setAttribute('draggable', true);
-};
+}
 
-const row_init = row => {
+function weight_input_onchange(event) {
+  const input = event.target;
+  const weight_inputs = document.querySelectorAll('.portfolio-position-row .portfolio-weight input');
+
+  let total_weight = 0;
+
+  weight_input.forEach(input => total += input.value);
+
+  weight_total_input.value = total_weight;
+}
+
+function row_init(row) {
   row.ondragstart = row_ondragstart;
   row.ondragend = row_ondragend;
   row.ondragenter = row_ondragenter;
   row.ondragover = row_ondragover;
   row.ondrop = row_ondrop;
-};
+}
 
-const delete_button_init = button => {
+function delete_button_init(button) {
   button.onclick = delete_button_onclick;
-};
+}
 
-const drag_handle_init = handle => {
+function drag_handle_init(handle) {
   handle.onmousedown = drag_handle_onmousedown;
-};
+}
 
 const template = document.querySelector('#portfolio-row');
 const totals = document.querySelector('.portfolio-totals');
+const weight_total_input = document.querySelector('.portfolio-totals .portfolio-weight input');
+
 const add_button = document.querySelector('#add-position');
 
 add_button.onclick = event => {
+  const count = document.querySelectorAll('.portfolio-position-row').length;
+
   const fragment = template.content.cloneNode(true);
   const row = fragment.querySelector('.portfolio-row');
+
+  const position_select = row.querySelector('.portfolio-position select');
+  const position_label = row.querySelector('.portfolio-position label');
+
+  position_select.setAttribute('name', `position_${count + 1}`);
+  position_label.setAttribute('for', `position_${count + 1}`);
+
+  const weight_input = row.querySelector('.portfolio-weight input');
+  const weight_label = row.querySelector('.portfolio-weight label');
+
+  weight_input.setAttribute('name', `weight_${count + 1}`);
+  weight_label.setAttribute('for', `weight_${count + 1}`);
+
+  weight_input.onchange = weight_input_onchange;
+
   const delete_button = row.querySelector('.position-delete');
   const drag_handle = row.querySelector('.drag-handle');
 
   delete_button_init(delete_button);
   drag_handle_init(drag_handle);
+
   row_init(row);
 
   totals.before(row);
