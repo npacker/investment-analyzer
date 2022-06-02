@@ -34,7 +34,7 @@
         <label for="weight_1" class="visually-hidden">
           Allocation for Position 1
         </label>
-        <input type="number" name="weight_1" size="3" min="0" max="100" step="0.1">
+        <input type="number" name="weight_1" size="3" min="0" max="100" step="0.01">
         <span class="input-decorator percent-decorator">%</span>
       </div>
       <button type="button" class="position-delete">
@@ -45,14 +45,12 @@
       <button type="button" class="drag-handle" disabled>
         <i class="material-icons">drag_indicator</i>
       </button>
-      <div class="portfolio-actions">
-        <button type="button" id="add-position">Add Position</button>
-      </div>
+      <div class="portfolio-position"></div>
       <div class="portfolio-weight">
         <label class="visually-hidden" for="total_weight">
           Total
         </label>
-        <input type="text" name="total_weight" readonly>
+        <input type="number" name="total_weight" readonly>
         <span class="input-decorator percent-decorator">%</span>
       </div>
       <button type="button" class="position-delete" disabled>
@@ -61,6 +59,7 @@
     </div>
     <div class="form-actions">
       <input type="submit" value="Submit">
+      <div class="portfolio-actions"></div>
     </div>
   </form>
   <template id="portfolio-row">
@@ -80,7 +79,7 @@
       <div class="portfolio-weight">
         <label class="visually-hidden">
         </label>
-        <input type="number" size="3" min="0" max="100" step="0.1">
+        <input type="number" size="3" min="0" max="100" step="0.01">
         <span class="input-decorator percent-decorator">%</span>
       </div>
       <button type="button" class="position-delete">

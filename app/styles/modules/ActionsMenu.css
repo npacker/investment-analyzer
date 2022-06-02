@@ -1,0 +1,32 @@
+.actions-menu-dropdown {
+  position: absolute;
+  list-style: none;
+  padding: .5em;
+  margin: 0;
+  background: #666;
+}
+
+.actions-menu-item {
+  border-bottom: 1px solid #ddd;
+}
+
+.actions-menu-item:first-of-type {
+  border-top: 1px solid #ddd;
+}
+
+.actions-menu-item button {
+  padding: .5em;
+  background: transparent;
+  display: block;
+  width: 100%;
+  text-align: left;
+  color: #ddd;
+}
+
+.actions-button {
+  line-height: 1;
+}
+
+.dropdown-hidden {
+  display: none;
+}

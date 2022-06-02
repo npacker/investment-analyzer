@@ -52,6 +52,11 @@ main {
   min-height: 100vh;
 }
 
+.material-icons {
+  display: block;
+  font-size: 125%;
+}
+
 .content {
   order: 2;
   flex-grow: 1;
@@ -105,10 +110,6 @@ a:hover, a:focus, a:active {
 
 .before-content .icon-wrapper {
   justify-content: center;
-}
-
-.material-icons {
-  font-size: 32px;
 }
 
 .icon-wrapper {
@@ -209,6 +210,11 @@ form {
 }
 
 .form-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: space-between;
   padding-top: 2em;
   border-top: 1px solid #ccc;
 }
@@ -427,10 +433,6 @@ select,
   text-align: right;
 }
 
-.portfolio-actions {
-  border: 2px solid transparent;
-}
-
 .portfolio-totals {
   align-items: end;
   justify-content: flex-end;
@@ -440,6 +442,10 @@ select,
 .portfolio-totals .drag-handle,
 .portfolio-totals .position-delete {
   visibility: hidden;
+}
+
+.portfolio-totals [type=number] {
+  appearance: textfield;
 }
 
 .position-delete {

@@ -1,3 +1,6 @@
+import * as ReactDOMClient from 'react-dom/client';
+import PortfolioActionsMenu from './components/PortfolioActionsMenu';
+
 let dragged = null;
 
 let dragged_weight_input = null;
@@ -106,7 +109,7 @@ function row_ondragstart(event) {
 function delete_button_onclick(event) {
   event.target.parentElement.parentElement.remove();
 
-  const rows = form.querySelectorAll('.portfolio-position-row');
+  const rows = portfolio_form.querySelectorAll('.portfolio-position-row');
 
   rows.forEach((row, index) => {
     const position_select = row.querySelector('.portfolio-position select');
@@ -132,7 +135,7 @@ function weight_input_onchange(event) {
 
   input.value = parseFloat(parseFloat(input.value || 0.0).toFixed(2)).toString();
 
-  const weight_inputs = form.querySelectorAll('.portfolio-position-row .portfolio-weight input');
+  const weight_inputs = portfolio_form.querySelectorAll('.portfolio-position-row .portfolio-weight input');
 
   let total_weight = 0.0;
 
@@ -166,58 +169,31 @@ function weight_input_init(input) {
   input.onchange = weight_input_onchange;
 }
 
-const form = document.querySelector('.portfolio-form');
-const template = document.querySelector('#portfolio-row');
-const totals = form.querySelector('.portfolio-totals');
-const weight_total_input = form.querySelector('.portfolio-totals .portfolio-weight input');
-
-/*
-const add_button = form.querySelector('#add-position');
-
-add_button.onclick = event => {
-  const count = form.querySelectorAll('.portfolio-position-row').length;
-
-  const fragment = template.content.cloneNode(true);
-  const row = fragment.querySelector('.portfolio-row');
-
-  const position_select = row.querySelector('.portfolio-position select');
-  const position_label = row.querySelector('.portfolio-position label');
-
-  position_select.setAttribute('name', `position_${count + 1}`);
-  position_label.setAttribute('for', `position_${count + 1}`);
-
-  const weight_input = row.querySelector('.portfolio-weight input');
-  const weight_label = row.querySelector('.portfolio-weight label');
-
-  weight_input.setAttribute('name', `weight_${count + 1}`);
-  weight_label.setAttribute('for', `weight_${count + 1}`);
-
-  weight_input.onchange = weight_input_onchange;
-
-  const delete_button = row.querySelector('.position-delete');
-  const drag_handle = row.querySelector('.drag-handle');
-
-  delete_button_init(delete_button);
-  drag_handle_init(drag_handle);
-
-  row_init(row);
-
-  totals.before(row);
-};
-*/
-
-const delete_buttons = form.querySelectorAll('.position-delete');
+const portfolio_form = document.querySelector('.portfolio-form');
+const weight_total_input = portfolio_form.querySelector('.portfolio-totals .portfolio-weight input');
+const delete_buttons = portfolio_form.querySelectorAll('.position-delete');
 
 delete_buttons.forEach(delete_button_init);
 
-const drag_handles = form.querySelectorAll('.drag-handle');
+const drag_handles = portfolio_form.querySelectorAll('.drag-handle');
 
 drag_handles.forEach(drag_handle_init);
 
-const weight_inputs = form.querySelectorAll('.portfolio-position-row .portfolio-weight input');
+const weight_inputs = portfolio_form.querySelectorAll('.portfolio-position-row .portfolio-weight input');
 
 weight_inputs.forEach(weight_input_init);
 
-const rows = form.querySelectorAll('.portfolio-row');
+const rows = portfolio_form.querySelectorAll('.portfolio-row');
 
 rows.forEach(row_init);
+
+const portfolioActionsContainer = portfolio_form.querySelector('.portfolio-actions');
+const portfolioActionsMenuRoot = ReactDOMClient.createRoot(portfolioActionsContainer);
+
+portfolioActionsMenuRoot.render(<PortfolioActionsMenu
+  portfolioForm={portfolio_form}
+  weightInputInit={weight_input_init}
+  deleteButtonInit={delete_button_init}
+  dragHandleInit={drag_handle_init}
+  rowInit={row_init}
+/>);
