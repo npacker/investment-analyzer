@@ -219,6 +219,6 @@ const portfolioActionMenuRoot = ReactDOMClient.createRoot(portfolioActionsContai
 
 portfolioActionMenuRoot.render(
   <ActionMenu>
-    <button type="button" onClick={add_position_button_onclick}>Add Position</button>
+    <ActionMenuItem onClick={add_position_button_onclick}>Add Position</ActionMenuItem>
   </ActionMenu>
 );
