@@ -17,6 +17,8 @@ services:
   messenger:
     class: App\Messenger\Messenger
     arguments: ['@session']
+  json:
+    class: App\Serialization\JsonDefault
   route_escaped_factory:
     class: App\Router\EscapedRoutePathFactory
   route_pattern_factory:
