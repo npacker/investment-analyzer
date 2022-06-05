@@ -78,11 +78,11 @@ const PortfolioEditForm = props => {
                 <i className="material-icons">drag_indicator</i>
               </button>
               <div className="portfolio-position">
-                <label htmlFor={`position[${index}][symbol]`} className="visually-hidden">
+                <label htmlFor={`positions[${index}][symbol]`} className="visually-hidden">
                   Position 1
                 </label>
                 <select
-                  name={`position[${index}][symbol]`}
+                  name={`positions[${index}][symbol]`}
                   onChange={event => handlePositionChange(event, index)}
                   defaultValue={position.symbol}
                 >
@@ -92,12 +92,12 @@ const PortfolioEditForm = props => {
                 </select>
               </div>
               <div className="portfolio-weight">
-                <label htmlFor={`position[${index}][weight]`} className="visually-hidden">
+                <label htmlFor={`positions[${index}][weight]`} className="visually-hidden">
                   Allocation for Position {index}
                 </label>
                 <input
                   type="number"
-                  name={`position[${index}][weight]`}
+                  name={`positions[${index}][weight]`}
                   size="3"
                   min="0"
                   max="100"
