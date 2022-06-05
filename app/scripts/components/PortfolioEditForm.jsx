@@ -3,24 +3,41 @@ import { ActionMenu, ActionMenuItem } from '../components';
 
 const PortfolioEditForm = props => {
   const { name, funds } = props;
-  const [ positions, setPositions ] = useState([
-    {
-      name: funds[0].name,
-      weight: null,
-    }
-  ]);
 
-  const handleWeightChange = event => {
+  const defaultPosition = {
+    symbol: funds[0].symbol,
+    weight: null,
+    removed: false,
   };
 
-  const handleDelete = event => {
+  const [ positions, setPositions ] = useState([{ ...defaultPosition }]);
+
+  const handlePositionChange = (event, index) => {
+    setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
+      return index === prevIndex
+        ? { ...prevPosition, symbol: event.target.value }
+        : { ...prevPosition };
+    }));
+  };
+
+  const handleWeightChange = (event, index) => {
+    setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
+      return index === prevIndex
+        ? { ...prevPosition, weight: event.target.value }
+        : { ...prevPosition };
+    }));
+  };
+
+  const handleDelete = (event, index) => {
+    setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
+      return index === prevIndex
+        ? { ...prevPosition, removed: true }
+        : { ...prevPosition };
+    }));
   };
 
   const handleAdd = event => {
-    setPositions(positions.concat({
-      name: funds[0].name,
-      weight: null,
-    }));
+    setPositions(prevPositions => prevPositions.concat([{ ...defaultPosition }]));
   };
 
   const handleNormalizeWeights = event => {
@@ -53,33 +70,54 @@ const PortfolioEditForm = props => {
           Weight
         </div>
       </div>
-      {positions.map((position, index) => (
-        <div key={index.toString()} className="portfolio-row portfolio-position-row">
-          <button type="button" className="drag-handle">
-            <i className="material-icons">drag_indicator</i>
-          </button>
-          <div className="portfolio-position">
-            <label htmlFor={"position_" + index} className="visually-hidden">
-              Position 1
-            </label>
-            <select name={"position_" + index}>
-              {funds.map(fund => (
-                <option key={fund.symbol} value={fund.symbol}>{fund.name}</option>
-              ))}
-            </select>
-          </div>
-          <div className="portfolio-weight">
-            <label htmlFor={"weight_" + index} className="visually-hidden">
-              Allocation for Position {index}
-            </label>
-            <input type="number" name={"weight_" + index} size="3" min="0" max="100" step="0.01" />
-            <span className="input-decorator percent-decorator">%</span>
-          </div>
-          <button type="button" className="position-delete">
-            <i className="material-icons">delete</i>
-          </button>
-        </div>
-      ))}
+      {positions.map((position, index) => {
+        if (position.removed === false) {
+          return (
+            <div key={index} className="portfolio-row portfolio-position-row">
+              <button type="button" className="drag-handle">
+                <i className="material-icons">drag_indicator</i>
+              </button>
+              <div className="portfolio-position">
+                <label htmlFor={"position_" + index} className="visually-hidden">
+                  Position 1
+                </label>
+                <select
+                  name={"position_" + index}
+                  onChange={event => handlePositionChange(event, index)}
+                  defaultValue={position.symbol}
+                >
+                  {funds.map(fund =>
+                    <option key={fund.symbol} value={fund.symbol}>{fund.name}</option>
+                  )}
+                </select>
+              </div>
+              <div className="portfolio-weight">
+                <label htmlFor={"weight_" + index} className="visually-hidden">
+                  Allocation for Position {index}
+                </label>
+                <input
+                  type="number"
+                  name={"weight_" + index}
+                  size="3"
+                  min="0"
+                  max="100"
+                  step="0.01"
+                  onChange={event => handleWeightChange(event, index)}
+                  defaultValue={position.weight}
+                />
+                <span className="input-decorator percent-decorator">%</span>
+              </div>
+              <button
+                type="button"
+                className="position-delete"
+                onClick={event => handleDelete(event, index)}
+              >
+                <i className="material-icons">delete</i>
+              </button>
+            </div>
+          );
+        }
+      })}
       <div className="portfolio-row portfolio-totals">
         <button type="button" className="drag-handle" disabled>
           <i className="material-icons">drag_indicator</i>
@@ -89,7 +127,16 @@ const PortfolioEditForm = props => {
           <label className="visually-hidden" htmlFor="total_weight">
             Total
           </label>
-          <input type="number" name="total_weight" readOnly />
+          <input
+            type="number"
+            name="total_weight"
+            value={positions.reduce((total, position) => {
+              return position.removed
+                ? total
+                : total + parseFloat(position.weight || 0.0);
+            }, 0.0)}
+            readOnly
+          />
           <span className="input-decorator percent-decorator">%</span>
         </div>
         <button type="button" className="position-delete" disabled>

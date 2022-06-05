@@ -146,37 +146,6 @@ function weight_input_onchange(event) {
   weight_total_input.value = parseFloat(total_weight.toFixed(2)).toString();
 }
 
-function add_position_button_onclick(event) {
-  const count = portfolio_form.querySelectorAll('.portfolio-position-row').length;
-  const fragment = template.content.cloneNode(true);
-  const row = fragment.querySelector('.portfolio-row');
-
-  const position_select = row.querySelector('.portfolio-position select');
-  const position_label = row.querySelector('.portfolio-position label');
-
-  position_select.setAttribute('name', `position_${count + 1}`);
-  position_label.setAttribute('for', `position_${count + 1}`);
-
-  const weight_input = row.querySelector('.portfolio-weight input');
-  const weight_label = row.querySelector('.portfolio-weight label');
-
-  weight_input.setAttribute('name', `weight_${count + 1}`);
-  weight_label.setAttribute('for', `weight_${count + 1}`);
-
-  const delete_button = row.querySelector('.position-delete');
-  const drag_handle = row.querySelector('.drag-handle');
-
-  delete_button_init(delete_button);
-  drag_handle_init(drag_handle);
-  weight_input_init(weight_input);
-  row_init(row);
-
-  totals.before(row);
-}
-
-function normalize_weights_button_onclick(event) {
-}
-
 function row_init(row) {
   row.ondragstart = row_ondragstart;
   row.ondragend = row_ondragend;
@@ -184,48 +153,6 @@ function row_init(row) {
   row.ondragover = row_ondragover;
   row.ondrop = row_ondrop;
 }
-
-function delete_button_init(button) {
-  button.onclick = delete_button_onclick;
-}
-
-function drag_handle_init(handle) {
-  handle.onmousedown = drag_handle_onmousedown;
-}
-
-function weight_input_init(input) {
-  input.onchange = weight_input_onchange;
-}
-
-const template = document.querySelector('#portfolio-row');
-const portfolio_form = document.querySelector('.portfolio-form');
-const totals = portfolio_form.querySelector('.portfolio-totals');
-const weight_total_input = portfolio_form.querySelector('.portfolio-totals .portfolio-weight input');
-const delete_buttons = portfolio_form.querySelectorAll('.position-delete');
-
-delete_buttons.forEach(delete_button_init);
-
-const drag_handles = portfolio_form.querySelectorAll('.drag-handle');
-
-drag_handles.forEach(drag_handle_init);
-
-const weight_inputs = portfolio_form.querySelectorAll('.portfolio-position-row .portfolio-weight input');
-
-weight_inputs.forEach(weight_input_init);
-
-const rows = portfolio_form.querySelectorAll('.portfolio-row');
-
-rows.forEach(row_init);
-
-const portfolioActionsContainer = portfolio_form.querySelector('.portfolio-actions');
-const portfolioActionMenuRoot = ReactDOMClient.createRoot(portfolioActionsContainer);
-
-portfolioActionMenuRoot.render(
-  <ActionMenu>
-    <ActionMenuItem onClick={add_position_button_onclick}>Add Position</ActionMenuItem>
-    <ActionMenuItem onClick={normalize_weights_button_onclick}>Normalize Weights</ActionMenuItem>
-  </ActionMenu>
-);
 
 const portfolioFormContainer = document.getElementById('portfolio-form-react-container');
 const portfolioFormRoot = ReactDOMClient.createRoot(portfolioFormContainer);
