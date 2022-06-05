@@ -16,7 +16,7 @@ const ActionMenu = props => {
   }
 
   const actionMenuContextValue = {
-    handleSelect: toggleMenu
+    handleClick: toggleMenu
   };
 
   return (

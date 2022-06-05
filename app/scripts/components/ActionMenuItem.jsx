@@ -7,7 +7,7 @@ const ActionMenuItem = props => {
 
   const handleClick = event => {
     onClick(event);
-    actionMenuContext.handleSelect(event);
+    actionMenuContext.handleClick(event);
   };
 
   return (
