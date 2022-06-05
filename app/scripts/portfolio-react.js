@@ -1,5 +1,5 @@
 import * as ReactDOMClient from 'react-dom/client';
-import { ActionMenu, ActionMenuItem } from './components';
+import { ActionMenu, ActionMenuItem, PortfolioEditForm } from './components';
 
 let dragged = null;
 
@@ -174,6 +174,9 @@ function add_position_button_onclick(event) {
   totals.before(row);
 }
 
+function normalize_weights_button_onclick(event) {
+}
+
 function row_init(row) {
   row.ondragstart = row_ondragstart;
   row.ondragend = row_ondragend;
@@ -220,5 +223,13 @@ const portfolioActionMenuRoot = ReactDOMClient.createRoot(portfolioActionsContai
 portfolioActionMenuRoot.render(
   <ActionMenu>
     <ActionMenuItem onClick={add_position_button_onclick}>Add Position</ActionMenuItem>
+    <ActionMenuItem onClick={normalize_weights_button_onclick}>Normalize Weights</ActionMenuItem>
   </ActionMenu>
+);
+
+const portfolioFormContainer = document.getElementById('portfolio-form-react-container');
+const portfolioFormRoot = ReactDOMClient.createRoot(portfolioFormContainer);
+
+portfolioFormRoot.render(
+  <PortfolioEditForm name={portfolio_name} funds={portfolio_funds} />
 );

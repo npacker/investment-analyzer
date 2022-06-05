@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+  <div id="portfolio-form-react-container"></div>
   <form class="portfolio-form" method="POST">
     <label for="name">Name</label>
     <input type="text" name="name" value="{{ name }}" size="40" required>
@@ -87,4 +88,13 @@
       </button>
     </div>
   </template>
+{% endblock %}
+
+{% block javascripts_before %}
+  <script type="text/javascript">
+    {% autoescape false %}
+    const portfolio_name = {{ name|json_encode() }};
+    const portfolio_funds = {{ funds|json_encode() }};
+    {% endautoescape %}
+  </script>
 {% endblock %}
