@@ -130,11 +130,11 @@ const PortfolioEditForm = props => {
           <input
             type="number"
             name="total_weight"
-            value={positions.reduce((total, position) => {
+            value={parseFloat(positions.reduce((total, position) => {
               return position.deleted
                 ? total
                 : total + parseFloat(position.weight || 0.0);
-            }, 0.0)}
+            }, 0.0).toFixed(2)).toString()}
             readOnly
           />
           <span className="input-decorator percent-decorator">%</span>
