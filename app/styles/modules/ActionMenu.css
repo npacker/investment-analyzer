@@ -3,7 +3,10 @@
   list-style: none;
   padding: .5em;
   margin: 0;
-  background: #666;
+  background: #fff;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 1px #eee;
 }
 
 .actions-menu-item {
@@ -20,7 +23,12 @@
   display: block;
   width: 100%;
   text-align: left;
-  color: #ddd;
+  color: #333;
+}
+
+.actions-menu-item button:hover {
+  background: #555;
+  color: #fff;
 }
 
 .actions-button {
