@@ -7,7 +7,7 @@ const PortfolioEditForm = props => {
   const defaultPosition = {
     symbol: funds[0].symbol,
     weight: null,
-    removed: false,
+    deleted: false,
   };
 
   const [ positions, setPositions ] = useState([{ ...defaultPosition }]);
@@ -31,7 +31,7 @@ const PortfolioEditForm = props => {
   const handleDelete = (event, index) => {
     setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
       return index === prevIndex
-        ? { ...prevPosition, removed: true }
+        ? { ...prevPosition, deleted: true }
         : { ...prevPosition };
     }));
   };
@@ -71,18 +71,18 @@ const PortfolioEditForm = props => {
         </div>
       </div>
       {positions.map((position, index) => {
-        if (position.removed === false) {
+        if (position.deleted === false) {
           return (
             <div key={index} className="portfolio-row portfolio-position-row">
               <button type="button" className="drag-handle">
                 <i className="material-icons">drag_indicator</i>
               </button>
               <div className="portfolio-position">
-                <label htmlFor={"position_" + index} className="visually-hidden">
+                <label htmlFor={`position[${index}][symbol]`} className="visually-hidden">
                   Position 1
                 </label>
                 <select
-                  name={"position_" + index}
+                  name={`position[${index}][symbol]`}
                   onChange={event => handlePositionChange(event, index)}
                   defaultValue={position.symbol}
                 >
@@ -92,12 +92,12 @@ const PortfolioEditForm = props => {
                 </select>
               </div>
               <div className="portfolio-weight">
-                <label htmlFor={"weight_" + index} className="visually-hidden">
+                <label htmlFor={`position[${index}][weight]`} className="visually-hidden">
                   Allocation for Position {index}
                 </label>
                 <input
                   type="number"
-                  name={"weight_" + index}
+                  name={`position[${index}][weight]`}
                   size="3"
                   min="0"
                   max="100"
@@ -131,7 +131,7 @@ const PortfolioEditForm = props => {
             type="number"
             name="total_weight"
             value={positions.reduce((total, position) => {
-              return position.removed
+              return position.deleted
                 ? total
                 : total + parseFloat(position.weight || 0.0);
             }, 0.0)}
