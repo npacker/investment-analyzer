@@ -1,5 +1,15 @@
-import { useState, useEffect } from 'react';
-import { ActionMenu, ActionMenuItem, DeleteButton, DragHandle } from '../components';
+import {
+  useState,
+  useEffect,
+} from 'react';
+
+import {
+  ActionMenu,
+  ActionMenuItem,
+  DeleteButton,
+  DragHandle,
+  PositionWeightInput,
+} from '../components';
 
 const PortfolioEditForm = props => {
   const { name, funds } = props;
@@ -149,7 +159,7 @@ const PortfolioEditForm = props => {
               />
               <div className="portfolio-position">
                 <label htmlFor={`positions[${index}][symbol]`} className="visually-hidden">
-                  Position 1
+                  Position {index}
                 </label>
                 <select
                   name={`positions[${index}][symbol]`}
@@ -167,19 +177,11 @@ const PortfolioEditForm = props => {
                 <label htmlFor={`positions[${index}][weight]`} className="visually-hidden">
                   Allocation for Position {index}
                 </label>
-                <input
-                  type="number"
+                <PositionWeightInput
                   name={`positions[${index}][weight]`}
-                  size="3"
-                  min="0"
-                  max="100"
-                  step="0.01"
                   onChange={event => handleWeightChange(event, index)}
                   value={position.weight||''}
                 />
-                <span className="input-decorator percent-decorator">
-                  %
-                </span>
               </div>
               <DeleteButton onClick={event => handleDelete(event, index)} />
             </div>
@@ -194,10 +196,7 @@ const PortfolioEditForm = props => {
           <label className="visually-hidden" htmlFor="total_weight">
             Total
           </label>
-          <input type="number" name="total_weight" value={totalWeight()} readOnly />
-          <span className="input-decorator percent-decorator">
-            %
-          </span>
+          <PositionWeightInput name="total_weight" value={totalWeight()} readOnly />
         </div>
         <DeleteButton disabled />
       </div>

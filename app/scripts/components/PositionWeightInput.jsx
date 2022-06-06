@@ -1,9 +1,10 @@
-const PositionWeightInput = props => {
+const PositionWeightInput = props => (
+  <>
+    <input {...props} type="number" size="3" min="0" max="100" step="0.01" />
+    <span className="input-decorator percent-decorator">
+      %
+    </span>
+  </>
+);
 
-  const handleChange = event => {
-  }
-
-  return <input onChange={handleChange} type="number" name="weight_1" size="3" min="0" max="100" step="0.01"/>
-}
-
-export default PositionWeightInput
+export default PositionWeightInput;
