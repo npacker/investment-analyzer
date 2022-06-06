@@ -179,8 +179,8 @@ const PortfolioEditForm = props => {
                 </label>
                 <PositionWeightInput
                   name={`positions[${index}][weight]`}
-                  onChange={event => handleWeightChange(event, index)}
                   value={position.weight||''}
+                  onChange={event => handleWeightChange(event, index)}
                 />
               </div>
               <DeleteButton onClick={event => handleDelete(event, index)} />
@@ -193,7 +193,7 @@ const PortfolioEditForm = props => {
         <div className="portfolio-position">
         </div>
         <div className="portfolio-weight">
-          <label className="visually-hidden" htmlFor="total_weight">
+          <label htmlFor="total_weight" className="visually-hidden">
             Total
           </label>
           <PositionWeightInput name="total_weight" value={totalWeight()} readOnly />
