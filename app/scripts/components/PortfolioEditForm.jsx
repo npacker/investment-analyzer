@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ActionMenu, ActionMenuItem } from '../components';
+import { ActionMenu, ActionMenuItem, DeleteButton, DragHandle } from '../components';
 
 const PortfolioEditForm = props => {
   const { name, funds } = props;
@@ -116,8 +116,10 @@ const PortfolioEditForm = props => {
   };
 
   return (
-    <form className="portfolio-form" method="POST">
-      <label htmlFor="name">Name</label>
+    <form className="portfolio-form"method="POST">
+      <label htmlFor="name">
+        Name
+      </label>
       <input type="text" name="name" defaultValue={name} size="40" required />
       <div className="portfolio-row portfolio-headers">
         <div className="portfolio-header">
@@ -141,14 +143,10 @@ const PortfolioEditForm = props => {
               onDragOver={handleDragOver}
               onDrop={handleDrop}
             >
-              <button
-                type="button"
-                className="drag-handle"
+              <DragHandle
                 onMouseDown={event => handleDragHandleMouseDown(event, index)}
                 onMouseUp={event => handleDragHandleMouseUp(event, index)}
-              >
-                <i className="material-icons">drag_indicator</i>
-              </button>
+              />
               <div className="portfolio-position">
                 <label htmlFor={`positions[${index}][symbol]`} className="visually-hidden">
                   Position 1
@@ -159,7 +157,9 @@ const PortfolioEditForm = props => {
                   value={position.symbol}
                 >
                   {funds.map(fund =>
-                    <option key={fund.symbol} value={fund.symbol}>{fund.name}</option>
+                    <option key={fund.symbol} value={fund.symbol}>
+                      {fund.name}
+                    </option>
                   )}
                 </select>
               </div>
@@ -177,34 +177,29 @@ const PortfolioEditForm = props => {
                   onChange={event => handleWeightChange(event, index)}
                   value={position.weight||''}
                 />
-                <span className="input-decorator percent-decorator">%</span>
+                <span className="input-decorator percent-decorator">
+                  %
+                </span>
               </div>
-              <button
-                type="button"
-                className="position-delete"
-                onClick={event => handleDelete(event, index)}
-              >
-                <i className="material-icons">delete</i>
-              </button>
+              <DeleteButton onClick={event => handleDelete(event, index)} />
             </div>
           );
         }
       })}
       <div className="portfolio-row portfolio-totals">
-        <button type="button" className="drag-handle" disabled>
-          <i className="material-icons">drag_indicator</i>
-        </button>
-        <div className="portfolio-position"></div>
+        <DragHandle disabled />
+        <div className="portfolio-position">
+        </div>
         <div className="portfolio-weight">
           <label className="visually-hidden" htmlFor="total_weight">
             Total
           </label>
           <input type="number" name="total_weight" value={totalWeight()} readOnly />
-          <span className="input-decorator percent-decorator">%</span>
+          <span className="input-decorator percent-decorator">
+            %
+          </span>
         </div>
-        <button type="button" className="position-delete" disabled>
-          <i className="material-icons">delete</i>
-        </button>
+        <DeleteButton disabled />
       </div>
       <div className="form-actions">
         <input type="submit" value="Submit" />
