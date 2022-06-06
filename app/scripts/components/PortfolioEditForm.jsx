@@ -107,6 +107,14 @@ const PortfolioEditForm = props => {
     event.preventDefault();
   };
 
+  const totalWeight = () => {
+    return parseFloat(positions.reduce((total, position) => {
+      return position.deleted
+        ? total
+        : total + parseFloat(position.weight || 0.0);
+    }, 0.0).toFixed(2)).toString();
+  };
+
   return (
     <form className="portfolio-form" method="POST">
       <label htmlFor="name">Name</label>
@@ -191,16 +199,7 @@ const PortfolioEditForm = props => {
           <label className="visually-hidden" htmlFor="total_weight">
             Total
           </label>
-          <input
-            type="number"
-            name="total_weight"
-            value={parseFloat(positions.reduce((total, position) => {
-              return position.deleted
-                ? total
-                : total + parseFloat(position.weight || 0.0);
-            }, 0.0).toFixed(2)).toString()}
-            readOnly
-          />
+          <input type="number" name="total_weight" value={totalWeight()} readOnly />
           <span className="input-decorator percent-decorator">%</span>
         </div>
         <button type="button" className="position-delete" disabled>
