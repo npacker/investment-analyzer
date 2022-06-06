@@ -11,8 +11,9 @@
 {% block javascripts_before %}
   <script type="text/javascript">
     {% autoescape false %}
-    const portfolio_name = {{ name|json_encode() }};
-    const portfolio_funds = {{ funds|json_encode() }};
+    window.data = window.data||{};
+    window.data.portfolio_name = {{ name|json_encode() }};
+    window.data.portfolio_funds = {{ funds|json_encode() }};
     {% endautoescape %}
   </script>
 {% endblock %}

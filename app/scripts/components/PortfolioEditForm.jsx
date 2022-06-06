@@ -8,9 +8,13 @@ const PortfolioEditForm = props => {
     symbol: funds[0].symbol,
     weight: null,
     deleted: false,
+    draggable: false,
   };
 
   const [ positions, setPositions ] = useState([{ ...defaultPosition }]);
+  const [ draggable, setDraggable ] = useState(null);
+  const [ draggedTo, setDraggedTo ] = useState(null);
+  const [ dragStack, setDragStack ] = useState([]);
 
   const handlePositionChange = (event, index) => {
     setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
@@ -41,21 +45,66 @@ const PortfolioEditForm = props => {
   };
 
   const handleNormalizeWeights = event => {
+    return;
   };
 
-  const handleDragStart = event => {
+  const handleDragHandleMouseDown = (event, index) => {
+    setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
+      return index === prevIndex
+        ? { ...prevPosition, draggable: true }
+        : { ...prevPosition };
+    }));
   };
 
-  const handleDragEnd = event => {
+  const handleDragHandleMouseUp = (event, index) => {
+    setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
+      return index === prevIndex
+        ? { ...prevPosition, draggable: false }
+        : { ...prevPosition };
+    }));
+    setDraggable(null);
   };
 
-  const handleDragEnter = event => {
+  const handleDragStart = (event, index) => {
+    event.dataTransfer.effectAllowed = 'move';
+    const currentTarget = event.currentTarget;
+    setDraggable({ ...positions[index], index: index, currentTarget: event.currentTarget });
+  };
+
+  const handleDragEnd = (event, index) => {
+    setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
+      return index === prevIndex
+        ? { ...prevPosition, draggable: false }
+        : { ...prevPosition };
+    }));
+    setDraggable(null);
+  };
+
+  const handleDragEnter = (event, index) => {
+    event.dataTransfer.dropEffect = 'move';
+    const currentTarget = event.currentTarget;
+    setDragStack(prevDragStack => prevDragStack.concat([currentTarget]));
+
+    if (!Object.is(currentTarget, dragStack[dragStack.length - 1]) && dragStack.length > 0) {
+      setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
+        return index === prevIndex
+          ? { ...prevPosition, symbol: draggable.symbol, weight: draggable.weight }
+          : { ...prevPosition };
+      }));
+    }
+  };
+
+  const handleDragLeave = (event, index) => {
+    setDragStack(prevDragStack => prevDragStack.slice(-1));
   };
 
   const handleDragOver = event => {
+    event.stopPropagation();
+    event.preventDefault();
   };
 
   const handleDrop = event => {
+    event.preventDefault();
   };
 
   return (
@@ -73,8 +122,23 @@ const PortfolioEditForm = props => {
       {positions.map((position, index) => {
         if (position.deleted === false) {
           return (
-            <div key={index} className="portfolio-row portfolio-position-row">
-              <button type="button" className="drag-handle">
+            <div
+              key={index}
+              className="portfolio-row portfolio-position-row"
+              draggable={position.draggable}
+              onDragStart={event => handleDragStart(event, index)}
+              onDragEnd={event => handleDragEnd(event, index)}
+              onDragEnter={event => handleDragEnter(event, index)}
+              onDragLeave={event => handleDragLeave(event, index)}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+            >
+              <button
+                type="button"
+                className="drag-handle"
+                onMouseDown={event => handleDragHandleMouseDown(event, index)}
+                onMouseUp={event => handleDragHandleMouseUp(event, index)}
+              >
                 <i className="material-icons">drag_indicator</i>
               </button>
               <div className="portfolio-position">
@@ -84,7 +148,7 @@ const PortfolioEditForm = props => {
                 <select
                   name={`positions[${index}][symbol]`}
                   onChange={event => handlePositionChange(event, index)}
-                  defaultValue={position.symbol}
+                  value={position.symbol}
                 >
                   {funds.map(fund =>
                     <option key={fund.symbol} value={fund.symbol}>{fund.name}</option>
@@ -103,7 +167,7 @@ const PortfolioEditForm = props => {
                   max="100"
                   step="0.01"
                   onChange={event => handleWeightChange(event, index)}
-                  defaultValue={position.weight}
+                  value={position.weight||''}
                 />
                 <span className="input-decorator percent-decorator">%</span>
               </div>
