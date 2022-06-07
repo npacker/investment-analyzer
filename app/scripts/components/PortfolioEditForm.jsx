@@ -137,6 +137,11 @@ const PortfolioEditForm = props => {
     }, 0.0).toFixed(2)).toString();
   };
 
+  useEffect(() => {
+    const portfolioForm = document.querySelector('.portfolio-form');
+    portfolioForm.classList.add('fade-in');
+  });
+
   return (
     <form className="portfolio-form"method="POST">
       <label htmlFor="name">

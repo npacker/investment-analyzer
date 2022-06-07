@@ -401,3 +401,7 @@ select,
 .drop-zone {
   background: #ddd;
 }
+
+.fade-in {
+  opacity: 1 !important;
+}

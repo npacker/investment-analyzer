@@ -1,5 +1,7 @@
 .portfolio-form {
   width: 50%;
+  opacity: 0;
+  transition: opacity 1s ease;
 }
 
 .portfolio-headers {
