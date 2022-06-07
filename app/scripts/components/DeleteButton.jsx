@@ -1,3 +1,5 @@
+import '../../styles/modules/DeleteButton.css';
+
 const DeleteButton = props => {
   return (
     <button {...props} type="button" className="position-delete">

@@ -1,3 +1,5 @@
+import '../../styles/modules/DragHandle.css';
+
 const DragHandle = props => {
   return (
     <button {...props} type="button" className="drag-handle">

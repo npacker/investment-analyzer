@@ -1,0 +1,13 @@
+.position-delete {
+  display: flex;
+  background: transparent;
+  padding: .25em;
+  padding-right: 0;
+  border: 2px solid transparent;
+}
+
+.position-delete:hover,
+.position-delete:active {
+  background: transparent;
+  color: #666;
+}

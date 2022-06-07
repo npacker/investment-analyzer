@@ -1,3 +1,5 @@
+import '../../styles/modules/PortfolioEditForm.css';
+
 import {
   useState,
   useEffect,
@@ -23,7 +25,6 @@ const PortfolioEditForm = props => {
 
   const [ positions, setPositions ] = useState([{ ...defaultPosition }]);
   const [ draggable, setDraggable ] = useState(null);
-  const [ draggedTo, setDraggedTo ] = useState(null);
   const [ dragStack, setDragStack ] = useState([]);
 
   const handlePositionChange = (event, index) => {
@@ -77,15 +78,14 @@ const PortfolioEditForm = props => {
 
   const handleDragStart = (event, index) => {
     event.dataTransfer.effectAllowed = 'move';
-    const currentTarget = event.currentTarget;
     setDraggable({ ...positions[index], index: index, currentTarget: event.currentTarget });
   };
 
   const handleDragEnd = (event, index) => {
     setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
       return index === prevIndex
-        ? { ...prevPosition, draggable: false }
-        : { ...prevPosition };
+        ? { ...prevPosition, draggable: false, dropzone: undefined }
+        : { ...prevPosition, dropzone: undefined };
     }));
     setDraggable(null);
   };
@@ -95,11 +95,11 @@ const PortfolioEditForm = props => {
     const currentTarget = event.currentTarget;
     setDragStack(prevDragStack => prevDragStack.concat([currentTarget]));
 
-    if (!Object.is(currentTarget, dragStack[dragStack.length - 1]) && dragStack.length > 0) {
+    if (dragStack.length && !Object.is(currentTarget, dragStack[dragStack.length - 1])) {
       setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
         return index === prevIndex
-          ? { ...prevPosition, symbol: draggable.symbol, weight: draggable.weight }
-          : { ...prevPosition };
+          ? { ...prevPosition, dropzone: true }
+          : { ...prevPosition, dropzone: undefined };
       }));
     }
   };
@@ -109,12 +109,24 @@ const PortfolioEditForm = props => {
   };
 
   const handleDragOver = event => {
-    event.stopPropagation();
     event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
   };
 
-  const handleDrop = event => {
+  const handleDrop = (event, index) => {
     event.preventDefault();
+
+    setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
+      if (index === prevIndex) {
+        return { ...prevPosition, symbol: draggable.symbol, weight: draggable.weight };
+      }
+      else if (draggable.index === prevIndex) {
+        return { ...prevPosition, symbol: prevPositions[index].symbol, weight: prevPositions[index].weight };
+      }
+      else {
+        return { ...prevPosition };
+      }
+    }));
   };
 
   const totalWeight = () => {
@@ -144,14 +156,14 @@ const PortfolioEditForm = props => {
           return (
             <div
               key={index}
-              className="portfolio-row portfolio-position-row"
+              className={`portfolio-row portfolio-position-row ${position.dropzone ? 'drop-zone' : ''}`}
               draggable={position.draggable}
               onDragStart={event => handleDragStart(event, index)}
               onDragEnd={event => handleDragEnd(event, index)}
               onDragEnter={event => handleDragEnter(event, index)}
               onDragLeave={event => handleDragLeave(event, index)}
               onDragOver={handleDragOver}
-              onDrop={handleDrop}
+              onDrop={event => handleDrop(event, index)}
             >
               <DragHandle
                 onMouseDown={event => handleDragHandleMouseDown(event, index)}

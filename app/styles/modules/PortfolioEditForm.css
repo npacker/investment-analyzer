@@ -1,0 +1,74 @@
+.portfolio-form {
+  width: 50%;
+}
+
+.portfolio-headers {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  font-weight: 400;
+}
+
+.portfolio-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: .5em 0;
+  transition: background .25s;
+}
+
+.portfolio-row > div {
+  padding-right: .5em;
+  padding-left: .5em;
+  flex-grow: 1;
+  width: 50%;
+}
+
+.portfolio-row > div:first-of-type {
+  padding-left: 0;
+}
+
+.portfolio-row > div:last-of-type {
+  padding-right: 0;
+}
+
+.portfolio-row input,
+.portfolio-row select {
+  margin: 0;
+}
+
+.portfolio-row > button {
+  flex-grow: 0;
+}
+
+.portfolio-weight {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: stretch;
+  align-items: stretch;
+}
+
+.portfolio-weight input {
+  text-align: right;
+}
+
+.portfolio-totals {
+  align-items: end;
+  justify-content: flex-end;
+  margin-bottom: 1em;
+}
+
+.portfolio-totals .drag-handle,
+.portfolio-totals .position-delete {
+  visibility: hidden;
+}
+
+.portfolio-totals [type=number] {
+  appearance: textfield;
+}
+
+.portfolio-row .material-icons {
+  font-size: 150%;
+}
