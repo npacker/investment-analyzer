@@ -39,7 +39,7 @@ final class Environment {
 
     register_shutdown_function([$this, 'fatalErrorHandler']);
     set_error_handler([$this, 'errorHandler']);
-    set_exception_handler([$this, 'exeptionHandler']);
+    set_exception_handler([$this, 'exceptionHandler']);
 
     $container = $this->initializeContainer();
     $settings = $this->initializeSettings($container);
