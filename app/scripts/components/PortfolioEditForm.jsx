@@ -59,6 +59,23 @@ const PortfolioEditForm = props => {
     return;
   };
 
+  const handleEqualizeWeights = event => {
+    const count = positions.reduce((accumulator, current) => {
+      return current.deleted ? accumulator : accumulator + 1;
+    }, 0);
+
+    const equalization = parseFloat((100. / count).toFixed(2));
+    const deviation = equalization * count - 100.;
+    const correction = deviation < 0 ? 0.01 : -0.01;
+    const adjustments = parseInt(parseFloat(Math.abs(deviation).toFixed(2)) * 100);
+
+    setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
+      return prevIndex < adjustments
+        ? { ...prevPosition, weight: parseFloat((equalization + correction).toFixed(2)) }
+        : { ...prevPosition, weight: equalization };
+    }));
+  };
+
   const handleDragHandleMouseDown = (event, index) => {
     setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
       return index === prevIndex
@@ -134,7 +151,7 @@ const PortfolioEditForm = props => {
       return position.deleted
         ? total
         : total + parseFloat(position.weight || 0.0);
-    }, 0.0).toFixed(2)).toString();
+    }, 0.0).toFixed(2));
   };
 
   useEffect(() => {
@@ -222,6 +239,7 @@ const PortfolioEditForm = props => {
         <div className="portfolio-actions">
           <ActionMenu>
             <ActionMenuItem onClick={handleAdd}>Add Position</ActionMenuItem>
+            <ActionMenuItem onClick={handleEqualizeWeights}>Equalize Weights</ActionMenuItem>
             <ActionMenuItem onClick={handleNormalizeWeights}>Normalize Weights</ActionMenuItem>
           </ActionMenu>
         </div>
