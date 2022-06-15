@@ -69,10 +69,15 @@ const PortfolioEditForm = props => {
     const correction = deviation < 0 ? .01 : -.01;
     const adjustments = parseInt(Math.abs(deviation) * 100.);
 
+    let adjusted = 0;
+
     setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
-      return prevIndex < adjustments && !prevPosition.deleted
-        ? { ...prevPosition, weight: parseFloat((equalization + correction).toFixed(2)) }
-        : { ...prevPosition, weight: equalization };
+      if (adjusted < adjustments && !prevPosition.deleted && ++adjusted) {
+        return { ...prevPosition, weight: parseFloat((equalization + correction).toFixed(2)) };
+      }
+      else {
+        return { ...prevPosition, weight: equalization };
+      }
     }));
   };
 
