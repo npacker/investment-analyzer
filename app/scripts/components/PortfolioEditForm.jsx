@@ -64,15 +64,10 @@ const PortfolioEditForm = props => {
       return current.deleted ? accumulator : accumulator + 1;
     }, 0);
 
-    console.log(count);
     const equalization = parseFloat((100. / count).toFixed(2));
-    console.log(equalization);
     const deviation = parseFloat((equalization * count - 100.).toFixed(2));
-    console.log(deviation);
     const correction = deviation < 0 ? .01 : -.01;
-    console.log(correction);
     const adjustments = parseInt(Math.abs(deviation) * 100.);
-    console.log(adjustments);
 
     setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
       return prevIndex < adjustments && !prevPosition.deleted
