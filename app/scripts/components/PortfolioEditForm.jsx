@@ -115,7 +115,6 @@ const PortfolioEditForm = props => {
   const handleDragEnter = (event, index) => {
     event.dataTransfer.dropEffect = 'move';
     const currentTarget = event.currentTarget;
-    setDragStack(prevDragStack => prevDragStack.concat([currentTarget]));
 
     if (dragStack.length && !Object.is(currentTarget, dragStack[dragStack.length - 1])) {
       setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
@@ -124,6 +123,8 @@ const PortfolioEditForm = props => {
           : { ...prevPosition, dropzone: undefined };
       }));
     }
+
+    setDragStack(prevDragStack => prevDragStack.concat([currentTarget]));
   };
 
   const handleDragLeave = (event, index) => {
