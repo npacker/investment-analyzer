@@ -55,15 +55,8 @@ const PortfolioEditForm = props => {
     setPositions(prevPositions => prevPositions.concat([{ ...defaultPosition }]));
   };
 
-  const handleNormalizeWeights = event => {
-    return;
-  };
-
   const handleEqualizeWeights = event => {
-    const count = positions.reduce((accumulator, current) => {
-      return current.deleted ? accumulator : accumulator + 1;
-    }, 0);
-
+    const count = positions.reduce((accumulator, current) => current.deleted ? accumulator : accumulator + 1, 0);
     const equalization = parseFloat((100. / count).toFixed(2));
     const deviation = parseFloat((equalization * count - 100.).toFixed(2));
     const correction = deviation < 0 ? .01 : -.01;
@@ -77,6 +70,33 @@ const PortfolioEditForm = props => {
       }
       else {
         return { ...prevPosition, weight: equalization };
+      }
+    }));
+  };
+
+  const handleNormalizeWeights = event => {
+    const total = totalWeight();
+
+    const percentages = positions.map(position => {
+      const percentage = parseFloat((Math.floor(position.weight / total * 10000) / 100.).toFixed(2));
+      return { ...position, weight: percentage };
+    });
+
+    const percentageTotal = parseFloat(percentages.reduce((accumulator, position) => {
+      return position.deleted
+        ? accumulator
+        : accumulator + parseFloat(position.weight || 0.);
+    }, 0.).toFixed(2));
+
+    let deviation = parseFloat((100. - percentageTotal).toFixed(2));
+
+    setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
+      if (deviation && !prevPosition.deleted) {
+        deviation -= .01
+        return { ...prevPosition, weight: parseFloat((percentages[prevIndex].weight + .01).toFixed(2)) };
+      }
+      else {
+        return { ...prevPosition, weight: percentages[prevIndex].weight };
       }
     }));
   };
