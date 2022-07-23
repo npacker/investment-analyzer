@@ -92,7 +92,6 @@ final class Environment {
       case E_ERROR:
       case E_PARSE:
       case E_USER_ERROR:
-        // $this->cleanAllBuffers();
         printf('<pre><strong>Fatal error</strong>: %s in %s on line %d</pre>', $error['message'], $error['file'], $error['line']);
         exit();
     }
@@ -105,7 +104,6 @@ final class Environment {
   }
 
   public function exceptionHandler(Exception $e) {
-    // $this->cleanAllBuffers();
     printf('<pre><strong>Uncaught exception:</strong> %s on line %d of %s</pre>', $e->getMessage(), $e->getLine(), $e->getFile());
     exit();
   }
@@ -116,9 +114,11 @@ final class Environment {
     }
   }
 
-  private function loadContainerDefinition(ContainerInterface $container, StreamableInterface $stream): void {
+  private function initializeContainer(): Container {
     $yaml = new YamlSymfony();
+    $stream = new LocalReadOnlyFile($this->root . '/app/config/container.yml');
     $definition = new ContainerDefinition($yaml->decode($stream->read()));
+    $container = new Container();
 
     foreach ($definition->services() as $name => $service) {
       $container->setDefinition($name, $service);
@@ -127,13 +127,6 @@ final class Environment {
     foreach ($definition->parameters() as $name => $parameter) {
       $container->setParameter($name, $parameter);
     }
-  }
-
-  private function initializeContainer(): Container {
-    $container = new Container();
-    $stream = new LocalReadOnlyFile($this->root . '/app/config/container.yml');
-
-    $this->loadContainerDefinition($container, $stream);
 
     return $container;
   }
