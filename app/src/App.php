@@ -44,11 +44,13 @@ final class App {
   }
 
   public function handle(RequestInterface $request): ResponseInterface {
-    $twig = $this->container->get('twig');
     $context = new Context($this, $request);
     $url_factory = new UrlFactory($context);
 
-    $twig->addExtension(new RunTimeTwigExtension($context, $url_factory));
+    $this->container->set('context', $context);
+    $this->container->set('url_factory', $url_factory);
+
+    $this->initializeTwig();
 
     try {
       $match = $this->routes->match($request);
@@ -57,7 +59,6 @@ final class App {
       $action = $route->action();
 
       $this->container->set('route_match', $match);
-      $this->container->set('url_factory', $url_factory);
       $this->initializeDatabase();
     }
     catch (RouteNotFoundException $e) {
@@ -75,6 +76,14 @@ final class App {
     $database = $database_factory->getInstance();
 
     $this->container->set('database', $database);
+  }
+
+  private function initializeTwig(): void {
+    $context = $this->container->get('context');
+    $url_factory = $this->container->get('url_factory');
+    $twig = $this->container->get('twig');
+
+    $twig->addExtension(new RunTimeTwigExtension($context, $url_factory));
   }
 
 }
