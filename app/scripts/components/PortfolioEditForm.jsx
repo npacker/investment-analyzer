@@ -91,7 +91,7 @@ const PortfolioEditForm = props => {
     let deviation = parseFloat((100. - percentageTotal).toFixed(2));
 
     setPositions(prevPositions => prevPositions.map((prevPosition, prevIndex) => {
-      if (deviation && !prevPosition.deleted) {
+      if (deviation && !prevPosition.deleted && prevPosition.weight > 0) {
         deviation -= .01
         return { ...prevPosition, weight: parseFloat((percentages[prevIndex].weight + .01).toFixed(2)) };
       }
