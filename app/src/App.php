@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\AppInterface;
 use App\Container\ContainerInterface;
 use App\Context;
 use App\Http\RequestInterface;
@@ -12,7 +13,7 @@ use App\Router\RouteNotFoundException;
 use App\Settings;
 use App\UrlFactory;
 
-final class App {
+final class App implements AppInterface {
 
   private $autoloader;
 

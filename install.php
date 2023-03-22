@@ -6,8 +6,8 @@ use App\Environment;
 use App\Http\HttpRequest;
 
 $autoloader = require 'autoload.php';
-$environment = new Environment($autoloader);
+$environment = new InstallEnvironment(new Environment($autoloader));
 $app = $environment->bootstrap();
 $request = new HttpRequest();
-$response = $environment->install($app, $request);
+$response = $app->handle($request);
 $response->send();

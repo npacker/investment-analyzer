@@ -2,27 +2,17 @@
 
 namespace App;
 
-use App\App;
+use App\AppInterface;
 use App\Container\Container;
 use App\Container\ContainerDefinition;
 use App\Container\ContainerInterface;
-use App\Context;
-use App\Http\HttpResponse;
-use App\Http\RequestInterface;
-use App\Http\ResponseInterface;
-use App\Messenger\MessengerInterface;
-use App\Render\Twig\BootstrapTwigExtension;
-use App\Render\Twig\RuntimeTwigExtension;
+use App\EnvironmentInterface;
 use App\Router\RouteCollection;
 use App\Serialization\YamlSymfony;
 use App\Settings;
-use App\Storage\Schema\StorageSchemaCollection;
 use App\Stream\LocalReadOnlyFile;
-use App\Stream\StreamableInterface;
-use App\UrlFactory;
-use Twig\Environment as TwigEnvironment;
 
-final class Environment {
+final class Environment implements EnvironmentInterface {
 
   private $autoloader;
 
@@ -33,7 +23,11 @@ final class Environment {
     $this->root = dirname(__DIR__, 2);
   }
 
-  public function bootstrap(): App {
+  public function root(): string {
+    return $this->root;
+  }
+
+  public function bootstrap(): AppInterface {
     ini_set('display_errors', 0);
     ini_set('error_reporting', E_ALL);
 
@@ -46,41 +40,10 @@ final class Environment {
     $routes = $this->initializeRoutes($container);
     $app = new App($this->autoloader, $container, $settings, $routes);
 
-    $this->initializeTwig($container);
+    $this->initializeTemplateEngine($container);
     $this->initializeSession($container);
 
     return $app;
-  }
-
-  public function install(App $app, RequestInterface $request): ResponseInterface {
-    $context = new Context($app, $request);
-    $url_factory = new UrlFactory($context);
-    $twig = $app->container()->get('twig');
-
-    $twig->addExtension(new RuntimeTwigExtension($context, $url_factory));
-
-    $schema_collection = $this->initializeSchema($app->container());
-
-    if ($request->server('REQUEST_METHOD') === 'POST') {
-      $messenger = $app->container()->get('messenger');
-
-      try {
-        $schema_collection->build();
-        $messenger->set('Installation completed successfuly.');
-
-        return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $url_factory->baseUrl()]);
-      }
-      catch (\Exception $e) {
-        $messenger->setError($e->getMessage());
-      }
-    }
-
-    $schema_collection_definition = $schema_collection->definition();
-    $schema_definitions = $schema_collection_definition->schema();
-
-    return new HttpResponse($twig->render('schema.html.twig', [
-      'schema_definitions' => $schema_definitions,
-    ]));
   }
 
   public function fatalErrorHandler() {
@@ -103,7 +66,7 @@ final class Environment {
     }
   }
 
-  public function exceptionHandler(Exception $e) {
+  public function exceptionHandler($e) {
     printf('<pre><strong>Uncaught exception:</strong> %s on line %d of %s</pre>', $e->getMessage(), $e->getLine(), $e->getFile());
     exit();
   }
@@ -116,7 +79,7 @@ final class Environment {
 
   private function initializeContainer(): Container {
     $yaml = new YamlSymfony();
-    $stream = new LocalReadOnlyFile($this->root . '/app/config/container.yml');
+    $stream = new LocalReadOnlyFile($this->root() . '/app/config/container.yml');
     $definition = new ContainerDefinition($yaml->decode($stream->read()));
     $container = new Container();
 
@@ -133,7 +96,7 @@ final class Environment {
 
   private function initializeSettings(ContainerInterface $container): Settings {
     $yaml = new YamlSymfony();
-    $stream = new LocalReadOnlyFile($this->root . '/app/config/settings.yml');
+    $stream = new LocalReadOnlyFile($this->root() . '/app/config/settings.yml');
     $settings = new Settings($yaml->decode($stream->read()));
 
     $container->set('settings', $settings);
@@ -143,7 +106,7 @@ final class Environment {
 
   private function initializeRoutes(ContainerInterface $container): RouteCollection {
     $yaml = new YamlSymfony();
-    $stream = new LocalReadOnlyFile($this->root . '/app/config/routing.yml');
+    $stream = new LocalReadOnlyFile($this->root() . '/app/config/routing.yml');
     $route_collection_factory = $container->get('route_collection_factory');
     $router = $route_collection_factory->create($yaml->decode($stream->read()));
 
@@ -152,22 +115,12 @@ final class Environment {
     return $router;
   }
 
-  private function initializeSchema(ContainerInterface $container): StorageSchemaCollection {
-    $yaml = new YamlSymfony();
-    $stream = new LocalReadOnlyFile($this->root . '/app/config/schema.yml');
-    $schema_collection_factory = $container->get('schema_collection_factory');
-    $schema = $schema_collection_factory->create($yaml->decode($stream->read()));
+  private function initializeTemplateEngine(ContainerInterface $container): void {
+    $container->setParameter('templates_path', $this->root() . '/app/templates');
 
-    return $schema;
-  }
+    $template_engine_factory = $container->get('template_engine_factory');
 
-  private function initializeTwig(ContainerInterface $container): void {
-    $container->setParameter('templates_path', $this->root . '/app/templates');
-
-    $messenger = $container->get('messenger');
-    $twig = $container->get('twig');
-
-    $twig->addExtension(new BootstrapTwigExtension($messenger));
+    $template_engine_factory->initialize();
   }
 
   private function initializeSession(ContainerInterface $container): void {

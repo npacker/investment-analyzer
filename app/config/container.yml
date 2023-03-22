@@ -35,12 +35,15 @@ services:
     arguments: ['@database_factory']
   session:
     class: App\Http\Session
-  template_factory:
-    class: App\Render\TwigTemplateFactory
-    arguments: ['@twig']
   twig_loader:
     class: Twig\Loader\FilesystemLoader
     arguments: ['%templates_path%']
   twig:
     class: Twig\Environment
     arguments: ['@twig_loader']
+  template_engine_factory:
+    class: App\Render\TwigTemplateEngineFactory
+    arguments: ['@twig', '@messenger']
+  template_factory:
+    class: App\Render\TwigTemplateFactory
+    arguments: ['@twig']
