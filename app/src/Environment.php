@@ -66,7 +66,7 @@ final class Environment implements EnvironmentInterface {
     }
   }
 
-  public function exceptionHandler($e) {
+  public function exceptionHandler(\Throwable $e) {
     printf('<pre><strong>Uncaught exception:</strong> %s on line %d of %s</pre>', $e->getMessage(), $e->getLine(), $e->getFile());
     exit();
   }
@@ -108,11 +108,11 @@ final class Environment implements EnvironmentInterface {
     $yaml = new YamlSymfony();
     $stream = new LocalReadOnlyFile($this->root() . '/app/config/routing.yml');
     $route_collection_factory = $container->get('route_collection_factory');
-    $router = $route_collection_factory->create($yaml->decode($stream->read()));
+    $routes = $route_collection_factory->create($yaml->decode($stream->read()));
 
-    $container->set('router', $router);
+    $container->set('routes', $routes);
 
-    return $router;
+    return $routes;
   }
 
   private function initializeTemplateEngine(ContainerInterface $container): void {

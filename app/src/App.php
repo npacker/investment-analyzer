@@ -4,14 +4,12 @@ namespace App;
 
 use App\AppInterface;
 use App\Container\ContainerInterface;
-use App\Context;
 use App\Http\RequestInterface;
 use App\Http\ResponseInterface;
 use App\Render\Twig\RuntimeTwigExtension;
 use App\Router\RequestMatchingInterface;
 use App\Router\RouteNotFoundException;
 use App\Settings;
-use App\UrlFactory;
 
 final class App implements AppInterface {
 
@@ -45,11 +43,7 @@ final class App implements AppInterface {
   }
 
   public function handle(RequestInterface $request): ResponseInterface {
-    $context = new Context($this, $request);
-    $url_factory = new UrlFactory($context);
-
-    $this->container->set('context', $context);
-    $this->container->set('url_factory', $url_factory);
+    $this->container->set('request', $request);
 
     $this->initializeTwig();
 
@@ -80,11 +74,11 @@ final class App implements AppInterface {
   }
 
   private function initializeTwig(): void {
-    $context = $this->container->get('context');
+    $request = $this->container->get('request');
     $url_factory = $this->container->get('url_factory');
     $twig = $this->container->get('twig');
 
-    $twig->addExtension(new RunTimeTwigExtension($context, $url_factory));
+    $twig->addExtension(new RunTimeTwigExtension($this->settings, $request, $url_factory));
   }
 
 }

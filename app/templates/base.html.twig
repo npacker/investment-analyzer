@@ -1,4 +1,4 @@
-{% set menu_hidden = app.request().cookie('menu_hidden') %}
+{% set menu_hidden = request.cookie('menu_hidden') %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -39,7 +39,7 @@
   </body>
   {% block settings %}
   <script type="text/javascript">
-    window.settings = Object.freeze({{ app.settings.window ?? []|json_encode() }});
+    window.settings = Object.freeze({{ settings.window ?? []|json_encode() }});
   </script>
   {% endblock %}
   {% block javascripts_before %}

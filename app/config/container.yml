@@ -47,3 +47,6 @@ services:
   template_factory:
     class: App\Render\TwigTemplateFactory
     arguments: ['@twig']
+  url_factory:
+    class: App\UrlFactory
+    arguments: ['@request', '@routes']

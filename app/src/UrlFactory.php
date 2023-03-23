@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Context;
 use App\Http\RequestInterface;
 use App\Router\RouteCollection;
 
@@ -12,9 +11,9 @@ final class UrlFactory {
 
   private RouteCollection $routes;
 
-  public function __construct(Context $context) {
-    $this->request = $context->request();
-    $this->routes = $context->routes();
+  public function __construct(RequestInterface $request, RouteCollection $routes) {
+    $this->request = $request;
+    $this->routes = $routes;
   }
 
   public function urlFromRoute(string $name, array $parameters = []): string {

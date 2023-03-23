@@ -9,7 +9,6 @@ use App\Http\ResponseInterface;
 use App\Render\Twig\RuntimeTwigExtension;
 use App\Settings;
 use App\Storage\Schema\StorageSchemaCollection;
-use App\UrlFactory;
 
 final class Installer implements AppInterface {
 
@@ -35,11 +34,7 @@ final class Installer implements AppInterface {
   }
 
   public function handle(RequestInterface $request): ResponseInterface {
-    $context = new Context($this, $request);
-    $url_factory = new UrlFactory($context);
-
-    $this->app->container()->set('context', $context);
-    $this->app->container()->set('url_factory', $url_factory);
+    $this->container->set('request', $request);
 
     $this->initializeTwig();
 
@@ -66,11 +61,11 @@ final class Installer implements AppInterface {
   }
 
   private function initializeTwig(): void {
-    $context = $this->app->container()->get('context');
-    $url_factory = $this->app->container()->get('url_factory');
-    $twig = $this->app->container()->get('twig');
+    $request = $this->container->get('request');
+    $url_factory = $this->container->get('url_factory');
+    $twig = $this->container->get('twig');
 
-    $twig->addExtension(new RunTimeTwigExtension($context, $url_factory));
+    $twig->addExtension(new RunTimeTwigExtension($this->settings, $request, $url_factory));
   }
 
 }
