@@ -55,7 +55,7 @@ final class Installer implements AppInterface {
     $schema_collection_definition = $this->schema_collection->definition();
     $schema_definitions = $schema_collection_definition->schema();
 
-    return new HttpResponse($twig->render('schema.html.twig', [
+    return new HttpResponse($twig->render('schema', [
       'schema_definitions' => $schema_definitions,
     ]));
   }

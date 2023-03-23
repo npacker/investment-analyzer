@@ -15,7 +15,7 @@ final class TwigTemplateFactory implements TemplateFactoryInterface {
   }
 
   public function load(string $name): TemplateFacadeInterface {
-    return new TwigTemplateFacade($this->twig->load($name));
+    return new TwigTemplateFacade($this->twig->load($name . '.html.twig'));
   }
 
 }

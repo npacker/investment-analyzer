@@ -9,7 +9,7 @@ use App\Controller\AbstractController;
 final class MainController extends AbstractController {
 
   public function view(RequestInterface $request) {
-    return new HttpResponse($this->render('base.html.twig', [
+    return new HttpResponse($this->render('base', [
       'title' => 'Investments Analyzer',
       'content' => 'Hello World!',
     ]));

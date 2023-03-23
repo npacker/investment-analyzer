@@ -29,7 +29,7 @@ final class SecuritiesController extends AbstractController {
     $security = $this->securityStorage->find($symbol);
     $name = $security['name'];
 
-    return new HttpResponse($this->render('securities/view.html.twig', [
+    return new HttpResponse($this->render('securities/view', [
       'title' => $symbol . ': ' . ucwords(strtolower($name)),
     ]));
   }
@@ -37,7 +37,7 @@ final class SecuritiesController extends AbstractController {
   public function viewAll(RequestInterface $request) {
     $securities = $this->securityStorage->all();
 
-    return new HttpResponse($this->render('securities.html.twig', [
+    return new HttpResponse($this->render('securities', [
       'title' => 'Securities',
       'securities' => $securities,
     ]));
@@ -46,7 +46,7 @@ final class SecuritiesController extends AbstractController {
   public function deleteConfirm(RequestInterface $request) {
     $symbol = $this->routeMatch->parameters('symbol');
 
-    return new HttpResponse($this->render('securities/delete.html.twig', [
+    return new HttpResponse($this->render('securities/delete', [
       'title' => 'Delete security ' . $symbol . '?',
     ]));
   }

@@ -23,7 +23,7 @@ final class NotFoundController implements ControllerInterface, ContainerInjectio
   }
 
   public function view(RequestInterface $request) {
-    return new HttpResponse($this->twig->render('404.html.twig', [
+    return new HttpResponse($this->twig->render('404', [
       'title' => 'Not Found',
     ]), HttpResponse::HTTP_NOT_FOUND);
   }
