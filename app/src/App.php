@@ -54,7 +54,6 @@ final class App implements AppInterface {
       $action = $route->action();
 
       $this->container->set('route_match', $match);
-      $this->initializeDatabase();
     }
     catch (RouteNotFoundException $e) {
       $controller = 'App\Controller\NotFoundController';
@@ -64,13 +63,6 @@ final class App implements AppInterface {
     $instance = $controller::create($this->container);
 
     return $instance->{$action}($request);
-  }
-
-  private function initializeDatabase(): void {
-    $database_factory = $this->container->get('database_factory');
-    $database = $database_factory->getInstance();
-
-    $this->container->set('database', $database);
   }
 
   private function initializeTwig(): void {
