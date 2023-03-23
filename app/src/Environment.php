@@ -11,7 +11,6 @@ use App\Router\RouteCollection;
 use App\Serialization\YamlSymfony;
 use App\Settings;
 use App\Stream\LocalReadOnlyFile;
-use PDO;
 
 final class Environment implements EnvironmentInterface {
 
@@ -39,11 +38,11 @@ final class Environment implements EnvironmentInterface {
     $container = $this->initializeContainer();
     $settings = $this->initializeSettings($container);
     $routes = $this->initializeRoutes($container);
-    $database = $this->initializeDatabase($container);
     $app = new App($this->autoloader, $container, $settings, $routes);
 
-    $this->initializeTemplateEngine($container);
+    $this->initializeDatabase($container);
     $this->initializeSession($container);
+    $this->initializeTemplateEngine($container);
 
     return $app;
   }
@@ -117,13 +116,11 @@ final class Environment implements EnvironmentInterface {
     return $routes;
   }
 
-  private function initializeDatabase(ContainerInterface $container): PDO {
+  private function initializeDatabase(ContainerInterface $container): void {
     $database_factory = $container->get('database_factory');
     $database = $database_factory->getInstance();
 
     $container->set('database', $database);
-
-    return $database;
   }
 
   private function initializeTemplateEngine(ContainerInterface $container): void {
