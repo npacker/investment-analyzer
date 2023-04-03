@@ -23,6 +23,10 @@ final class Environment implements EnvironmentInterface {
     $this->root = dirname(__DIR__, 2);
   }
 
+  public function autoloader() {
+    return $this->autoloader;
+  }
+
   public function root(): string {
     return $this->root;
   }
@@ -92,11 +96,13 @@ final class Environment implements EnvironmentInterface {
       $container->setParameter($name, $parameter);
     }
 
+    $container->set('yaml', $yaml);
+
     return $container;
   }
 
   private function initializeSettings(ContainerInterface $container): Settings {
-    $yaml = new YamlSymfony();
+    $yaml = $container->get('yaml');
     $stream = new LocalReadOnlyFile($this->root() . '/app/config/settings.yml');
     $settings = new Settings($yaml->decode($stream->read()));
 
@@ -106,7 +112,7 @@ final class Environment implements EnvironmentInterface {
   }
 
   private function initializeRoutes(ContainerInterface $container): RouteCollection {
-    $yaml = new YamlSymfony();
+    $yaml = $container->get('yaml');
     $stream = new LocalReadOnlyFile($this->root() . '/app/config/routing.yml');
     $route_collection_factory = $container->get('route_collection_factory');
     $routes = $route_collection_factory->create($yaml->decode($stream->read()));
@@ -123,18 +129,18 @@ final class Environment implements EnvironmentInterface {
     $container->set('database', $database);
   }
 
+  private function initializeSession(ContainerInterface $container): void {
+    $session = $container->get('session');
+
+    $session->start();
+  }
+
   private function initializeTemplateEngine(ContainerInterface $container): void {
     $container->setParameter('templates_path', $this->root() . '/app/templates');
 
     $template_engine_factory = $container->get('template_engine_factory');
 
     $template_engine_factory->initialize();
-  }
-
-  private function initializeSession(ContainerInterface $container): void {
-    $session = $container->get('session');
-
-    $session->start();
   }
 
 }

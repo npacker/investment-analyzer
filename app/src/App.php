@@ -21,13 +21,15 @@ final class App implements AppInterface {
 
   private RequestMatchingInterface $routes;
 
-  private RequestInterface $request;
-
   public function __construct($autoloader, ContainerInterface $container, Settings $settings, RequestMatchingInterface $routes) {
     $this->autoloader = $autoloader;
     $this->container = $container;
     $this->settings = $settings;
     $this->routes = $routes;
+  }
+
+  public function autoloader() {
+    return $this->autoloader;
   }
 
   public function container(): ContainerInterface {
