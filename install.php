@@ -4,6 +4,7 @@ namespace App;
 
 use App\Environment;
 use App\Http\HttpRequest;
+use App\InstallEnvironment;
 
 $autoloader = require 'autoload.php';
 $environment = new InstallEnvironment(new Environment($autoloader));

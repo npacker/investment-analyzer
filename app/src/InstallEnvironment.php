@@ -2,9 +2,9 @@
 
 namespace App;
 
+use App\Container\ContainerInterface;
 use App\EnvironmentInterface;
 use App\Installer;
-use App\Serialization\YamlSymfony;
 use App\Storage\Schema\StorageSchemaCollection;
 use App\Stream\LocalReadOnlyFile;
 
@@ -14,6 +14,10 @@ final class InstallEnvironment implements EnvironmentInterface {
 
   public function __construct(EnvironmentInterface $environment) {
     $this->environment = $environment;
+  }
+
+  public function autoloader() {
+    return $this->environment->autoloader();
   }
 
   public function root(): string {
@@ -28,7 +32,7 @@ final class InstallEnvironment implements EnvironmentInterface {
   }
 
   private function initializeSchema(ContainerInterface $container): StorageSchemaCollection {
-    $yaml = new YamlSymfony();
+    $yaml = $container->get('yaml');
     $stream = new LocalReadOnlyFile($this->root() . '/app/config/schema.yml');
     $schema_collection_factory = $container->get('schema_collection_factory');
     $schema = $schema_collection_factory->create($yaml->decode($stream->read()));
