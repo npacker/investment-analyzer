@@ -10,6 +10,8 @@ use App\Settings;
 
 interface AppInterface {
 
+  public function autoloader();
+
   public function container(): ContainerInterface;
 
   public function settings(): Settings;
