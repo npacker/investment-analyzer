@@ -5,6 +5,7 @@ namespace App\Container;
 use App\Container\CircularServiceReferenceException;
 use App\Container\ContainerInterface;
 use App\Container\ServiceDefinitionInterface;
+use App\Container\UndefinedClassException;
 
 final class Container implements ContainerInterface {
 
@@ -22,7 +23,7 @@ final class Container implements ContainerInterface {
     }
 
     if (isset($this->loading[$name])) {
-      throw new CircularServiceReferenceException();
+      throw new CircularServiceReferenceException('Circular reference to ' . $name . ' detected.');
     }
 
     return $this->createService($name);
@@ -63,6 +64,11 @@ final class Container implements ContainerInterface {
   private function createService(string $name) {
     $this->loading[$name] = true;
     $definition = $this->definitions[$name];
+
+    if (is_null($definition)) {
+      throw new UndefinedClassException('Class ' . $name . ' is not defined.');
+    }
+
     $class = $definition->class();
     $arguments = $this->resolveArguments($definition);
     $service = new $class(...$arguments);

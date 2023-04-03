@@ -11,16 +11,17 @@ use App\Render\Twig\RuntimeTwigExtension;
 use App\Router\RequestMatchingInterface;
 use App\Settings;
 use App\Storage\Schema\StorageSchemaCollection;
+use Twig\Environment as TwigEnvironment;
 
 final class Installer implements AppInterface {
 
   private AppInterface $app;
 
-  private StorageSchemaCollection $schema_collection;
+  private StorageSchemaCollection $schemaCollection;
 
   public function __construct(AppInterface $app, StorageSchemaCollection $schema_collection) {
     $this->app = $app;
-    $this->schema_collection = $schema_collection;
+    $this->schemaCollection = $schema_collection;
   }
 
   public function autoloader() {
@@ -42,14 +43,14 @@ final class Installer implements AppInterface {
   public function handle(RequestInterface $request): ResponseInterface {
     $this->container()->set('request', $request);
 
-    $this->initializeTwig();
-
     if ($request->server('REQUEST_METHOD') === 'POST') {
       $messenger = $this->container()->get('messenger');
 
       try {
-        $this->schema->build();
+        $this->schemaCollection->build();
         $messenger->set('Installation completed successfuly.');
+
+        $url_factory = $this->container()->get('url_factory');
 
         return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $url_factory->baseUrl()]);
       }
@@ -58,21 +59,23 @@ final class Installer implements AppInterface {
       }
     }
 
-    $schema_collection_definition = $this->schema_collection->definition();
+    $schema_collection_definition = $this->schemaCollection->definition();
     $schema_definitions = $schema_collection_definition->schema();
-    $twig = $this->container()->get('twig');
+    $twig = $this->initializeTwig();
 
     return new HttpResponse($twig->render('schema.html.twig', [
       'schema_definitions' => $schema_definitions,
     ]));
   }
 
-  private function initializeTwig(): void {
+  private function initializeTwig(): TwigEnvironment {
     $request = $this->container()->get('request');
     $url_factory = $this->container()->get('url_factory');
     $twig = $this->container()->get('twig');
 
     $twig->addExtension(new RuntimeTwigExtension($this->settings(), $request, $url_factory));
+
+    return $twig;
   }
 
 }
