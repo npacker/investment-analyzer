@@ -85,15 +85,7 @@ final class Environment implements EnvironmentInterface {
     $yaml = new YamlSymfony();
     $stream = new LocalReadOnlyFile($this->root() . '/app/config/container.yml');
     $definition = new ContainerDefinition($yaml->decode($stream->read()));
-    $container = new Container();
-
-    foreach ($definition->services() as $name => $service) {
-      $container->setDefinition($name, $service);
-    }
-
-    foreach ($definition->parameters() as $name => $parameter) {
-      $container->setParameter($name, $parameter);
-    }
+    $container = new Container($definition);
 
     $container->set('yaml', $yaml);
 

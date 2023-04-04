@@ -17,6 +17,18 @@ final class Container implements ContainerInterface {
 
   private array $loading = [];
 
+  public function __construct(ContainerDefinition $definition = null) {
+    if ($definition) {
+      foreach ($definition->services() as $name => $service) {
+        $this->setDefinition($name, $service);
+      }
+
+      foreach ($definition->parameters() as $name => $parameter) {
+        $this->setParameter($name, $parameter);
+      }
+    }
+  }
+
   public function get(string $name) {
     if (isset($this->services[$name])) {
       return $this->services[$name];
