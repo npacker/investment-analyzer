@@ -5,7 +5,7 @@ namespace App\Storage\Database;
 use App\Settings;
 use PDO;
 
-final class DatabaseFactory {
+final class SqlDatabaseFactory implements DatabaseFactoryInterface {
 
   private string $hostname;
 

@@ -1,19 +1,19 @@
 services:
   database_factory:
-    class: App\Storage\Database\DatabaseFactory
+    class: App\Storage\Database\SqlDatabaseFactory
     arguments: ['@settings']
   fund_storage:
     class: App\Storage\Sql\SqlFundStorage
-    arguments: ['@database']
+    arguments: ['@database_factory']
   security_storage:
     class: App\Storage\Sql\SqlSecurityStorage
-    arguments: ['@database']
+    arguments: ['@database_factory']
   fund_position_storage:
     class: App\Storage\Sql\SqlFundPositionStorage
-    arguments: ['@database']
+    arguments: ['@database_factory']
   portfolio_storage:
     class: App\Storage\Sql\SqlPortfolioStorage
-    arguments: ['@database']
+    arguments: ['@database_factory']
   messenger:
     class: App\Messenger\Messenger
     arguments: ['@session']
