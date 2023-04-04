@@ -44,8 +44,8 @@ final class Environment implements EnvironmentInterface {
     $routes = $this->initializeRoutes($container);
     $app = new App($this->autoloader, $container, $settings, $routes);
 
-    $this->initializeDatabase($container);
     $this->initializeSession($container);
+    $this->initializeDatabase($container);
     $this->initializeTemplateEngine($container);
 
     return $app;
@@ -122,17 +122,17 @@ final class Environment implements EnvironmentInterface {
     return $routes;
   }
 
+  private function initializeSession(ContainerInterface $container): void {
+    $session = $container->get('session');
+
+    $session->start();
+  }
+
   private function initializeDatabase(ContainerInterface $container): void {
     $database_factory = $container->get('database_factory');
     $database = $database_factory->getInstance();
 
     $container->set('database', $database);
-  }
-
-  private function initializeSession(ContainerInterface $container): void {
-    $session = $container->get('session');
-
-    $session->start();
   }
 
   private function initializeTemplateEngine(ContainerInterface $container): void {
