@@ -50,6 +50,10 @@ abstract class AbstractController implements ContainerInjectionInterface {
     return $this->urlFactory->urlFromRoute($name);
   }
 
+  final protected function response(string $name, array $variables = []): ResponseInterface {
+    return new HttpResponse($this->render($name, $variables));
+  }
+
   final protected function redirect(string $url): ResponseInterface {
     return new HttpResponse('Redirecting...', HttpResponse::HTTP_FOUND, ['Location' => $url]);
   }

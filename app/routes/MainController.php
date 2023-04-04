@@ -9,10 +9,10 @@ use App\Controller\RouteController;
 final class MainController extends RouteController {
 
   public function view(RequestInterface $request) {
-    return new HttpResponse($this->render('base', [
+    return $this->response('base', [
       'title' => 'Investments Analyzer',
       'content' => 'Hello World!',
-    ]));
+    ]);
   }
 
 }

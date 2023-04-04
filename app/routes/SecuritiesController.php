@@ -4,7 +4,6 @@ namespace App\Route;
 
 use App\Container\ContainerInterface;
 use App\Controller\RouteController;
-use App\Http\HttpResponse;
 use App\Http\RequestInterface;
 use App\Storage\SecurityStorageInterface;
 
@@ -29,26 +28,26 @@ final class SecuritiesController extends RouteController {
     $security = $this->securityStorage->find($symbol);
     $name = $security['name'];
 
-    return new HttpResponse($this->render('securities/view', [
+    return $this->response('securities/view', [
       'title' => $symbol . ': ' . ucwords(strtolower($name)),
-    ]));
+    ]);
   }
 
   public function viewAll(RequestInterface $request) {
     $securities = $this->securityStorage->all();
 
-    return new HttpResponse($this->render('securities', [
+    return $this->response('securities', [
       'title' => 'Securities',
       'securities' => $securities,
-    ]));
+    ]);
   }
 
   public function deleteConfirm(RequestInterface $request) {
     $symbol = $this->routeMatch->parameters('symbol');
 
-    return new HttpResponse($this->render('securities/delete', [
+    return $this->response('securities/delete', [
       'title' => 'Delete security ' . $symbol . '?',
-    ]));
+    ]);
   }
 
   public function deleteSubmit(RequestInterface $request) {

@@ -4,7 +4,6 @@ namespace App\Route;
 
 use App\Container\ContainerInterface;
 use App\Controller\RouteController;
-use App\Http\HttpResponse;
 use App\Http\RequestInterface;
 use App\Storage\FundStorageInterface;
 use App\Storage\PortfolioStorageInterface;
@@ -35,13 +34,13 @@ final class PortfoliosController extends RouteController {
   public function viewAll(RequestInterface $request) {
     $portfolios = $this->portfolioStorage->all();
 
-    return new HttpResponse($this->render('portfolios', [
+    return $this->response('portfolios', [
       'portfolios' => $portfolios,
-    ]));
+    ]);
   }
 
   public function createView(RequestInterface $request) {
-    return new HttpResponse($this->render('portfolios/create'));
+    return $this->response('portfolios/create');
   }
 
   public function createSubmit(RequestInterface $request) {
@@ -64,10 +63,10 @@ final class PortfoliosController extends RouteController {
     $name = $portfolio['name'];
     $funds = $this->fundStorage->all();
 
-    return new HttpResponse($this->render('portfolios/edit', [
+    return $this->response('portfolios/edit', [
       'name' => $name,
       'funds' => $funds,
-    ]));
+    ]);
   }
 
 }

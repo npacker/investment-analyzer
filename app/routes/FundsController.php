@@ -4,7 +4,6 @@ namespace App\Route;
 
 use App\Container\ContainerInterface;
 use App\Controller\RouteController;
-use App\Http\HttpResponse;
 use App\Http\RequestInterface;
 use App\Storage\FundPositionStorageInterface;
 use App\Storage\FundStorageInterface;
@@ -57,23 +56,23 @@ final class FundsController extends RouteController {
       $this->messenger->setError($e->getMessage());
     }
 
-    return new HttpResponse($this->render('funds/view', [
+    return $this->response('funds/view', [
       'symbol' => $symbol,
       'name' => $name,
       'positions' => $positions,
-    ]));
+    ]);
   }
 
   public function viewAll(RequestInterface $request) {
     $funds = $this->fundStorage->all();
 
-    return new HttpResponse($this->render('funds', [
+    return $this->response('funds', [
       'funds' => $funds,
-    ]));
+    ]);
   }
 
   public function createView(RequestInterface $request) {
-    return new HttpResponse($this->render('funds/create'));
+    return $this->response('funds/create');
   }
 
   public function createSubmit(RequestInterface $request) {
@@ -96,10 +95,10 @@ final class FundsController extends RouteController {
     $fund = $this->fundStorage->find($symbol);
     $name = $fund['name'];
 
-    return new HttpResponse($this->render('funds/edit', [
+    return $this->response('funds/edit', [
       'name' => $name,
       'symbol' => $symbol,
-    ]));
+    ]);
   }
 
   public function editSubmit(RequestInterface $request) {
