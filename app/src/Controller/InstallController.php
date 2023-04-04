@@ -32,7 +32,7 @@ final class InstallController extends AbstractController {
     $schema_definitions = $schema_collection_definition->schema();
 
     return new HttpResponse($this->render('schema', [
-      'schema_definitions' => $this->schema_definitions,
+      'schema_definitions' => $schema_definitions,
     ]));
   }
 
