@@ -6,7 +6,6 @@ use App\AppInterface;
 use App\Container\ContainerInterface;
 use App\Http\RequestInterface;
 use App\Http\ResponseInterface;
-use App\Render\Twig\RuntimeTwigExtension;
 use App\Router\RequestMatchingInterface;
 use App\Settings;
 use App\Storage\Schema\StorageSchemaCollection;
@@ -40,7 +39,7 @@ final class Installer implements AppInterface {
 
   public function handle(RequestInterface $request): ResponseInterface {
     $this->container()->set('request', $request);
-    $this->initializeTwig();
+    $this->initializeTemplateEngine();
 
     $controller = 'App\Controller\InstallController';
     $installer = $controller::create($this->container());
@@ -50,12 +49,10 @@ final class Installer implements AppInterface {
     return $installer->view($request);
   }
 
-  private function initializeTwig() {
-    $request = $this->container()->get('request');
-    $url_factory = $this->container()->get('url_factory');
-    $twig = $this->container()->get('twig');
+  private function initializeTemplateEngine(): void {
+    $template_engine_builder = $this->container()->get('template_engine_runtime_builder');
 
-    $twig->addExtension(new RuntimeTwigExtension($this->settings(), $request, $url_factory));
+    $template_engine_builder->build();
   }
 
 }

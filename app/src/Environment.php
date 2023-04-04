@@ -138,9 +138,9 @@ final class Environment implements EnvironmentInterface {
   private function initializeTemplateEngine(ContainerInterface $container): void {
     $container->setParameter('templates_path', $this->root() . '/app/templates');
 
-    $template_engine_factory = $container->get('template_engine_factory');
+    $template_engine_builder = $container->get('template_engine_bootstrap_builder');
 
-    $template_engine_factory->initialize();
+    $template_engine_builder->build();
   }
 
 }

@@ -3,15 +3,11 @@
 namespace App\Render;
 
 use App\Messenger\MessengerInterface;
-use App\Render\TemplateEngineInterface;
 use App\Render\Twig\BootstrapTwigExtension;
-use App\Render\Twig\RuntimeTwigExtension;
 use App\Settings;
 use Twig\Environment as TwigEnvironment;
 
-final class TwigTemplateEngineFactory implements TemplateEngineFactoryInterface {
-
-  private TwigEnvironment $twig;
+final class TwigBootstrapBuilder implements TemplateEngineBuilderInterface {
 
   private MessengerInterface $messenger;
 
@@ -23,8 +19,8 @@ final class TwigTemplateEngineFactory implements TemplateEngineFactoryInterface 
     $this->settings = $settings;
   }
 
-  public function bootstrap(): void {
-    $this->twig->addExtension(new BootstrapTwigExtension($this->messenger));
+  public function build() {
+    $this->twig->addExtension(new BootstrapTwigExtension($this->messenger, $this->settings));
   }
 
 }

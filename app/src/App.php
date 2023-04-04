@@ -6,7 +6,6 @@ use App\AppInterface;
 use App\Container\ContainerInterface;
 use App\Http\RequestInterface;
 use App\Http\ResponseInterface;
-use App\Render\Twig\RuntimeTwigExtension;
 use App\Router\RequestMatchingInterface;
 use App\Router\RouteNotFoundException;
 use App\Settings;
@@ -46,8 +45,7 @@ final class App implements AppInterface {
 
   public function handle(RequestInterface $request): ResponseInterface {
     $this->container->set('request', $request);
-
-    $this->initializeTwig();
+    $this->initializeTemplateEngine();
 
     try {
       $match = $this->routes->match($request);
@@ -67,12 +65,10 @@ final class App implements AppInterface {
     return $instance->{$action}($request);
   }
 
-  private function initializeTwig(): void {
-    $request = $this->container->get('request');
-    $url_factory = $this->container->get('url_factory');
-    $twig = $this->container->get('twig');
+  private function initializeTemplateEngine(): void {
+    $template_engine_builder = $this->container()->get('template_engine_runtime_builder');
 
-    $twig->addExtension(new RunTimeTwigExtension($this->settings, $request, $url_factory));
+    $template_engine_builder->build();
   }
 
 }

@@ -41,9 +41,12 @@ services:
   twig:
     class: Twig\Environment
     arguments: ['@twig_loader']
-  template_engine_factory:
-    class: App\Render\TwigTemplateEngineFactory
-    arguments: ['@twig', '@messenger']
+  template_engine_bootstrap_builder:
+    class: App\Render\TwigBootstrapBuilder
+    arguments: ['@twig', '@messenger', '@settings']
+  template_engine_runtime_builder:
+    class: App\Render\TwigRuntimeBuilder
+    arguments: ['@twig', '@request', '@url_factory']
   template_factory:
     class: App\Render\TwigTemplateFactory
     arguments: ['@twig']
