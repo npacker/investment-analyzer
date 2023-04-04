@@ -39,12 +39,12 @@ final class Installer implements AppInterface {
 
   public function handle(RequestInterface $request): ResponseInterface {
     $this->container()->set('request', $request);
-    $this->initializeTemplateEngine();
 
     $controller = 'App\Controller\InstallController';
     $installer = $controller::create($this->container());
 
     $installer->setSchemaCollection($this->schemaCollection);
+    $this->initializeTemplateEngine();
 
     return $installer->view($request);
   }

@@ -45,7 +45,6 @@ final class App implements AppInterface {
 
   public function handle(RequestInterface $request): ResponseInterface {
     $this->container->set('request', $request);
-    $this->initializeTemplateEngine();
 
     try {
       $match = $this->routes->match($request);
@@ -61,6 +60,8 @@ final class App implements AppInterface {
     }
 
     $instance = $controller::create($this->container);
+
+    $this->initializeTemplateEngine();
 
     return $instance->{$action}($request);
   }
