@@ -3,33 +3,33 @@
 namespace App\Route;
 
 use App\Container\ContainerInterface;
-use App\Controller\AbstractController;
+use App\Controller\RouteController;
 use App\Http\HttpResponse;
 use App\Http\RequestInterface;
 use App\Storage\FundStorageInterface;
 use App\Storage\PortfolioStorageInterface;
 
-final class PortfoliosController extends AbstractController {
-
-  private PortfolioStorageInterface $portfolioStorage;
+final class PortfoliosController extends RouteController {
 
   private FundStorageInterface $fundStorage;
+
+  private PortfolioStorageInterface $portfolioStorage;
 
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
 
-    $instance->setPortfolioStorage($container->get('portfolio_storage'));
     $instance->setFundStorage($container->get('fund_storage'));
+    $instance->setPortfolioStorage($container->get('portfolio_storage'));
 
     return $instance;
   }
 
-  public function setPortfolioStorage(PortfolioStorageInterface $portfolio_storage) {
-    $this->portfolioStorage = $portfolio_storage;
-  }
-
   public function setFundStorage(FundStorageInterface $fund_storage) {
     $this->fundStorage = $fund_storage;
+  }
+
+  public function setPortfolioStorage(PortfolioStorageInterface $portfolio_storage) {
+    $this->portfolioStorage = $portfolio_storage;
   }
 
   public function viewAll(RequestInterface $request) {

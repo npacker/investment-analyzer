@@ -2,30 +2,26 @@
 
 namespace App\Controller;
 
-use App\App;
 use App\Container\ContainerInjectionInterface;
 use App\Container\ContainerInterface;
-use App\Controller\ControllerInterface;
-use App\Http\ResponseInterface;
 use App\Http\HttpResponse;
+use App\Http\ResponseInterface;
 use App\Messenger\MessengerInterface;
 use App\Render\TemplateFacadeInterface;
 use App\Render\TemplateFactoryInterface;
-use App\Router\RouteMatchInterface;
 use App\UrlFactory;
 
-abstract class AbstractController implements ControllerInterface, ContainerInjectionInterface {
+abstract class AbstractController implements ContainerInjectionInterface {
 
   protected TemplateFactoryInterface $template_factory;
 
   protected MessengerInterface $messenger;
 
-  protected RouteMatchInterface $routeMatch;
+  protected UrlFactory $urlFactory;
 
-  final public function __construct(TemplateFactoryInterface $template_factory, MessengerInterface $messenger, RouteMatchInterface $route_match, UrlFactory $url_factory) {
+  final public function __construct(TemplateFactoryInterface $template_factory, MessengerInterface $messenger, UrlFactory $url_factory) {
     $this->templateFactory = $template_factory;
     $this->messenger = $messenger;
-    $this->routeMatch = $route_match;
     $this->urlFactory = $url_factory;
   }
 
@@ -33,7 +29,6 @@ abstract class AbstractController implements ControllerInterface, ContainerInjec
     return new static($container
       ->get('template_factory'), $container
       ->get('messenger'), $container
-      ->get('route_match'), $container
       ->get('url_factory'));
   }
 

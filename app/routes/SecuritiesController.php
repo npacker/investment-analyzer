@@ -3,12 +3,12 @@
 namespace App\Route;
 
 use App\Container\ContainerInterface;
-use App\Controller\AbstractController;
+use App\Controller\RouteController;
 use App\Http\HttpResponse;
 use App\Http\RequestInterface;
 use App\Storage\SecurityStorageInterface;
 
-final class SecuritiesController extends AbstractController {
+final class SecuritiesController extends RouteController {
 
   private SecurityStorageInterface $securityStorage;
 

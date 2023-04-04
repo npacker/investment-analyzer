@@ -3,16 +3,15 @@
 namespace App\Route;
 
 use App\Container\ContainerInterface;
-use App\Controller\AbstractController;
+use App\Controller\RouteController;
 use App\Http\HttpResponse;
 use App\Http\RequestInterface;
-use App\Messenger\MessengerInterface;
 use App\Storage\FundPositionStorageInterface;
 use App\Storage\FundStorageInterface;
 use App\Storage\SecurityStorageInterface;
 use App\Stream\FileLinesAsCsv;
 
-final class FundsController extends AbstractController {
+final class FundsController extends RouteController {
 
   private FundStorageInterface $fundStorage;
 
