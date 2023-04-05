@@ -2,7 +2,7 @@
 
 namespace App\Storage;
 
-final class StorageResultset implements \Iterator, \Coutnable {
+final class Resultset implements \Iterator, \Coutnable {
 
   private $objects = [];
 
