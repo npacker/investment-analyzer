@@ -5,7 +5,7 @@ namespace App\Route;
 use App\Container\ContainerInterface;
 use App\Controller\RouteController;
 use App\Http\RequestInterface;
-use App\Storage\SecurityStorageInterface;
+use App\Model\Storage\SecurityStorageInterface;
 
 final class SecuritiesController extends RouteController {
 

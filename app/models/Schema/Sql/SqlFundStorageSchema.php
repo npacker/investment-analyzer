@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Storage\Sql\Schema;
+namespace App\Model\Schema\Sql;
 
 use App\Storage\Sql\SqlStorage;
 
-final class SqlPortfolioStorageSchema extends SqlStorage {
+final class SqlFundStorageSchema extends SqlStorage {
 
   public function build() {
     $query = 'CREATE TABLE IF NOT EXISTS
-              portfolio (
-                id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+              fund (
+                symbol VARCHAR(15) NOT NULL,
                 name VARCHAR(255) NOT NULL,
-                PRIMARY KEY (id)
+                PRIMARY KEY (symbol)
               )
               ENGINE=InnoDB
-              DEFAULT CHARSEt=utf8mb4';
+              DEFAULT CHARSET=utf8mb4';
 
     $statement = $this->handle->prepare($query);
     $statement->execute();

@@ -6,7 +6,8 @@
     "autoload": {
       "psr-4": {
         "App\\": "app/src",
-        "App\\Route\\": "app/routes"
+        "App\\Route\\": "app/routes",
+        "App\\Model\\": "app/models"
       }
     }
 }

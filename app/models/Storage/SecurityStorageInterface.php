@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Storage;
+namespace App\Model\Storage;
 
 interface SecurityStorageInterface {
 

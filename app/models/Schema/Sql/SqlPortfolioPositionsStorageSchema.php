@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Storage\Sql\Schema;
+namespace App\Model\Schema\Sql;
 
-final class SqlPortfolioPositionStorageSchema {
+use App\Storage\Sql\SqlStorage;
+
+final class SqlPortfolioPositionStorageSchema extends SqlStorage {
 
   public function build() {
     $query = 'CREATE TABLE IF NOT EXISTS

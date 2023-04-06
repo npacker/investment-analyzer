@@ -4,13 +4,13 @@ namespace App\Storage\Schema;
 
 use App\Storage\Schema\StorageSchemaCollection;
 use App\Storage\Schema\StorageSchemaCollectionDefinition;
-use App\Storage\Database\DatabaseFactory;
+use App\Storage\Database\DatabaseFactoryInterface;
 
 final class StorageSchemaCollectionFactory {
 
-  private DatabaseFactory $factory;
+  private DatabaseFactoryInterface $factory;
 
-  public function __construct(DatabaseFactory $factory) {
+  public function __construct(DatabaseFactoryInterface $factory) {
     $this->factory = $factory;
   }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Storage\Sql\Schema;
+namespace App\Model\Schema\Sql;
 
 use App\Storage\Sql\SqlStorage;
 

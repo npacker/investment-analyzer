@@ -1,9 +1,9 @@
 schema:
   fund:
-    class: App\Storage\Sql\Schema\SqlFundStorageSchema
+    class: App\Model\Schema\Sql\SqlFundStorageSchema
   security:
-    class: App\Storage\Sql\Schema\SqlSecurityStorageSchema
+    class: App\Model\Schema\Sql\SqlSecurityStorageSchema
   fund_position:
-    class: App\Storage\Sql\Schema\SqlFundPositionStorageSchema
+    class: App\Model\Schema\Sql\SqlFundPositionStorageSchema
   portfolio:
-    class: App\Storage\Sql\Schema\SqlPortfolioStorageSchema
+    class: App\Model\Schema\Sql\SqlPortfolioStorageSchema

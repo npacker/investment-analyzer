@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Storage\Sql;
+namespace App\Model\Storage\Sql;
 
-use App\Storage\PortfolioStorageInterface;
+use App\Model\Storage\PortfolioStorageInterface;
+use App\Storage\Sql\SqlStorage;
 
 final class SqlPortfolioStorage extends SqlStorage implements PortfolioStorageInterface {
 

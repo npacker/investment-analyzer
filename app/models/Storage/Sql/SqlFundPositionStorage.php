@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Storage\Sql;
+namespace App\Model\Storage\Sql;
 
-use App\Storage\FundPositionStorageInterface;
+use App\Model\Storage\FundPositionStorageInterface;
+use App\Storage\Sql\SqlStorage;
 
 final class SqlFundPositionStorage extends SqlStorage implements FundPositionStorageInterface {
 

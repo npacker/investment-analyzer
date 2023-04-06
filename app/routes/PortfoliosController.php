@@ -5,8 +5,8 @@ namespace App\Route;
 use App\Container\ContainerInterface;
 use App\Controller\RouteController;
 use App\Http\RequestInterface;
-use App\Storage\FundStorageInterface;
-use App\Storage\PortfolioStorageInterface;
+use App\Model\Storage\FundStorageInterface;
+use App\Model\Storage\PortfolioStorageInterface;
 
 final class PortfoliosController extends RouteController {
 

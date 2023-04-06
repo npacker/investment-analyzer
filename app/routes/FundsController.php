@@ -5,9 +5,9 @@ namespace App\Route;
 use App\Container\ContainerInterface;
 use App\Controller\RouteController;
 use App\Http\RequestInterface;
-use App\Storage\FundPositionStorageInterface;
-use App\Storage\FundStorageInterface;
-use App\Storage\SecurityStorageInterface;
+use App\Model\Storage\FundPositionStorageInterface;
+use App\Model\Storage\FundStorageInterface;
+use App\Model\Storage\SecurityStorageInterface;
 use App\Stream\FileLinesAsCsv;
 
 final class FundsController extends RouteController {

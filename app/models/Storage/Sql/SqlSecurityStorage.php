@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Storage\Sql;
+namespace App\Model\Storage\Sql;
 
-use App\Storage\FundStorageInterface;
+use App\Model\Storage\SecurityStorageInterface;
 use App\Storage\Sql\SqlStorage;
 
-final class SqlFundStorage extends SqlStorage implements FundStorageInterface {
+final class SqlSecurityStorage extends SqlStorage implements SecurityStorageInterface {
 
   public function all(): array {
     $query = 'SELECT symbol, name
-              FROM fund';
+              FROM security';
 
     $statement = $this->handle->prepare($query);
     $statement->execute();
@@ -17,9 +17,9 @@ final class SqlFundStorage extends SqlStorage implements FundStorageInterface {
     return $statement->fetchAll();
   }
 
-  public function find(string $symbol) {
-    $query = 'SELECT name
-              FROM fund
+  public function find(string $symbol): array {
+    $query = 'SELECT symbol, name
+              FROM security
               WHERE symbol = :symbol';
 
     $statement = $this->handle->prepare($query);
@@ -30,34 +30,24 @@ final class SqlFundStorage extends SqlStorage implements FundStorageInterface {
   }
 
   public function create(string $symbol, string $name): int {
-    $query = 'INSERT INTO fund
+    $query = 'INSERT INTO security
               (symbol, name)
               VALUES
-              (:symbol, :name)';
+              (:symbol, :name1)
+              ON DUPLICATE KEY UPDATE
+              name = :name2';
 
     $statement = $this->handle->prepare($query);
     $statement->bindParam('symbol', $symbol);
-    $statement->bindParam('name', $name);
+    $statement->bindParam('name1', $name);
+    $statement->bindParam('name2', $name);
     $statement->execute();
 
     return $this->handle->lastInsertId();
   }
 
-  public function update(string $symbol, string $name): int {
-    $query = 'UPDATE fund
-              SET name = :name
-              WHERE symbol = :symbol';
-
-    $statement = $this->handle->prepare($query);
-    $statement->bindParam('name', $name);
-    $statement->bindParam('symbol', $symbol);
-    $statement->execute();
-
-    return $statement->rowCount();
-  }
-
   public function delete(string $symbol): int {
-    $query = 'DELETE FROM fund
+    $query = 'DELETE FROM security
               WHERE symbol = :symbol';
 
     $statement = $this->handle->prepare($query);
