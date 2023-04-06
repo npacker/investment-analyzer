@@ -4,6 +4,7 @@ namespace App\Model\Storage\Sql;
 
 use App\Model\Storage\PortfolioStorageInterface;
 use App\Storage\Sql\SqlStorage;
+use PDO;
 
 final class SqlPortfolioStorage extends SqlStorage implements PortfolioStorageInterface {
 
@@ -23,7 +24,7 @@ final class SqlPortfolioStorage extends SqlStorage implements PortfolioStorageIn
               WHERE id = :id';
 
     $statement = $this->handle->prepare($query);
-    $statement->bindParam('id', $id);
+    $statement->bindParam('id', $id, PDO::PARAM_INT);
     $statement->execute();
 
     return $statement->fetch();
@@ -49,7 +50,7 @@ final class SqlPortfolioStorage extends SqlStorage implements PortfolioStorageIn
 
     $statement = $this->handle->prepare($query);
     $statement->bindParam('name', $name);
-    $statement->bindParam('id', $id);
+    $statement->bindParam('id', $id, PDO::PARAM_INT);
     $statement->execute();
 
     return $statement->rowCount();
@@ -60,7 +61,7 @@ final class SqlPortfolioStorage extends SqlStorage implements PortfolioStorageIn
               WHERE id = :id';
 
     $statement = $this->handle->prepare($query);
-    $statement->bindParam('id', $id);
+    $statement->bindParam('id', $id, PDO::PARAM_INT);
     $statement->execute();
 
     return $statement->rowCount();
