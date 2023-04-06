@@ -2,39 +2,22 @@
 
 namespace App;
 
+use App\AbstractAppDectorator;
 use App\AppInterface;
-use App\Container\ContainerInterface;
 use App\Http\RequestInterface;
 use App\Http\ResponseInterface;
-use App\Router\RequestMatchingInterface;
-use App\Settings;
+use App\Render\TemplateInitializationTrait;
 use App\Storage\Schema\StorageSchemaCollection;
 
-final class Installer implements AppInterface {
+final class Installer extends AbstractAppDecorator {
 
-  private AppInterface $app;
+  use TemplateInitializationTrait;
 
   private StorageSchemaCollection $schemaCollection;
 
   public function __construct(AppInterface $app, StorageSchemaCollection $schema_collection) {
     $this->app = $app;
     $this->schemaCollection = $schema_collection;
-  }
-
-  public function autoloader() {
-    return $this->app->autoloader();
-  }
-
-  public function container(): ContainerInterface {
-    return $this->app->container();
-  }
-
-  public function settings(): Settings {
-    return $this->app->settings();
-  }
-
-  public function routes(): RequestMatchingInterface {
-    return $this->app->routes();
   }
 
   public function handle(RequestInterface $request): ResponseInterface {
@@ -47,12 +30,6 @@ final class Installer implements AppInterface {
     $this->initializeTemplateEngine();
 
     return $installer->view($request);
-  }
-
-  private function initializeTemplateEngine(): void {
-    $template_engine_builder = $this->container()->get('template_engine_runtime_builder');
-
-    $template_engine_builder->build();
   }
 
 }

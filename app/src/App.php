@@ -6,11 +6,14 @@ use App\AppInterface;
 use App\Container\ContainerInterface;
 use App\Http\RequestInterface;
 use App\Http\ResponseInterface;
+use App\Render\TemplateInitializationTrait;
 use App\Router\RequestMatchingInterface;
 use App\Router\RouteNotFoundException;
 use App\Settings;
 
 final class App implements AppInterface {
+
+  use TemplateInitializationTrait;
 
   private $autoloader;
 
@@ -64,12 +67,6 @@ final class App implements AppInterface {
     $this->initializeTemplateEngine();
 
     return $instance->{$action}($request);
-  }
-
-  private function initializeTemplateEngine(): void {
-    $template_engine_builder = $this->container()->get('template_engine_runtime_builder');
-
-    $template_engine_builder->build();
   }
 
 }
